@@ -7,24 +7,34 @@ public class Item {
     private float cost;
 
     public Item(String name) {
+        this.name = name;
     }
 
     public Item(String name, float cost) {
+        if (cost < 0) {
+            throw new IllegalArgumentException();
+        }
+        this.name = name;
+        this.cost = cost;
     }
 
     public String getName() {
-        return null;
+        return name;
     }
 
     public void setName(String name) {
+        this.name = name;
     }
 
     public float getCost() {
-        return 0;
+        return cost;
     }
 
     public void setCost(float cost) {
-
+        if (cost < 0) {
+            throw new IllegalArgumentException();
+        }
+        this.cost = cost;
     }
 
     /**
@@ -36,6 +46,13 @@ public class Item {
      */
     @Override
     public boolean equals(Object o) {
-        return false;
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof Item)) {
+            return false;
+        }
+        Item item = (Item) o;
+        return item.getName().equals(name) && item.getCost() == cost;
     }
 }
