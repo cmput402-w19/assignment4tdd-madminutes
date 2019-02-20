@@ -10,21 +10,30 @@ public class Item {
     }
 
     public String getName() {
-        return null;
+        return name;
     }
 
     public void setName(String name) {
+        this.name = name;
     }
 
     public float getCost() {
-        return 0;
+        return cost;
     }
 
     public void setCost(float cost) {
+        this.cost = cost;
     }
 
     @Override
     public boolean equals(Object o) {
-        return false;
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof Item)) {
+            return false;
+        }
+        Item item = (Item) o;
+        return item.getName().equals(name) && item.getCost() == cost;
     }
 }
