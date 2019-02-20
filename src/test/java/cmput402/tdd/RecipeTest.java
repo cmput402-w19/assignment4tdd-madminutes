@@ -1,6 +1,12 @@
 package cmput402.tdd;
 
-import junit.framework.TestCase;
 
-public class RecipeTest extends TestCase {
+import org.junit.Test;
+
+public class RecipeTest {
+
+    @Test
+    public void testRecipe() {
+
+    }
 }

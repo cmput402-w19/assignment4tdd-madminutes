@@ -1,6 +1,11 @@
 package cmput402.tdd;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class ItemTest extends TestCase {
+public class ItemTest {
+
+    @Test
+    public void testItem() {
+        assert true;
+    }
 }
