@@ -7,14 +7,22 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.junit.Test;
-import org.mockito.Mockito;
+import org.junit.runners.JUnit4;
+
+import static org.mockito.Mockito.*;
+import org.mockito.invocation.*;
+import org.mockito.Answers;
+
+import java.util.Objects;
 
 import junit.framework.*;
 
 public class ShoppingListTest extends TestCase {
 
     private Item createTestItem(String name, Float cost) {
-        Item item = mock(Item.class); 
+        Item item = mock(Item.class); // new Item(name, cost)); 
+        when(item.getName()).thenReturn(name);
+        when(item.getCost()).thenReturn(cost);
         return item;
     }
 
@@ -29,11 +37,11 @@ public class ShoppingListTest extends TestCase {
         ShoppingList list1 = new ShoppingList("list1"); 
 
         // Test1: getName
-        assertTrue(list1.getName().equals("List1"));
+        assertTrue(list1.getName().equals("list1"));
 
         // Test2: test setName
         list1.setName("list2");
-        assertTrue(list1.getName().equals("List2"));
+        assertTrue(list1.getName().equals("list2"));
         
          
     }
@@ -45,36 +53,59 @@ public class ShoppingListTest extends TestCase {
         list.setOwner("Samuel"); 
 
         assertTrue(list.getOwner().equals("Samuel"));
-        assertTrue(list.getOwner().equals(null));
+        assertTrue(list2.getOwner().equals(""));
     }
 
+    /*
+    We cannot test Add or remove methods with the use of mocked objects due to mockito limitations.
+    Report from Mockito:
+    1. you stub either of: final/private/equals()/hashCode() methods.
+    Those methods *cannot* be stubbed/verified.
+
+    This means that our LinkedMap will not index correctly with the use of mock objects since hashes
+    which should be identical are in fact not.
+    */
     @Test
     public void testAdd() { 
         ShoppingList list = new ShoppingList("list1");
 
+        Item a = new Item("a", 1.0f);
+        Item b = new Item("b", 1.0f);
+        Item c = new Item("a", 1.0f);
+        Item d = new Item("a", 2.0f);
+
+        System.out.println(a.hashCode());
+        System.out.println(b.hashCode());
+        System.out.println(c.hashCode());
+        
+        System.out.println("-------------");
+
         // Test1: Add to empty map
-        list.add(item1, 1);
+        list.add(a, 1);
         assertTrue(list.items.size() == 1);
-        assertTrue(list.items.get(item1) == 1);
-        assertTrue(list.items.containsKey(item1));
+        assertTrue(list.items.get(a) == 1);
+        assertTrue(list.items.containsKey(a));
 
         // Test2: Add to non empty map
-        list.add(item2, 2);
+        list.add(b, 2);
         assertTrue(list.items.size() == 2);
-        assertTrue(list.items.containsKey(item2));
+        assertTrue(list.items.containsKey(b));
 
         // Test3: Add existing Item to map
-        list.add(item3, 3);
+        list.add(c, 3);
         assertTrue(list.items.size() == 2);
-        assertTrue(list.items.get(item2) == 5);
+        assertTrue(list.items.get(a) == 4);
+
+        System.out.println(list.toString());
 
         // Test4: Add Item with same name but different cost
-        list.add(item4, 2);
+        list.add(d, 5);
         assertTrue(list.items.size() == 3);
-        assertTrue(list.items.get(item2) == 5);
+        assertTrue(list.items.get(d) == 5);
 
         // Test5: Add Item by name, cost, quantity
-        list.add("Item3", 2.0f, 4);
+        list.add("c", 2.0f, 4);
+        assertTrue(list.items.containsKey(new Item("c", 2.0f)));
         assertTrue(list.items.size() == 4);
     }
 
@@ -82,26 +113,45 @@ public class ShoppingListTest extends TestCase {
     public void testRemove() { 
         ShoppingList list = new ShoppingList("list1");
 
-        list.add(item1, 1);
-        list.add(item2, 2);
-        list.add(item4, 3);
+        Item a = new Item("a", 1.0f);
+        Item b = new Item("b", 1.0f);
+        Item c = new Item("c", 1.0f);
+        Item d = new Item("d", 6.0f);
+
+        list.add(a, 1);
+        list.add(b, 2);
+        list.add(c, 3);
+
 
         // Test1a: Remove by Item
-        assertTrue(list.remove(item2));
+        assertTrue(list.remove(b));
         assertTrue(list.items.size() == 2);
-        assertFalse(list.items.containsKey(item2));
+        assertFalse(list.items.containsKey(b));
 
         // Test1b: Remove by Item that doesn't exist
-        assertFalse(list.remove(item4));
+        assertFalse(list.remove(d));
         
-        // Test2a: Remove by Iindex
-        assertTrue(list.remove(2));
+        // Test2a: Remove by index
+        assertTrue(list.remove(0));
         assertTrue(list.items.size() == 1);
-        assertFalse(list.items.containsKey(item3));
+        assertFalse(list.items.containsKey(a));
 
         // Test2b: Remove index out of bounds
         assertFalse(list.remove(5));
         assertFalse(list.remove(-1));
+
+        // Test3b: Remove by name and cost that doesn't exit
+        assertFalse(list.remove("d", 6.0f));
+
+        // Test3a: Remove by name and cost
+        assertTrue(list.remove("c", 1.0f));
+        assertTrue(list.items.size() == 0);
+        assertFalse(list.items.containsKey(c));
+
+        // Test4: Remove from empty list
+        assertFalse(list.remove("Item6", 1.0f));
+        assertFalse(list.remove(item3));
+        assertFalse(list.remove(1));
     }
 
     @Test
@@ -113,7 +163,7 @@ public class ShoppingListTest extends TestCase {
 
         // Test2: non-empty map
         list.add(item1, 4);
-        String out = "Grocery List:\n4x Item1 $1.00\n";
+        String out = "Grocery List:\n4x item1 $1.00\n";
         assertTrue(list.toString().equals(out));
 
     }
@@ -142,7 +192,7 @@ public class ShoppingListTest extends TestCase {
         // test2: non empty map
         list.add(item1, 1);
         list.add(item2, 2);
-        list.add(item3, 3);
+        list.add(item5, 3);
         assertEquals(list.getNumberOfItems(), 6);
     }
 }

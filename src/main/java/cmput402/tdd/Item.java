@@ -1,5 +1,7 @@
 package cmput402.tdd;
 
+import java.util.Objects;
+
 public class Item {
 
     private String name;
@@ -55,4 +57,10 @@ public class Item {
         Item item = (Item) o;
         return item.getName().equals(name) && item.getCost() == cost;
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, cost*100);
+    }
+    
 }

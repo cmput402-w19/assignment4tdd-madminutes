@@ -1,56 +1,103 @@
 package cmput402.tdd;
 
-import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.Map;
+import org.apache.commons.collections4.map.LinkedMap;
 
 public class ShoppingList {
-    private String name;
-    private String owner;
-    public LinkedHashMap<Item,Integer> items = new LinkedHashMap<Item,Integer>();
+    private String name = "UntitledList";
+    private String owner = "";
+    public LinkedMap<Item,Integer> items = new LinkedMap<Item,Integer>();
 
-    public ShoppingList(String name){return;}
+    public ShoppingList(String name){
+        this.name = name;
+    }
 
-    public ShoppingList(ShoppingList shoppingList){return;}
+    public ShoppingList(ShoppingList shoppingList){
+        this.name = shoppingList.name;
+        this.items = shoppingList.items;
+    }
 
-
-    public void setName(String Name) {}
+    public void setName(String name) {
+        this.name = name;
+    }
     public String getName() {
-        return null;
+        return this.name;
     }
 
-    public void setOwner(String name) {}
+    public void setOwner(String name) {
+        this.owner = name;
+    }
     public String getOwner() { 
-        return null;
+        return this.owner;
     }
 
-    public void add(Item item, Integer quantity) {}
+    public void add(Item item, Integer quantity) {
+        if (items.containsKey(item)) {
+            items.put(item, items.get(item) + quantity);
+        }
+        else {
+            items.put(item, quantity);
+        }
+    }
 
-    public void add(String Name, float cost, Integer quantity) {}
+    public void add(String name, float cost, Integer quantity) {
+        Item item = new Item(name, cost);
+        this.add(item, quantity);
+    }
     
     public boolean remove(Item item){
-        return false;
+        if (!items.containsKey(item)) {
+            return false;
+        }
+        items.remove(item);
+        return true;
     }
 
-    public boolean remove(Integer index){
-        return false;
+    public boolean remove(int index){
+        if (index < 0 || items.size() == 0) {return false;}
+
+        if (items.size() < index-1) {
+            return false;
+        }
+
+        items.remove(index);
+        return true;
     }
     
-    public boolean remove(String name){
-        return false;
+    public boolean remove(String name, float cost){
+        Item item = new Item(name, cost);
+        return this.remove(item);
     }
 
     public float getTotalCost(){
-        return 0;
+        float cost = 0;
+        for (Map.Entry<Item, Integer> entry : items.entrySet()) {
+            cost += entry.getValue() * entry.getKey().getCost();
+        }
+        return cost;
     };
 
-    public float getNumberOfItems(){
-        return 0;
+    public int getNumberOfItems(){
+        int count = 0;
+        for (Map.Entry<Item, Integer> entry : items.entrySet()) {
+            count += entry.getValue();
+        }
+        return count;
     };
     
     @Override
     public String toString(){
-        return null;
+        String out = "Grocery List:\n";
+        float cost;
+        String name;
+        Integer quantity;
+        for (Map.Entry<Item, Integer> entry : items.entrySet()) {
+            cost = entry.getKey().getCost();
+            name = entry.getKey().getName();
+            quantity = entry.getValue();
+            out += String.format("%dx %s $%.2f\n", quantity, name, cost);
+        }
+        return out;
     }
 
 
