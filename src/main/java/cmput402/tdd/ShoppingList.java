@@ -14,7 +14,7 @@ public class ShoppingList {
 
     public ShoppingList(ShoppingList shoppingList){
         this.name = shoppingList.name;
-        this.items = shoppingList.items;
+        this.items = shoppingList.items.clone();
     }
 
     public void setName(String name) {

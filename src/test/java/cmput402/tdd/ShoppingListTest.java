@@ -56,6 +56,20 @@ public class ShoppingListTest extends TestCase {
         assertTrue(list2.getOwner().equals(""));
     }
 
+    @Test
+    public void testCopyConstructor() { 
+        ShoppingList list = new ShoppingList("list1");
+        list.add(item1, 1);
+        list.add(item2, 2);
+        list.add(item5, 3);
+        ShoppingList list2 = new ShoppingList(list);
+    
+        assertTrue(list.getName().equals("list1"));
+        assertTrue(list2.items.equals(list.items));
+        list2.add(item4, 2);
+        assertFalse(list2.items.equals(list.items));
+    }
+
     /*
     We cannot test Add or remove methods with the use of mocked objects due to mockito limitations.
     Report from Mockito:
