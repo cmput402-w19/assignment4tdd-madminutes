@@ -31,6 +31,9 @@ public class Item {
     }
 
     public void setCost(float cost) {
-
+        if (cost < 0) {
+            throw new IllegalArgumentException();
+        }
+        this.cost = cost;
     }
 }
