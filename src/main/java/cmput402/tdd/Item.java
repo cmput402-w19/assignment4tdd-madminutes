@@ -7,6 +7,10 @@ public class Item {
     private float cost;
 
     public Item(String name, float cost) {
-
+        if (cost < 0) {
+            throw new IllegalArgumentException();
+        }
+        this.name = name;
+        this.cost = cost;
     }
 }
