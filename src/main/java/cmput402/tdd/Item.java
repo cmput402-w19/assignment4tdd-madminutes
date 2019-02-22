@@ -23,6 +23,6 @@ public class Item {
     }
 
     public float getCost() {
-        return 0;
+        return cost;
     }
 }
