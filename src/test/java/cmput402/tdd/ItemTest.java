@@ -4,8 +4,8 @@ import org.junit.Test;
 
 public class ItemTest {
 
-    @Test
-    public void testItem() {
-        assert true;
+    @Test(expected = IllegalArgumentException.class)
+    public void testConstructorNegativeCost() {
+        new Item("Tuna", -5.00f);
     }
 }
