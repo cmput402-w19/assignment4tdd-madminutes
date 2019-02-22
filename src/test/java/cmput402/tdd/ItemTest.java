@@ -22,4 +22,12 @@ public class ItemTest {
         Item salmon = new Item("Salmon", 5.00f);
         assertEquals(salmon.getCost(), (5.00f), 0.0);
     }
+
+    @Test
+    public void testSetName() {
+        Item salmon = new Item("Tuna");
+        assertEquals("Tuna", salmon.getName());
+        salmon.setName("Salmon");
+        assertEquals("Salmon", salmon.getName());
+    }
 }

@@ -22,6 +22,10 @@ public class Item {
         return name;
     }
 
+    public void setName(String name) {
+
+    }
+
     public float getCost() {
         return cost;
     }
