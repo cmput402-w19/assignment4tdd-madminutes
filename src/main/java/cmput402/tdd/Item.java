@@ -7,7 +7,7 @@ public class Item {
     private float cost;
 
     public Item(String name) {
-
+        this.name = name;
     }
 
     public Item(String name, float cost) {
@@ -18,6 +18,6 @@ public class Item {
         this.cost = cost;
     }
     public String getName() {
-        return null;
+        return name;
     }
 }
