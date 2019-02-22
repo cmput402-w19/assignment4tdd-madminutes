@@ -17,7 +17,12 @@ public class Item {
         this.name = name;
         this.cost = cost;
     }
+
     public String getName() {
         return name;
+    }
+
+    public float getCost() {
+        return 0;
     }
 }

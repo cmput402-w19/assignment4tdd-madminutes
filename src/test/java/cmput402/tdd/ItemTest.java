@@ -16,4 +16,10 @@ public class ItemTest {
         Item tuna = new Item("Tuna");
         assertEquals("Tuna", tuna.getName());
     }
+
+    @Test
+    public void testGetCost() {
+        Item salmon = new Item("Salmon", 5.00f);
+        assertEquals(salmon.getCost(), (5.00f), 0.0);
+    }
 }
