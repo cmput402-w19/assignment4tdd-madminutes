@@ -30,4 +30,14 @@ public class ItemTest {
         salmon.setName("Salmon");
         assertEquals("Salmon", salmon.getName());
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testSetCost() {
+        Item tuna = new Item("Tuna", 5.00f);
+        assertEquals(5.00f, tuna.getCost(), 0);
+        tuna.setCost(10.00f);
+        assertEquals(10.00f, tuna.getCost(), 0);
+
+        tuna.setCost(-1.00f);
+    }
 }

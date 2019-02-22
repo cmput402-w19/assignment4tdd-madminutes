@@ -29,4 +29,8 @@ public class Item {
     public float getCost() {
         return cost;
     }
+
+    public void setCost(float cost) {
+
+    }
 }
