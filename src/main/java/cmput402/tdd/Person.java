@@ -52,10 +52,17 @@ public class Person {
     }
 
     public LinkedMap<String, Recipe> getRecipes() {
-        return null;
+        return recipes;
     }
 
     public void addRecipe(Recipe recipe) {
 
+        String recipeName = recipe.getName();
+
+        if(recipes.containsKey(recipeName)) {
+            throw new IllegalArgumentException();
+        }
+
+        recipes.put(recipeName, recipe);
     }
 }
