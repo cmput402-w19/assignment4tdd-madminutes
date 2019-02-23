@@ -37,11 +37,28 @@ public class Recipe {
         items.put(item, 1);
         return true;
     }
+    
     public Boolean remove(Item item, Integer quantity){
-        return false;
+        if(items.get(item) != null && items.get(item)> quantity && quantity > 1){
+            items.put(item, items.get(item)-quantity);
+            return true;
+        }
+        else if(items.get(item) != null && items.get(item) == quantity){
+            items.remove(item);
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     public Boolean remove(Item item){
-        return false;
+        if(items.get(item) != null){
+            items.remove(item);
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 }
