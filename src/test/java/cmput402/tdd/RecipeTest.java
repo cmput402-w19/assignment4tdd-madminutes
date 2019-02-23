@@ -17,7 +17,7 @@ public class RecipeTest extends TestCase {
     }
     @Test
     public void testSetRecipeName() {
-        //Test 2: Rename "recipie1" to "recipeRenamed"
+        //Test 2: Rename "recipe" to "recipeRenamed"
         Recipe recipe = new Recipe("recipe1");
         recipe.setName("recipeRenamed");
         assertTrue(recipe.getName().equals("recipeRenamed"));
