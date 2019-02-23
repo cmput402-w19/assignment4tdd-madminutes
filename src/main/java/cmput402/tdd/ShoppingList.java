@@ -16,6 +16,10 @@ public class ShoppingList {
         this.name = name;
     }
 
+    public ShoppingList(ShoppingList shoppingList) {
+
+    }
+
     public String getName() {
         return name;
     }

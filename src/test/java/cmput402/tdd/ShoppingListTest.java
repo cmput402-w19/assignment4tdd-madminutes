@@ -20,6 +20,7 @@ public class ShoppingListTest {
     private Item item2 = createTestItem("item2", 3.0f);
     private Item item3 = createTestItem("item2", 2.0f);
     private Item item4 = createTestItem("item3", 3.0f);
+    private Item item5 = createTestItem("item2", 3.0f);
 
     @Test
     public void testName() {
@@ -181,5 +182,19 @@ public class ShoppingListTest {
         String out = "Grocery List:\n4x item1 $1.00\n";
         assertEquals(list.toString(), out);
 
+    }
+
+    @Test
+    public void testCopyConstructor() {
+        ShoppingList list = new ShoppingList("list1");
+        list.add(item1, 1);
+        list.add(item2, 2);
+        list.add(item4, 3);
+        ShoppingList list2 = new ShoppingList(list);
+
+        assertEquals("list1", list.getName());
+        assertEquals(list2.getItems(), list.getItems());
+        list2.add(item5, 2);
+        assertNotEquals(list2.getItems(), list.getItems());
     }
 }
