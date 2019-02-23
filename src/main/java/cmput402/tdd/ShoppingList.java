@@ -47,4 +47,16 @@ public class ShoppingList {
         Item item = new Item(name, cost);
         this.add(item, quantity);
     }
+
+    public boolean remove(Item item){
+        return false;
+    }
+
+    public boolean remove(int index){
+        return false;
+    }
+
+    public boolean remove(String name, float cost){
+        return false;
+    }
 }

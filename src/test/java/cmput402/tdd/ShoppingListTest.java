@@ -3,10 +3,20 @@ package cmput402.tdd;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class ShoppingListTest {
+
+    private Item createTestItem(String name, Float cost) {
+        Item item = mock(Item.class); // new Item(name, cost));
+        when(item.getName()).thenReturn(name);
+        when(item.getCost()).thenReturn(cost);
+        return item;
+    }
+
+    private Item item1 = createTestItem("item1", 1.0f);
 
     @Test
     public void testName() {
@@ -81,5 +91,50 @@ public class ShoppingListTest {
         list.add("c", 2.0f, 4);
         assertTrue(list.getItems().containsKey(new Item("c", 2.0f)));
         assertEquals(4, list.getItems().size());
+    }
+
+    @Test
+    public void testRemove() {
+        ShoppingList list = new ShoppingList("list1");
+
+        Item a = new Item("a", 1.0f);
+        Item b = new Item("b", 1.0f);
+        Item c = new Item("c", 1.0f);
+        Item d = new Item("d", 6.0f);
+
+        list.add(a, 1);
+        list.add(b, 2);
+        list.add(c, 3);
+
+
+        // Test1a: Remove by Item
+        assertTrue(list.remove(b));
+        assertEquals(2, list.getItems().size());
+        assertFalse(list.getItems().containsKey(b));
+
+        // Test1b: Remove by Item that doesn't exist
+        assertFalse(list.remove(d));
+
+        // Test2a: Remove by index
+        assertTrue(list.remove(0));
+        assertEquals(1, list.getItems().size());
+        assertFalse(list.getItems().containsKey(a));
+
+        // Test2b: Remove index out of bounds
+        assertFalse(list.remove(5));
+        assertFalse(list.remove(-1));
+
+        // Test3b: Remove by name and cost that doesn't exit
+        assertFalse(list.remove("d", 6.0f));
+
+        // Test3a: Remove by name and cost
+        assertTrue(list.remove("c", 1.0f));
+        assertEquals(0, list.getItems().size());
+        assertFalse(list.getItems().containsKey(c));
+
+        // Test4: Remove from empty list
+        assertFalse(list.remove("Item6", 1.0f));
+        assertFalse(list.remove(item1));
+        assertFalse(list.remove(1));
     }
 }
