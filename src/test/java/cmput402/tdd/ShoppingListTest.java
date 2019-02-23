@@ -19,6 +19,7 @@ public class ShoppingListTest {
     private Item item1 = createTestItem("item1", 1.0f);
     private Item item2 = createTestItem("item2", 3.0f);
     private Item item3 = createTestItem("item2", 2.0f);
+    private Item item4 = createTestItem("item3", 3.0f);
 
     @Test
     public void testName() {
@@ -145,12 +146,26 @@ public class ShoppingListTest {
         ShoppingList list = new ShoppingList("list1");
 
         // Test1: empty map
-        assertEquals(list.getTotalCost(), 0.0f, 0.0);
+        assertEquals(0.0f, list.getTotalCost(), 0.0);
 
         // test2: non empty map
         list.add(item1, 1);
         list.add(item2, 2);
         list.add(item3, 3);
-        assertEquals(list.getTotalCost(), 13.0f, 0.0);
+        assertEquals(13.0f, list.getTotalCost(),0.0);
+    }
+
+    @Test
+    public void testGetNumberItems() {
+        ShoppingList list = new ShoppingList("list1");
+
+        // Test1: empty map
+        assertEquals(0, list.getNumberOfItems());
+
+        // test2: non empty map
+        list.add(item1, 1);
+        list.add(item2, 2);
+        list.add(item4, 3);
+        assertEquals(6, list.getNumberOfItems());
     }
 }

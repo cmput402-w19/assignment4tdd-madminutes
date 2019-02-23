@@ -83,4 +83,8 @@ public class ShoppingList {
         }
         return cost;
     }
+
+    public int getNumberOfItems() {
+        return 0;
+    }
 }
