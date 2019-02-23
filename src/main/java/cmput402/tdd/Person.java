@@ -8,6 +8,8 @@ public class Person {
 
     private LinkedMap<String, ShoppingList> shoppingLists = new LinkedMap<>();
 
+    private LinkedMap<String, Recipe> recipes = new LinkedMap<>();
+
     public Person(String name) {
         this.name = name;
     }
@@ -31,7 +33,7 @@ public class Person {
         shoppingLists.put(listName, shoppingList);
     }
 
-    public void removeShoppingList(String name){
+    public void removeShoppingList(String name) {
 
         if (!shoppingLists.containsKey(name)) {
             throw new IllegalArgumentException();
@@ -40,12 +42,20 @@ public class Person {
         shoppingLists.remove(name);
     }
 
-    public void removeShoppingList(int index){
+    public void removeShoppingList(int index) {
 
         if (index < 0 || index >= shoppingLists.size()) {
             throw new IllegalArgumentException();
         }
 
         shoppingLists.remove(index);
+    }
+
+    public LinkedMap<String, Recipe> getRecipes() {
+        return null;
+    }
+
+    public void addRecipe(Recipe recipe) {
+
     }
 }

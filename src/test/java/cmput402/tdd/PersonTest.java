@@ -65,4 +65,20 @@ public class PersonTest {
         person.removeShoppingList(0);
         person.removeShoppingList("List 2");
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void addRecipe() {
+        Person person = new Person("John");
+
+        assertEquals(0, person.getRecipes().size());
+
+        Recipe mockRecipe = mock(Recipe.class);
+        when(mockRecipe.getName()).thenReturn("Chicken Recipe");
+
+        person.addRecipe(mockRecipe);
+        assertEquals(1, person.getRecipes().size());
+
+        person.addRecipe(mockRecipe);
+        assertEquals(1, person.getRecipes().size());
+    }
 }
