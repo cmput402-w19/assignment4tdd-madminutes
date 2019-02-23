@@ -85,6 +85,10 @@ public class ShoppingList {
     }
 
     public int getNumberOfItems() {
-        return 0;
+        int count = 0;
+        for (Map.Entry<Item, Integer> entry : items.entrySet()) {
+            count += entry.getValue();
+        }
+        return count;
     }
 }
