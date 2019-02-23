@@ -19,4 +19,10 @@ public class Recipe {
     public void setName(String name){
         this.name = name;
     }
+    public Boolean add(Item item, Integer quantity){
+        return false;
+    }
+    public Boolean add(Item item){
+        return false;
+    }
 }
