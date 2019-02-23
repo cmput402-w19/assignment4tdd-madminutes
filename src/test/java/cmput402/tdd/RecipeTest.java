@@ -15,4 +15,11 @@ public class RecipeTest extends TestCase {
         assertTrue(recipe.getName().equals("recipe1"));
 
     }
+    @Test
+    public void testSetRecipeName() {
+        //Test 2: Rename "recipie1" to "recipeRenamed"
+        Recipe recipe = new Recipe("recipe1");
+        recipe.setName("recipeRenamed");
+        assertTrue(recipe.getName().equals("recipeRenamed"));
+    }
 }
