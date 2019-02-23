@@ -1,5 +1,6 @@
 package cmput402.tdd;
 
+import com.google.common.base.Joiner;
 import org.apache.commons.collections4.map.LinkedMap;
 
 public class Person {
@@ -85,12 +86,8 @@ public class Person {
     }
 
     public String displayShoppingLists() {
-        String listNames = "";
-        String separator = "";
-        for (String listName : shoppingLists.keySet()) {
-            listNames += separator + listName;
-            separator = ",\n";
-        }
-        return listNames;
+        Joiner joiner = Joiner.on(",\n").skipNulls();
+        joiner.join(shoppingLists.keySet());
+        return joiner.join(shoppingLists.keySet());
     }
 }
