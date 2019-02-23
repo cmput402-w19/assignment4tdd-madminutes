@@ -95,17 +95,14 @@ public class PersonTest {
         person.addRecipe(mockRecipeOne);
         person.addRecipe(mockRecipeTwo);
 
-        System.out.println("Added recipes");
         // Remove by name that doesn't exist
         try {
             person.removeRecipe("Recipe 3");
             assert false;
         } catch (Exception e) {
-            System.out.println(e.toString());
             assertTrue(e instanceof IllegalArgumentException);
         }
 
-        System.out.println("Hello");
         // Remove by index that doesn't exist
         try {
             person.removeRecipe(-1);
@@ -122,5 +119,21 @@ public class PersonTest {
 
         person.removeRecipe(0);
         person.removeRecipe("Recipe 2");
+    }
+
+    @Test
+    public void testDisplayShoppingLists() {
+        Person person = new Person("John");
+
+        ShoppingList mockListOne = mock(ShoppingList.class);
+        ShoppingList mockListTwo = mock(ShoppingList.class);
+
+        when(mockListOne.getName()).thenReturn("List 1");
+        when(mockListTwo.getName()).thenReturn("List 2");
+
+        person.addShoppingList(mockListOne);
+        person.addShoppingList(mockListTwo);
+
+        assertEquals("List 1,\nList2\n", person.displayShoppingLists());
     }
 }

@@ -83,4 +83,8 @@ public class Person {
 
         recipes.remove(index);
     }
+
+    public String displayShoppingLists() {
+        return null;
+    }
 }
