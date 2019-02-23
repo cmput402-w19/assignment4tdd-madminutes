@@ -1,5 +1,7 @@
 package cmput402.tdd;
 
+import java.util.Objects;
+
 public class Item {
 
     private String name;
@@ -49,4 +51,25 @@ public class Item {
         return !(cost < 0);
     }
 
+    /**
+     * We want to implement our own equals method to specifically check that the name and cost are equal
+     * @param o
+     *  A Item object
+     * @return
+     *  Whether the object o has the same name and cost as this
+     */
+    @Override
+    public boolean equals(Object o) {
+        return false;
+    }
+
+    /**
+     * We need to override the hashCode because we are using a custom equals check
+     * @return
+     *  a hash
+     */
+    @Override
+    public int hashCode() {
+        return 0;
+    }
 }

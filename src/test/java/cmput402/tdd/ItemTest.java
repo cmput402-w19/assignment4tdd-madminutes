@@ -2,7 +2,7 @@ package cmput402.tdd;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class ItemTest {
 
@@ -39,5 +39,28 @@ public class ItemTest {
         assertEquals(10.00f, tuna.getCost(), 0);
 
         tuna.setCost(-1.00f);
+    }
+
+    @Test
+    public void TestEquals() {
+        // Test same values
+        Item tuna1 = new Item("Tuna", 2.00f);
+        Item tuna2 = new Item("Tuna", 2.00f);
+        assertTrue(tuna1.equals(tuna2));
+
+        // Test same object
+        Item tuna = new Item("Tuna", 2.00f);
+        assertTrue(tuna.equals(tuna));
+
+        // Test different name
+        Item salmon = new Item("Salmon", 2.00f);
+        assertFalse(tuna.equals(salmon));
+
+        // Test different costs
+        tuna2.setCost(5.00f);
+        assertFalse(tuna1.equals(tuna2));
+
+        // Test equal null
+        assertFalse(tuna.equals(null));
     }
 }
