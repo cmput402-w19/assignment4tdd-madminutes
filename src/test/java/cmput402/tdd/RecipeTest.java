@@ -147,4 +147,29 @@ public class RecipeTest extends TestCase {
         assertTrue(recipe.items.get(item3) == 5);
         assertFalse(status);
     }
+
+    @Test
+    public void testToString(){
+        Recipe recipe1 = new Recipe("Apple Pie");
+        Item item1 = new Item("apple",1.0f);
+        Item item2 = new Item("bread", 5.0f);
+        Item item3 = new Item("butter", 5.0f);
+
+        Recipe recipe2 = new Recipe("");
+
+        //Adding ingredients for apple pie
+        recipe1.add(item1, 3);
+        recipe1.add(item2, 2);
+        recipe1.add(item3, 1);
+
+        //Test 5a: Test empty recipe
+        String out = "\n";
+        assertTrue(recipe2.toString().equals(out));
+
+        //Test 5b: Test valid recipe toString output
+        out = "Apple Pie\napple - x3\nbread - x2\nbutter - x1\n";
+        assertTrue(recipe1.toString().equals(out));
+    }
+
+
 }
