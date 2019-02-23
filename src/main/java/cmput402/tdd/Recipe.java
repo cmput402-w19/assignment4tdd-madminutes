@@ -37,7 +37,7 @@ public class Recipe {
         items.put(item, 1);
         return true;
     }
-    
+
     public Boolean remove(Item item, Integer quantity){
         if(items.get(item) != null && items.get(item)> quantity && quantity > 1){
             items.put(item, items.get(item)-quantity);
@@ -60,5 +60,10 @@ public class Recipe {
         else{
             return false;
         }
+    }
+
+    @Override
+    public String toString(){
+        return null;
     }
 }
