@@ -2,6 +2,8 @@ package cmput402.tdd;
 
 import org.apache.commons.collections4.map.LinkedMap;
 
+import java.util.Map;
+
 public class ShoppingList {
 
     private String name;
@@ -72,5 +74,9 @@ public class ShoppingList {
     public boolean remove(String name, float cost) {
         Item item = new Item(name, cost);
         return this.remove(item);
+    }
+
+    public float getTotalCost() {
+        return 0;
     }
 }
