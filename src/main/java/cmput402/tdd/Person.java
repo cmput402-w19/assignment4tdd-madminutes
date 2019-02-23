@@ -65,4 +65,12 @@ public class Person {
 
         recipes.put(recipeName, recipe);
     }
+
+    public void removeRecipe(String name) {
+
+    }
+
+    public void removeRecipe(int index) {
+
+    }
 }
