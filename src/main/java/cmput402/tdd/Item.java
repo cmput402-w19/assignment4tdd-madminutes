@@ -60,7 +60,14 @@ public class Item {
      */
     @Override
     public boolean equals(Object o) {
-        return false;
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof Item)) {
+            return false;
+        }
+        Item item = (Item) o;
+        return item.getName().equals(name) && item.getCost() == cost;
     }
 
     /**
@@ -70,6 +77,6 @@ public class Item {
      */
     @Override
     public int hashCode() {
-        return 0;
+        return Objects.hash(name, cost*100);
     }
 }
