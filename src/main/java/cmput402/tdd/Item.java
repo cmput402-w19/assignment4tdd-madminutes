@@ -11,7 +11,7 @@ public class Item {
     }
 
     public Item(String name, float cost) {
-        if (cost < 0) {
+        if(!checkValidCost(cost)) {
             throw new IllegalArgumentException();
         }
         this.name = name;
@@ -31,9 +31,22 @@ public class Item {
     }
 
     public void setCost(float cost) {
-        if (cost < 0) {
+        if(!checkValidCost(cost)) {
             throw new IllegalArgumentException();
         }
         this.cost = cost;
     }
+
+    /**
+     * We pull out the check even though it seems trivial. In the event that we
+     * need to add more it will be easier to refactor
+     * @param cost
+     *  The cost to check
+     * @return
+     *  Whether the cost is positive
+     */
+    private boolean checkValidCost(float cost) {
+        return !(cost < 0);
+    }
+
 }
