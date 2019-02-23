@@ -112,7 +112,24 @@ public class ShoppingList {
     }
 
     public void removeFromShoppingList(Recipe recipe) throws RuntimeException{
-
+        for (Map.Entry<Item, Integer> entry : recipe.items.entrySet()) {
+            Item ingredient = entry.getKey();
+            Integer value = entry.getValue();
+            try {
+                if(this.items.get(ingredient) > value){
+                    this.items.put(ingredient, this.items.get(ingredient)-value);
+                }
+                else if(this.items.get(ingredient) == value){
+                    this.items.remove(ingredient);
+                }
+                else{
+                    throw new RuntimeException();
+                }
+            }
+            catch(Exception e) {
+                System.out.println("Ingredient does not exist in shopping list");
+            }
+        }
     }
 
     @Override
