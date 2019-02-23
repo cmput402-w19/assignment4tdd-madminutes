@@ -85,6 +85,12 @@ public class Person {
     }
 
     public String displayShoppingLists() {
-        return null;
+        String listNames = "";
+        String separator = "";
+        for (String listName : shoppingLists.keySet()) {
+            listNames += separator + listName;
+            separator = ",\n";
+        }
+        return listNames;
     }
 }

@@ -134,6 +134,6 @@ public class PersonTest {
         person.addShoppingList(mockListOne);
         person.addShoppingList(mockListTwo);
 
-        assertEquals("List 1,\nList2\n", person.displayShoppingLists());
+        assertEquals("List 1,\nList 2", person.displayShoppingLists());
     }
 }
