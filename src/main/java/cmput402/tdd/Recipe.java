@@ -64,6 +64,12 @@ public class Recipe {
 
     @Override
     public String toString(){
-        return null;
+        String out = name+"\n";
+        for (Map.Entry<Item, Integer> entry : items.entrySet()) {
+            Item ingredient = entry.getKey();
+            Integer quantity = entry.getValue();
+            out += ingredient.getName() +" - x"+ quantity.toString()+"\n";
+        }
+        return out;
     }
 }
