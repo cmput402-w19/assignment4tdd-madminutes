@@ -6,7 +6,7 @@ public class Person {
 
     private String name;
 
-    private LinkedMap<String, ShoppingList> shoppingLists;
+    private LinkedMap<String, ShoppingList> shoppingLists = new LinkedMap<>();
 
     public Person(String name) {
         this.name = name;
@@ -17,10 +17,14 @@ public class Person {
     }
 
     public LinkedMap<String, ShoppingList> getShoppingLists() {
-        return null;
+        return shoppingLists;
     }
 
     public boolean addShoppingList(ShoppingList shoppingList) {
-        return false;
+        if(shoppingLists.containsKey(shoppingList.getName())) {
+            return false;
+        }
+        shoppingLists.put(shoppingList.getName(), shoppingList);
+        return true;
     }
 }
