@@ -31,14 +31,20 @@ public class ShoppingList {
     }
 
     public LinkedMap<Item, Integer> getItems() {
-        return null;
+        return items;
     }
 
     public void add(Item item, Integer quantity) {
-
+        if (items.containsKey(item)) {
+            items.put(item, items.get(item) + quantity);
+        }
+        else {
+            items.put(item, quantity);
+        }
     }
 
     public void add(String name, float cost, Integer quantity) {
-
+        Item item = new Item(name, cost);
+        this.add(item, quantity);
     }
 }
