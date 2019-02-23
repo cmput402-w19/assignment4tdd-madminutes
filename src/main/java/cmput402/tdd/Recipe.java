@@ -19,10 +19,22 @@ public class Recipe {
     public void setName(String name){
         this.name = name;
     }
+    
     public Boolean add(Item item, Integer quantity){
-        return false;
+        if(items.get(item) == null && quantity > 0){
+            items.put(item, quantity);
+            return true;
+        }
+        else if(items.get(item) != null && quantity > 0){
+            items.put(item, items.get(item)+quantity);
+            return true;
+        }
+        else{
+            return false;
+        }
     }
     public Boolean add(Item item){
-        return false;
+        items.put(item, 1);
+        return true;
     }
 }
