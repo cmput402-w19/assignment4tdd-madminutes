@@ -197,4 +197,53 @@ public class ShoppingListTest {
         list2.add(item5, 2);
         assertNotEquals(list2.getItems(), list.getItems());
     }
+
+    @Test
+    public void testAddToShoppingList(){
+        ShoppingList list = new ShoppingList("list1");
+
+        Recipe recipe1 = new Recipe("Apple Pie");
+        Item item1 = new Item("apple",1.0f);
+        Item item2 = new Item("bread", 5.0f);
+        Item item3 = new Item("butter", 5.0f);
+
+        Recipe recipe2 = new Recipe("Lemonade");
+        Item item4 = new Item("lemon",4.0f);
+        Item item5 = new Item("water", 1.0f);
+
+        Recipe recipe3 = new Recipe("Apple Juice");
+
+        //Adding ingredients for apple pie
+        recipe1.add(item1, 3);
+        recipe1.add(item2, 2);
+        recipe1.add(item3, 1);
+
+        //Adding ingredients for lemonade
+        recipe2.add(item4, 3);
+        recipe2.add(item5, 2);
+
+        //Adding ingredients for apple juice
+        recipe3.add(item5, 2);
+        recipe3.add(item1, 4);
+
+        //Test 5a: Add recipe to empty shopping list
+        list.addToShoppingList(recipe1);
+        assertTrue(list.getItems().size() == 3);
+        assertTrue(list.getItems().get(item1) == 3);
+        assertTrue(list.getItems().get(item2) == 2);
+        assertTrue(list.getItems().get(item3) == 1);
+
+        //Test 5b: Add different recipe to existing shopping list
+        list.addToShoppingList(recipe2);
+        assertTrue(list.getItems().size() == 5);
+        assertTrue(list.getItems().get(item4) == 3);
+        assertTrue(list.getItems().get(item5) == 2);
+
+        //Test 5c: Adding recipe with ingredients which already exist in shopping list
+        list.addToShoppingList(recipe3);
+        assertTrue(list.getItems().size() == 5);
+        assertTrue(list.getItems().get(item1) == 7);
+        assertTrue(list.getItems().get(item5) == 4);
+    }
+
 }

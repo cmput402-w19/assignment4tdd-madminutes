@@ -97,6 +97,10 @@ public class ShoppingList {
         return count;
     }
 
+    public void addToShoppingList(Recipe recipe){
+
+    }
+
     @Override
     public String toString() {
         StringBuilder out = new StringBuilder("Grocery List:\n");
