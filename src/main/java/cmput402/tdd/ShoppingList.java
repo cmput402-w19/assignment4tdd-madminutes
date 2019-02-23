@@ -81,6 +81,7 @@ public class ShoppingList {
         return this.remove(item);
     }
 
+
     public float getTotalCost() {
         float cost = 0;
         for (Map.Entry<Item, Integer> entry : items.entrySet()) {
@@ -107,8 +108,11 @@ public class ShoppingList {
             else{
                 this.items.put(ingredient, quantity);
             }
-
         }
+    }
+
+    public void removeFromShoppingList(Recipe recipe) throws RuntimeException{
+
     }
 
     @Override
