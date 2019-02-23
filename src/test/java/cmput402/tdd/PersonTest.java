@@ -30,7 +30,7 @@ public class PersonTest {
         assertEquals(1, person.getShoppingLists().size());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testRemoveList() {
         Person person = new Person("person1");
 
@@ -46,15 +46,20 @@ public class PersonTest {
         // Remove by name that doesn't exist
         try {
             person.removeShoppingList("List 3");
-        } catch (IllegalArgumentException e) {
-            assertTrue(true);
+        } catch (Exception e) {
+            assertTrue(e instanceof IllegalArgumentException);
         }
 
         // Remove by index that doesn't exist
         try {
             person.removeShoppingList(-1);
-        } catch (IllegalArgumentException e) {
-            assertTrue(true);
+        } catch (Exception e) {
+            assertTrue(e instanceof IllegalArgumentException);
+        }
+        try {
+            person.removeShoppingList(8);
+        } catch (Exception e) {
+            assertTrue(e instanceof IllegalArgumentException);
         }
 
         person.removeShoppingList(0);

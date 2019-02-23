@@ -31,7 +31,21 @@ public class Person {
         shoppingLists.put(listName, shoppingList);
     }
 
-    public void removeShoppingList(String name){}
+    public void removeShoppingList(String name){
 
-    public void removeShoppingList(int index){}
+        if (!shoppingLists.containsKey(name)) {
+            throw new IllegalArgumentException();
+        }
+
+        shoppingLists.remove(name);
+    }
+
+    public void removeShoppingList(int index){
+
+        if (index < 0 || index >= shoppingLists.size()) {
+            throw new IllegalArgumentException();
+        }
+
+        shoppingLists.remove(index);
+    }
 }
