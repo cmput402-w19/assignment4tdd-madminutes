@@ -14,7 +14,7 @@ public class PersonTest {
         assertEquals("John", person.getName());
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testAddShoppingList() {
         Person person = new Person("John");
 
@@ -23,10 +23,10 @@ public class PersonTest {
         ShoppingList mockShoppingList = mock(ShoppingList.class);
         when(mockShoppingList.getName()).thenReturn("Monday Shopping List");
 
-        assertTrue(person.addShoppingList(mockShoppingList));
+        person.addShoppingList(mockShoppingList);
         assertEquals(1, person.getShoppingLists().size());
 
-        assertFalse(person.addShoppingList(mockShoppingList));
+        person.addShoppingList(mockShoppingList);
         assertEquals(1, person.getShoppingLists().size());
     }
 }

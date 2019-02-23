@@ -20,11 +20,14 @@ public class Person {
         return shoppingLists;
     }
 
-    public boolean addShoppingList(ShoppingList shoppingList) {
-        if(shoppingLists.containsKey(shoppingList.getName())) {
-            return false;
+    public void addShoppingList(ShoppingList shoppingList) {
+
+        String listName = shoppingList.getName();
+
+        if(shoppingLists.containsKey(listName)) {
+            throw new IllegalArgumentException();
         }
-        shoppingLists.put(shoppingList.getName(), shoppingList);
-        return true;
+
+        shoppingLists.put(listName, shoppingList);
     }
 }
