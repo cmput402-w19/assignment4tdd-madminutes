@@ -4,7 +4,7 @@ public class ShoppingList {
 
     private String name;
 
-    private String owner;
+    private String owner = "";
 
     public ShoppingList(String name) {
         this.name = name;
@@ -19,9 +19,10 @@ public class ShoppingList {
     }
 
     public void setOwner(String name) {
-
+        this.owner = name;
     }
+
     public String getOwner() {
-        return null;
+        return owner;
     }
 }
