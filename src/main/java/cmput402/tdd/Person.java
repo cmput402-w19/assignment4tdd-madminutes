@@ -30,4 +30,8 @@ public class Person {
 
         shoppingLists.put(listName, shoppingList);
     }
+
+    public void removeShoppingList(String name){}
+
+    public void removeShoppingList(int index){}
 }

@@ -29,4 +29,35 @@ public class PersonTest {
         person.addShoppingList(mockShoppingList);
         assertEquals(1, person.getShoppingLists().size());
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testRemoveList() {
+        Person person = new Person("person1");
+
+        ShoppingList mockListOne = mock(ShoppingList.class);
+        ShoppingList mockListTwo = mock(ShoppingList.class);
+
+        when(mockListOne.getName()).thenReturn("List 1");
+        when(mockListTwo.getName()).thenReturn("List 2");
+
+        person.addShoppingList(mockListOne);
+        person.addShoppingList(mockListTwo);
+
+        // Remove by name that doesn't exist
+        try {
+            person.removeShoppingList("List 3");
+        } catch (IllegalArgumentException e) {
+            assertTrue(true);
+        }
+
+        // Remove by index that doesn't exist
+        try {
+            person.removeShoppingList(-1);
+        } catch (IllegalArgumentException e) {
+            assertTrue(true);
+        }
+
+        person.removeShoppingList(0);
+        person.removeShoppingList("List 2");
+    }
 }
