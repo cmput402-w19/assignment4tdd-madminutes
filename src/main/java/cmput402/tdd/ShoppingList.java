@@ -48,15 +48,29 @@ public class ShoppingList {
         this.add(item, quantity);
     }
 
-    public boolean remove(Item item){
-        return false;
+    public boolean remove(Item item) {
+        if (!items.containsKey(item)) {
+            return false;
+        }
+        items.remove(item);
+        return true;
     }
 
-    public boolean remove(int index){
-        return false;
+    public boolean remove(int index) {
+        if (index < 0 || items.size() == 0) {
+            return false;
+        }
+
+        if (items.size() < index-1) {
+            return false;
+        }
+
+        items.remove(index);
+        return true;
     }
 
-    public boolean remove(String name, float cost){
-        return false;
+    public boolean remove(String name, float cost) {
+        Item item = new Item(name, cost);
+        return this.remove(item);
     }
 }
