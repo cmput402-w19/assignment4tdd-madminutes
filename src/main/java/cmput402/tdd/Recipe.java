@@ -31,12 +31,8 @@ public class Recipe {
             throw new RuntimeException("Error: item cannot be added");
         }
     }
-    public void add(Item item) throws RuntimeException{
-        try {
-            items.put(item, 1);
-        }catch(Exception e){
-            throw new RuntimeException("Error: item cannot be added");
-        }
+    public void add(Item item){
+        items.put(item, 1);
     }
 
     public void remove(Item item, Integer quantity) throws RuntimeException{
