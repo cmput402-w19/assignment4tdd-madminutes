@@ -20,56 +20,54 @@ public class Recipe {
         this.name = name;
     }
 
-    public Boolean add(Item item, Integer quantity){
+    public void add(Item item, Integer quantity) throws RuntimeException{
         if(items.get(item) == null && quantity > 0){
             items.put(item, quantity);
-            return true;
         }
         else if(items.get(item) != null && quantity > 0){
             items.put(item, items.get(item)+quantity);
-            return true;
         }
         else{
-            return false;
+            throw new RuntimeException("Error: item cannot be added");
         }
     }
-    public Boolean add(Item item){
-        items.put(item, 1);
-        return true;
+    public void add(Item item) throws RuntimeException{
+        try {
+            items.put(item, 1);
+        }catch(Exception e){
+            throw new RuntimeException("Error: item cannot be added");
+        }
     }
 
-    public Boolean remove(Item item, Integer quantity){
+    public void remove(Item item, Integer quantity) throws RuntimeException{
         if(items.get(item) != null && items.get(item)> quantity && quantity > 1){
             items.put(item, items.get(item)-quantity);
-            return true;
         }
         else if(items.get(item) != null && items.get(item) == quantity){
             items.remove(item);
-            return true;
         }
         else{
-            return false;
+            throw new RuntimeException("Error: item cannot be removed from recipe");
         }
     }
 
-    public Boolean remove(Item item){
+    public void remove(Item item) throws RuntimeException{
         if(items.get(item) != null){
             items.remove(item);
-            return true;
         }
         else{
-            return false;
+            throw new RuntimeException("Error: item cannot be removed from recipe");
         }
     }
 
     @Override
     public String toString(){
-        String out = name+"\n";
+        StringBuilder out =new StringBuilder(this.getName()+"\n");
         for (Map.Entry<Item, Integer> entry : items.entrySet()) {
             Item ingredient = entry.getKey();
             Integer quantity = entry.getValue();
-            out += ingredient.getName() +" - x"+ quantity.toString()+"\n";
+            out.append(ingredient.getName() + " - x" + quantity.toString() + "\n");
         }
-        return out;
+        return out.toString();
     }
 }
