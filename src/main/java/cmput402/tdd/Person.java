@@ -68,9 +68,19 @@ public class Person {
 
     public void removeRecipe(String name) {
 
+        if (!recipes.containsKey(name)) {
+            throw new IllegalArgumentException();
+        }
+
+        recipes.remove(name);
     }
 
     public void removeRecipe(int index) {
 
+        if (index < 0 || index > recipes.size()) {
+            throw new IllegalArgumentException();
+        }
+
+        recipes.remove(index);
     }
 }
