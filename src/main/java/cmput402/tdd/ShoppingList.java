@@ -94,6 +94,16 @@ public class ShoppingList {
 
     @Override
     public String toString() {
-        return "";
+        StringBuilder out = new StringBuilder("Grocery List:\n");
+        float cost;
+        String name;
+        Integer quantity;
+        for (Map.Entry<Item, Integer> entry : items.entrySet()) {
+            cost = entry.getKey().getCost();
+            name = entry.getKey().getName();
+            quantity = entry.getValue();
+            out.append(String.format("%dx %s $%.2f\n", quantity, name, cost));
+        }
+        return out.toString();
     }
 }
