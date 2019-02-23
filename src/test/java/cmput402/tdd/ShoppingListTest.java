@@ -168,4 +168,18 @@ public class ShoppingListTest {
         list.add(item4, 3);
         assertEquals(6, list.getNumberOfItems());
     }
+
+    @Test
+    public void testToString() {
+        ShoppingList list = new ShoppingList("list1");
+
+        // Test1: empty map
+        assertEquals("Grocery List:\n", list.toString());
+
+        // Test2: non-empty map
+        list.add(item1, 4);
+        String out = "Grocery List:\n4x item1 $1.00\n";
+        assertEquals(list.toString(), out);
+
+    }
 }

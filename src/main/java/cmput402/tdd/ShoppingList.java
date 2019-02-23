@@ -91,4 +91,9 @@ public class ShoppingList {
         }
         return count;
     }
+
+    @Override
+    public String toString() {
+        return "";
+    }
 }
