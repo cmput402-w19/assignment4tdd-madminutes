@@ -9,10 +9,10 @@ public class Recipe {
     public LinkedMap<Item, Integer> items = new LinkedMap<Item, Integer>();
 
     public Recipe(String name) {
-
+        this.name = name;
     }
 
     public String getName() {
-        return null;
+        return name;
     }
 }
