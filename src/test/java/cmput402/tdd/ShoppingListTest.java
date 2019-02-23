@@ -29,4 +29,57 @@ public class ShoppingListTest {
         assertEquals("Samuel", list.getOwner());
         assertEquals("", list2.getOwner());
     }
+
+    /*
+        We cannot test Add or remove methods with the use of mocked objects due to mockito limitations.
+        Report from Mockito:
+        1. you stub either of: final/private/equals()/hashCode() methods.
+        Those methods *cannot* be stubbed/verified.
+
+        This means that our LinkedMap will not index correctly with the use of mock objects since hashes
+        which should be identical are in fact not.
+    */
+    @Test
+    public void testAdd() {
+        ShoppingList list = new ShoppingList("list1");
+
+        Item a = new Item("a", 1.0f);
+        Item b = new Item("b", 1.0f);
+        Item c = new Item("a", 1.0f);
+        Item d = new Item("a", 2.0f);
+
+        System.out.println(a.hashCode());
+        System.out.println(b.hashCode());
+        System.out.println(c.hashCode());
+
+        System.out.println("-------------");
+
+        // Test1: Add to empty map
+        list.add(a, 1);
+        assertEquals(1, list.getItems().size());
+        assertEquals(1, (int) list.getItems().get(a));
+        assertTrue(list.getItems().containsKey(a));
+
+        // Test2: Add to non empty map
+        list.add(b, 2);
+        assertEquals(2, list.getItems().size());
+        assertTrue(list.getItems().containsKey(b));
+
+        // Test3: Add existing Item to map
+        list.add(c, 3);
+        assertEquals(2, list.getItems().size());
+        assertEquals(4, (int) list.getItems().get(a));
+
+        System.out.println(list.toString());
+
+        // Test4: Add Item with same name but different cost
+        list.add(d, 5);
+        assertEquals(3, list.getItems().size());
+        assertEquals(5, (int) list.getItems().get(d));
+
+        // Test5: Add Item by name, cost, quantity
+        list.add("c", 2.0f, 4);
+        assertTrue(list.getItems().containsKey(new Item("c", 2.0f)));
+        assertEquals(4, list.getItems().size());
+    }
 }
