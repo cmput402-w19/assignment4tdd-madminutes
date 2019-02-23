@@ -98,7 +98,17 @@ public class ShoppingList {
     }
 
     public void addToShoppingList(Recipe recipe){
+        for (Map.Entry<Item, Integer> entry : recipe.items.entrySet()) {
+            Item ingredient = entry.getKey();
+            Integer quantity = entry.getValue();
+            if(this.items.get(ingredient) != null){
+                this.items.put(ingredient, this.items.get(ingredient)+quantity);
+            }
+            else{
+                this.items.put(ingredient, quantity);
+            }
 
+        }
     }
 
     @Override
