@@ -19,7 +19,7 @@ public class Recipe {
     public void setName(String name){
         this.name = name;
     }
-    
+
     public Boolean add(Item item, Integer quantity){
         if(items.get(item) == null && quantity > 0){
             items.put(item, quantity);
@@ -36,5 +36,12 @@ public class Recipe {
     public Boolean add(Item item){
         items.put(item, 1);
         return true;
+    }
+    public Boolean remove(Item item, Integer quantity){
+        return false;
+    }
+
+    public Boolean remove(Item item){
+        return false;
     }
 }

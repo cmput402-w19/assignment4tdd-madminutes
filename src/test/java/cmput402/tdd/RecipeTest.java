@@ -74,4 +74,77 @@ public class RecipeTest extends TestCase {
         assertTrue(recipe.items.get(item4) == 1);
         assertFalse(status);
     }
+    @Test
+    public void testRemoveRecipeItem(){
+        Boolean status;
+        Recipe recipe = new Recipe("Apple Pie");
+        Item item1 = new Item("apple",1.0f);
+        Item item2 = new Item("bread", 5.0f);
+        Item item3 = new Item("butter", 5.0f);
+        Item item4 = new Item("sugar", 4.0f);
+
+        recipe.add(item1, 5);
+        recipe.add(item2, 5);
+        recipe.add(item3, 5);
+
+        //Test 4a: Remove ingredient from recipe
+        status = recipe.remove(item1);
+        assertTrue(recipe.items.size() == 2);
+        assertTrue(recipe.items.get(item1) == null);
+        assertTrue(status);
+
+        //Test 4b: Attempt to remove ingredient which does not exist in recipe
+        status = recipe.remove(item4);
+        assertTrue(recipe.items.size() == 2);
+        assertTrue(recipe.items.get(item4) == null);
+        assertFalse(status);
+
+        //Test 4c: Attempt to remove more than available quantity from recipe
+        status = recipe.remove(item2, 7);
+        assertTrue(recipe.items.size() == 2);
+        assertTrue(recipe.items.get(item2) == 5);
+        assertFalse(status);
+
+        //Test 4d: Test edge case of removing 0 quantity
+        status = recipe.remove(item2, 0);
+        assertTrue(recipe.items.size() == 2);
+        assertTrue(recipe.items.get(item2) == 5);
+        assertFalse(status);
+
+        //Test 4e: Remove negative amount of quantity
+        status = recipe.remove(item2, -1);
+        assertTrue(recipe.items.size() == 2);
+        assertTrue(recipe.items.get(item2) == 5);
+        assertFalse(status);
+
+        //Test 4f: Remove partial amount of ingredient from total quantity
+        status = recipe.remove(item2, 3);
+        assertTrue(recipe.items.size() == 2);
+        assertTrue(recipe.items.get(item2) == 2);
+        assertTrue(status);
+
+        //Test 4g: Remove remaining amount of ingredient
+        status = recipe.remove(item2, 2);
+        assertTrue(recipe.items.size() == 1);
+        assertTrue(recipe.items.get(item2) == null);
+        assertTrue(status);
+
+        //Test 4h: Remove ingredient which does not exist in recipe
+        status = recipe.remove(item4, 3);
+        assertTrue(recipe.items.size() == 1);
+        assertTrue(recipe.items.get(item4) == null);
+        assertFalse(status);
+
+        //Test 4i: Remove zero amount of ingredient from recipe
+        status = recipe.remove(item3, 0);
+        assertTrue(recipe.items.size() == 1);
+        assertTrue(recipe.items.get(item3) == 5);
+        assertFalse(status);
+
+        //Test 4i: Remove more than available amount of ingredient from recipe
+        status = recipe.remove(item3, 7);
+        assertTrue(recipe.items.size() == 1);
+        assertTrue(recipe.items.get(item3) == 5);
+        assertFalse(status);
+    }
 }
