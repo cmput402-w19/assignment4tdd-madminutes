@@ -77,6 +77,10 @@ public class ShoppingList {
     }
 
     public float getTotalCost() {
-        return 0;
+        float cost = 0;
+        for (Map.Entry<Item, Integer> entry : items.entrySet()) {
+            cost += entry.getValue() * entry.getKey().getCost();
+        }
+        return cost;
     }
 }
