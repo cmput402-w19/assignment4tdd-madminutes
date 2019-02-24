@@ -116,10 +116,18 @@ public class AppTest extends TestCase{
     @Test
     public void testDisplayPeople() {
         App app = new App();
-        String out = String.format("%d %20s %7s\n", "Id","Name","# Lists");
+        Person person = new Person("John");
+        ShoppingList list = new ShoppingList("list1");
+        person.addShoppingList(list);
+        
+        // Test1: empty list of people
+        String out = String.format("%-3s|%-20s|%-7s\n", "Id","Name","# Lists");
         assertEquals(app.displayPeople(), out);
-        app.getPeople().
-        out += String.format("%d %20s %7d\n", "1", "John", "1");
-    }
 
+        // test2: non-empty list of people
+        app.getPeople().put(person.getName(), person);
+        out += String.format("%-3d|%-20s|%-7d\n", 0, "John", 1);
+        assertEquals(app.displayPeople(), out);
+        
+    }
 }

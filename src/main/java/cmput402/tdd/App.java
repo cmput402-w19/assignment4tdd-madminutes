@@ -1,12 +1,11 @@
 package cmput402.tdd;
 import java.util.Scanner;
 import org.apache.commons.collections4.map.LinkedMap;
+import java.util.Map;
 
 public class App {
 
     public LinkedMap<String, Person> people = new LinkedMap<String, Person>();
-    
-    public Item createItem(Scanner input) throws Exception{
 
     public LinkedMap<String, Person> getPeople() {
         return people;
@@ -58,14 +57,20 @@ public class App {
         return shoppingList;
     }
 
-    public String displayPeople(){return null;}
+    public String displayPeople() {
+        StringBuilder out = new StringBuilder(String.format("%-3s|%-20s|%-7s\n", "Id","Name","# Lists")); 
+        int i = 0;
+        for (Map.Entry<String, Person> entry : people.entrySet()) {
+            out.append(String.format("%-3d|%-20s|%-7d\n", i, entry.getKey(), entry.getValue().getShoppingLists().size()));
+        }
+        return out.toString();
+    }
 
     // source: https://stackoverflow.com/questions/9553354/how-do-i-get-the-decimal-places-of-a-floating-point-number-in-javascript
     private int precision(float  a) {
         int e = 1;
         int p = 0;
         while (a*e - Math.floor(a*e) != 0) { 
-            System.out.println(e);
             e *= 10; 
             p++; }
         return p;
