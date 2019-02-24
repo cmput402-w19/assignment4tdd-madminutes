@@ -12,7 +12,9 @@ public class App {
     }
 
     public Item createItem(Scanner input) throws Exception {
+        System.out.println("Please enter the name of the item:");
         String name = input.nextLine();
+        System.out.println("Please enter the cost of the item (dollars.cents):");
         String str_cost = input.nextLine();
         float cost = 0;
 
@@ -35,7 +37,6 @@ public class App {
             System.out.println("Invalid number");
             throw new NumberFormatException("Incorrect cost format");
         }
-        System.out.println("Precision:"+precision(cost));
         if (precision(cost) > 2) {
             
             throw new NumberFormatException("Items do not support partial cents.");
@@ -56,6 +57,8 @@ public class App {
        ShoppingList shoppingList = new ShoppingList(name);
         return shoppingList;
     }
+
+    public void editShoppingList(Scanner input, ShoppingList shoppingList){}
 
     public String displayPeople() {
         StringBuilder out = new StringBuilder(String.format("%-3s|%-20s|%-7s\n", "Id","Name","# Lists")); 

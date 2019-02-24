@@ -114,6 +114,86 @@ public class AppTest extends TestCase{
     }
 
     @Test
+    public void testEditShoppingList(){
+        App app = new App();
+        ShoppingList shoppingList = new ShoppingList("list1");
+        Person person = new Person("person1");
+        person.addShoppingList(shoppingList);
+        
+        //Test1: correct input
+        ByteArrayInputStream in = new ByteArrayInputStream("1\nitem1\n2.00\n4\n3\n".getBytes());
+        Scanner scanner = new Scanner(in); 
+
+        app.editShoppingList(scanner, person.getShoppingLists().get("list1"));
+        assertTrue(person.getShoppingLists().get("list1").getItems().size() == 1);
+
+        // Test2: invalid choice
+        in = new ByteArrayInputStream("4\n3\n".getBytes());
+        scanner = new Scanner(in); 
+
+        app.editShoppingList(scanner, person.getShoppingLists().get("list1"));
+        assertTrue(person.getShoppingLists().get("list1").getItems().size() == 1);
+
+        // Test3: invalid cost
+        in = new ByteArrayInputStream("1\nitem2\nlpq.00\n5\n3\n".getBytes());
+        scanner = new Scanner(in); 
+
+        app.editShoppingList(scanner, person.getShoppingLists().get("list1"));
+        assertTrue(person.getShoppingLists().get("list1").getItems().size() == 1);
+
+        // Test4: invalid quantity
+        in = new ByteArrayInputStream("1\nitem2\n3.00\nlots\n3\n".getBytes());
+        scanner = new Scanner(in); 
+
+        app.editShoppingList(scanner, person.getShoppingLists().get("list1"));
+        assertTrue(person.getShoppingLists().get("list1").getItems().size() == 1);
+
+        // Test5: remove by item
+        person.getShoppingLists().get("list1").add("item2", 2.0f, 4);
+        in = new ByteArrayInputStream("2\n1\nitem2\n2.0\n3\n".getBytes());
+        scanner = new Scanner(in); 
+
+        app.editShoppingList(scanner, person.getShoppingLists().get("list1"));
+        assertTrue(person.getShoppingLists().get("list1").getItems().size() == 1);
+
+        // Test6: remove by item not in list
+        in = new ByteArrayInputStream("2\n1\nitem3\n2.0\n3\n".getBytes());
+        scanner = new Scanner(in); 
+
+        app.editShoppingList(scanner, person.getShoppingLists().get("list1"));
+        assertTrue(person.getShoppingLists().get("list1").getItems().size() == 1);
+
+        // Test7: remove by invalid item
+        in = new ByteArrayInputStream("2\n1\nitem3\ncat\n3\n".getBytes());
+        scanner = new Scanner(in); 
+
+        app.editShoppingList(scanner, person.getShoppingLists().get("list1"));
+        assertTrue(person.getShoppingLists().get("list1").getItems().size() == 1);
+
+        // Test8: remove by index
+        person.getShoppingLists().get("list1").add("item2", 2.0f, 4);
+        in = new ByteArrayInputStream("2\n2\n0\n3\n".getBytes());
+        scanner = new Scanner(in); 
+
+        app.editShoppingList(scanner, person.getShoppingLists().get("list1"));
+        assertTrue(person.getShoppingLists().get("list1").getItems().size() == 1);
+    
+        // Test9: remove by invalid index
+        in = new ByteArrayInputStream("2\n2\ncat\n3\n".getBytes());
+        scanner = new Scanner(in); 
+
+        app.editShoppingList(scanner, person.getShoppingLists().get("list1"));
+        assertTrue(person.getShoppingLists().get("list1").getItems().size() == 1);
+
+        // Test9: remove by index not in list
+        in = new ByteArrayInputStream("2\n2\n8\n3\n".getBytes());
+        scanner = new Scanner(in); 
+
+        app.editShoppingList(scanner, person.getShoppingLists().get("list1"));
+        assertTrue(person.getShoppingLists().get("list1").getItems().size() == 1);
+    }
+
+    @Test
     public void testDisplayPeople() {
         App app = new App();
         Person person = new Person("John");
@@ -130,4 +210,6 @@ public class AppTest extends TestCase{
         assertEquals(app.displayPeople(), out);
         
     }
+
+
 }
