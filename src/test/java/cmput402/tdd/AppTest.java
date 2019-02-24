@@ -1,12 +1,14 @@
 package cmput402.tdd;
 
+import org.junit.Assert;
 import org.junit.Test;
-import junit.framework.TestCase;
 
 import java.util.Scanner;
 import java.io.ByteArrayInputStream;
 
-public class AppTest extends TestCase{
+import static org.junit.Assert.assertEquals;
+
+public class AppTest {
 
     @Test
     public void testCreateItem() {
@@ -18,10 +20,10 @@ public class AppTest extends TestCase{
         Scanner scanner = new Scanner(in); 
         try{
             item = app.createItem(scanner);
-            assertEquals(item.getName(), "item1");
-            assertEquals(item.getCost(), 2.0f);
+            assertEquals("item1", item.getName());
+            assertEquals(2.0f, item.getCost(), 0.0);
         } catch (Exception e){
-            fail();
+            Assert.fail();
         }
 
         //Test2: too many cents given
@@ -29,10 +31,10 @@ public class AppTest extends TestCase{
         scanner = new Scanner(in); 
         try{
             item = app.createItem(scanner);
-            fail();
+            Assert.fail();
         } catch (Exception e){
             System.out.println(e.getMessage());;
-            assertTrue(e.getMessage().equals("Items do not support partial cents."));
+            assertEquals("Items do not support partial cents.", e.getMessage());
         }
 
         //Test3: bad format cost
@@ -40,9 +42,9 @@ public class AppTest extends TestCase{
         scanner = new Scanner(in); 
         try{
             item = app.createItem(scanner);
-            fail();
+            Assert.fail();
         } catch (Exception e){
-            assertTrue(e.getMessage().equals("Incorrect cost format"));
+            assertEquals("Incorrect cost format", e.getMessage());
         }
 
         //Test4: empty name given
@@ -50,9 +52,9 @@ public class AppTest extends TestCase{
         scanner = new Scanner(in); 
         try{
             item = app.createItem(scanner);
-            fail();
+            Assert.fail();
         } catch (Exception e){
-            assertTrue(e.getMessage().equals("Name cannot be empty."));
+            assertEquals("Name cannot be empty.", e.getMessage());
         }
 
         //Test5: empty cost given
@@ -60,9 +62,9 @@ public class AppTest extends TestCase{
         scanner = new Scanner(in); 
         try{
             item = app.createItem(scanner);
-            assertEquals(item.getCost(), 0.0f);
+            assertEquals(0.0f, item.getCost(), 0.0);
         } catch (Exception e){
-            fail();
+            Assert.fail();
         }
 
         //Test6: item name > 20 characters given        
@@ -70,9 +72,9 @@ public class AppTest extends TestCase{
         scanner = new Scanner(in); 
         try{
             item = app.createItem(scanner);
-            fail();
+            Assert.fail();
         } catch (Exception e){
-            assertTrue(e.getMessage().equals("Item name cannot be longer than 20 characters."));
+            assertEquals("Item name cannot be longer than 20 characters.", e.getMessage());
         }
     }
 
@@ -85,11 +87,11 @@ public class AppTest extends TestCase{
         ByteArrayInputStream in = new ByteArrayInputStream("list1\n".getBytes());
         Scanner scanner = new Scanner(in); 
         try{
-            shoppingList = app.createShoppingList(scanner);   
-            assertFalse(shoppingList == null);  
-            assertEquals(shoppingList.getName(), "list1");  
+            shoppingList = app.createShoppingList(scanner);
+            Assert.assertNotNull(shoppingList);
+            assertEquals(shoppingList.getName(), "list1");
         } catch (Exception e) {
-            fail();
+            Assert.fail();
         }
 
         //Test2: empty name given
@@ -97,9 +99,9 @@ public class AppTest extends TestCase{
         scanner = new Scanner(in); 
         try{
             shoppingList = app.createShoppingList(scanner);
-            fail();
+            Assert.fail();
         } catch (Exception e){
-            assertTrue(e.getMessage().equals("Name cannot be empty."));
+            assertEquals("Name cannot be empty.", e.getMessage());
         }
 
         //Test3: list name > 20 characters given
@@ -107,9 +109,9 @@ public class AppTest extends TestCase{
         scanner = new Scanner(in); 
         try{
             shoppingList = app.createShoppingList(scanner);
-            fail();
+            Assert.fail();
         } catch (Exception e){
-            assertTrue(e.getMessage().equals("ShoppingList name cannot be longer than 20 characters."));
+            assertEquals("ShoppingList name cannot be longer than 20 characters.", e.getMessage());
         }
     }
 
@@ -125,35 +127,35 @@ public class AppTest extends TestCase{
         Scanner scanner = new Scanner(in); 
 
         app.editShoppingList(scanner, person.getShoppingLists().get("list1"));
-        assertTrue(person.getShoppingLists().get("list1").getItems().size() == 1);
+        assertEquals(1, person.getShoppingLists().get("list1").getItems().size());
 
         // Test2: invalid choice
         in = new ByteArrayInputStream("4\n3\n".getBytes());
         scanner = new Scanner(in); 
 
         app.editShoppingList(scanner, person.getShoppingLists().get("list1"));
-        assertTrue(person.getShoppingLists().get("list1").getItems().size() == 1);
+        assertEquals(1, person.getShoppingLists().get("list1").getItems().size());
 
         // Test3: invalid cost
         in = new ByteArrayInputStream("1\nitem2\nlpq.00\n5\n3\n".getBytes());
         scanner = new Scanner(in); 
 
         app.editShoppingList(scanner, person.getShoppingLists().get("list1"));
-        assertTrue(person.getShoppingLists().get("list1").getItems().size() == 1);
+        assertEquals(1, person.getShoppingLists().get("list1").getItems().size());
 
         // Test4: invalid quantity
         in = new ByteArrayInputStream("1\nitem2\n3.00\nlots\n3\n".getBytes());
         scanner = new Scanner(in); 
 
         app.editShoppingList(scanner, person.getShoppingLists().get("list1"));
-        assertTrue(person.getShoppingLists().get("list1").getItems().size() == 1);
+        assertEquals(1, person.getShoppingLists().get("list1").getItems().size());
 
         // Test5: remove invalid option
         in = new ByteArrayInputStream("2\ncat\n3\n".getBytes());
         scanner = new Scanner(in); 
 
         app.editShoppingList(scanner, person.getShoppingLists().get("list1"));
-        assertTrue(person.getShoppingLists().get("list1").getItems().size() == 1);
+        assertEquals(1, person.getShoppingLists().get("list1").getItems().size());
         
         // Test5: remove by item
         person.getShoppingLists().get("list1").add("item2", 2.0f, 4);
@@ -161,21 +163,21 @@ public class AppTest extends TestCase{
         scanner = new Scanner(in); 
 
         app.editShoppingList(scanner, person.getShoppingLists().get("list1"));
-        assertTrue(person.getShoppingLists().get("list1").getItems().size() == 1);
+        assertEquals(1, person.getShoppingLists().get("list1").getItems().size());
 
         // Test6: remove by item not in list
         in = new ByteArrayInputStream("2\n1\nitem3\n2.0\n3\n".getBytes());
         scanner = new Scanner(in); 
 
         app.editShoppingList(scanner, person.getShoppingLists().get("list1"));
-        assertTrue(person.getShoppingLists().get("list1").getItems().size() == 1);
+        assertEquals(1, person.getShoppingLists().get("list1").getItems().size());
 
         // Test7: remove by invalid item
         in = new ByteArrayInputStream("2\n1\nitem3\ncat\n3\n".getBytes());
         scanner = new Scanner(in); 
 
         app.editShoppingList(scanner, person.getShoppingLists().get("list1"));
-        assertTrue(person.getShoppingLists().get("list1").getItems().size() == 1);
+        assertEquals(1, person.getShoppingLists().get("list1").getItems().size());
 
         // Test8: remove by index
         person.getShoppingLists().get("list1").add("item2", 2.0f, 4);
@@ -183,28 +185,28 @@ public class AppTest extends TestCase{
         scanner = new Scanner(in); 
 
         app.editShoppingList(scanner, person.getShoppingLists().get("list1"));
-        assertTrue(person.getShoppingLists().get("list1").getItems().size() == 1);
+        assertEquals(1, person.getShoppingLists().get("list1").getItems().size());
     
         // Test9: remove by invalid index
         in = new ByteArrayInputStream("2\n2\ncat\n3\n".getBytes());
         scanner = new Scanner(in); 
 
         app.editShoppingList(scanner, person.getShoppingLists().get("list1"));
-        assertTrue(person.getShoppingLists().get("list1").getItems().size() == 1);
+        assertEquals(1, person.getShoppingLists().get("list1").getItems().size());
 
         // Test10: remove by index not in list
         in = new ByteArrayInputStream("2\n2\n8\n3\n".getBytes());
         scanner = new Scanner(in); 
 
         app.editShoppingList(scanner, person.getShoppingLists().get("list1"));
-        assertTrue(person.getShoppingLists().get("list1").getItems().size() == 1);
+        assertEquals(1, person.getShoppingLists().get("list1").getItems().size());
         
         // Test11: invalid selection
         in = new ByteArrayInputStream("cat\n3\n".getBytes());
         scanner = new Scanner(in); 
 
         app.editShoppingList(scanner, person.getShoppingLists().get("list1"));
-        assertTrue(person.getShoppingLists().get("list1").getItems().size() == 1);
+        assertEquals(1, person.getShoppingLists().get("list1").getItems().size());
     }
 
     @Test
@@ -224,6 +226,5 @@ public class AppTest extends TestCase{
         assertEquals(app.displayPeople(), out);
         
     }
-
 
 }
