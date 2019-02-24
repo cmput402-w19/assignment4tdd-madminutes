@@ -169,11 +169,56 @@ public class App {
     }
 
     public void editRecipe(Recipe recipe, Scanner input) throws Exception{
+        String command = input.nextLine();
+        Integer spaceIndex = command.indexOf(" ");
+        String action = command.substring(0,spaceIndex);
+        String param = command.substring(spaceIndex+2, command.length()-1);
 
+        if(param.length() <= 0 || param.length() > 40 || !action.equals("rename")){
+            throw new Exception("Error: could not rename recipe");
+        }
+        else {
+            recipe.setName(param);
+        }
     }
 
     public void editRecipe(Recipe recipe, Item item, Scanner input) throws Exception{
+        Integer paramInt;
+        String command = input.nextLine();
+        Integer spaceIndex = command.indexOf(" ");
+        String action = command.substring(0,spaceIndex);
+        String param = command.substring(spaceIndex+1, command.length());
+        try{
+            paramInt = Integer.parseInt(param);
+        }
+        catch(Exception e){
+            throw new Exception("Error: item cannot be added add/removed from recipe");
+        }
+        if(action.equals("add")){
+            if(paramInt > 0){
+                recipe.add(item, paramInt);
+            }
+            else{
+                throw new Exception("Error: item cannot be added add/removed from recipe");
+            }
 
+        }
+        else if(action.equals("remove")){
+            if(recipe.items.get(item) > paramInt && paramInt > 0){
+                recipe.remove(item, paramInt);
+            }
+
+            if(recipe.items.get(item) == paramInt){
+                recipe.remove(item);
+            }
+
+            else{
+                throw new Exception("Error: item cannot be added add/removed from recipe");
+            }
+        }
+        else {
+            throw new Exception("Error: item cannot be added add/removed from recipe");
+        }
     }
     // source: https://stackoverflow.com/questions/9553354/how-do-i-get-the-decimal-places-of-a-floating-point-number-in-javascript
     private int precision(float  a) {
