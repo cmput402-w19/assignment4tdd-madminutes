@@ -197,4 +197,124 @@ public class ShoppingListTest {
         list2.add(item5, 2);
         assertNotEquals(list2.getItems(), list.getItems());
     }
+
+    @Test
+    public void testAddToShoppingList(){
+        ShoppingList list = new ShoppingList("list1");
+
+        Recipe recipe1 = new Recipe("Apple Pie");
+        Item item1 = new Item("apple",1.0f);
+        Item item2 = new Item("bread", 5.0f);
+        Item item3 = new Item("butter", 5.0f);
+
+        Recipe recipe2 = new Recipe("Lemonade");
+        Item item4 = new Item("lemon",4.0f);
+        Item item5 = new Item("water", 1.0f);
+
+        Recipe recipe3 = new Recipe("Apple Juice");
+
+        //Adding ingredients for apple pie
+        recipe1.add(item1, 3);
+        recipe1.add(item2, 2);
+        recipe1.add(item3, 1);
+
+        //Adding ingredients for lemonade
+        recipe2.add(item4, 3);
+        recipe2.add(item5, 2);
+
+        //Adding ingredients for apple juice
+        recipe3.add(item5, 2);
+        recipe3.add(item1, 4);
+
+        //Test 5a: Add recipe to empty shopping list
+        list.addToShoppingList(recipe1);
+        assertEquals(3, list.getItems().size());
+        assertEquals(3, list.getItems().get(item1).intValue());
+        assertEquals(2, list.getItems().get(item2).intValue());
+        assertEquals(1, list.getItems().get(item3).intValue());
+
+        //Test 5b: Add different recipe to existing shopping list
+        list.addToShoppingList(recipe2);
+        assertEquals(5, list.getItems().size());
+        assertEquals(3, list.getItems().get(item4).intValue());
+        assertEquals(2, list.getItems().get(item5).intValue());
+
+        //Test 5c: Adding recipe with ingredients which already exist in shopping list
+        list.addToShoppingList(recipe3);
+        assertEquals(5, list.getItems().size());
+        assertEquals(7, list.getItems().get(item1).intValue());
+        assertEquals(4, list.getItems().get(item5).intValue());
+    }
+    @Test
+    public void testRemoveFromShoppingList(){
+        ShoppingList list = new ShoppingList("list1");
+
+        Recipe recipe1 = new Recipe("Apple Pie");
+        Recipe recipe2 = new Recipe("Lemonade");
+        Recipe recipe3 = new Recipe("Apple Juice");
+        Recipe recipe4 = new Recipe("Empty Recipe");
+        Recipe recipe5 = new Recipe("Special Recipe");
+
+        //Adding ingredients for apple pie
+        recipe1.add(item1, 3);
+        recipe1.add(item2, 2);
+        recipe1.add(item3, 1);
+
+        //Adding ingredients for lemonade
+        recipe2.add(item4, 3);
+        recipe2.add(item5, 2);
+
+        //Adding ingredients for apple juice
+        recipe3.add(item5, 2);
+        recipe3.add(item1, 4);
+
+        //Adding ingredients for special recipe
+        recipe5.add(item1, 3);
+
+        list.addToShoppingList(recipe1);
+        list.addToShoppingList(recipe2);
+        list.addToShoppingList(recipe3);
+
+        //Test 6a: Remove recipe with overlapping items from shopping list
+        list.removeFromShoppingList(recipe3);
+        assertEquals(5, list.getItems().size());
+        assertEquals(3, list.getItems().get(item4).intValue());
+        assertEquals(2, list.getItems().get(item5).intValue());
+
+        //Test 6b: Remove recipe with no ingredients from shopping list
+        list.removeFromShoppingList(recipe4);
+        assertEquals(5, list.getItems().size());
+        assertEquals(3, list.getItems().get(item1).intValue());
+        assertEquals(2, list.getItems().get(item2).intValue());
+        assertEquals(1, list.getItems().get(item3).intValue());
+        assertEquals(3, list.getItems().get(item4).intValue());
+        assertEquals(2, list.getItems().get(item5).intValue());
+
+        //Test 6c: Remove multiple recipes from shopping list
+        list.removeFromShoppingList(recipe2);
+        assertEquals(3, list.getItems().size());
+        assertEquals(false, list.getItems().containsKey(item4));
+        assertEquals(false, list.getItems().containsKey(item5));
+
+        //Test 6d: Remove all recipes from shopping list
+        list.removeFromShoppingList(recipe1);
+        assertEquals(0, list.getItems().size());
+        assertEquals(false, list.getItems().containsKey(item1));
+        assertEquals(false, list.getItems().containsKey(item2));
+        assertEquals(false, list.getItems().containsKey(item3));
+        //Test 6e: Remove recipe with ingredients which do not exist in shopping list
+        list.addToShoppingList(recipe5);
+        recipe5.add(item2, 2);
+        list.removeFromShoppingList(recipe5);
+        assertEquals(false, list.getItems().containsKey(item1));
+        assertEquals(false, list.getItems().containsKey(item2));
+
+        //Test 6f: Remove recipe with ingredients more than amount existing in shopping list
+        list.addToShoppingList(recipe5);
+        recipe5.add(item1, 2);
+        list.removeFromShoppingList(recipe5);
+        assertEquals(true, list.getItems().containsKey(item1));
+        assertEquals(3, list.getItems().get(item1).intValue());
+
+    }
 }

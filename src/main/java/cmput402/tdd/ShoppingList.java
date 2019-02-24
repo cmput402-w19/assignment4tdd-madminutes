@@ -81,6 +81,7 @@ public class ShoppingList {
         return this.remove(item);
     }
 
+
     public float getTotalCost() {
         float cost = 0;
         for (Map.Entry<Item, Integer> entry : items.entrySet()) {
@@ -95,6 +96,40 @@ public class ShoppingList {
             count += entry.getValue();
         }
         return count;
+    }
+
+    public void addToShoppingList(Recipe recipe){
+        for (Map.Entry<Item, Integer> entry : recipe.items.entrySet()) {
+            Item ingredient = entry.getKey();
+            Integer quantity = entry.getValue();
+            if(this.items.get(ingredient) != null){
+                this.items.put(ingredient, this.items.get(ingredient)+quantity);
+            }
+            else{
+                this.items.put(ingredient, quantity);
+            }
+        }
+    }
+
+    public void removeFromShoppingList(Recipe recipe) throws RuntimeException{
+        for (Map.Entry<Item, Integer> entry : recipe.items.entrySet()) {
+            Item ingredient = entry.getKey();
+            Integer value = entry.getValue();
+            try {
+                if(this.items.get(ingredient) > value){
+                    this.items.put(ingredient, this.items.get(ingredient)-value);
+                }
+                else if(this.items.get(ingredient) == value){
+                    this.items.remove(ingredient);
+                }
+                else{
+                    throw new RuntimeException();
+                }
+            }
+            catch(Exception e) {
+                System.out.println("Ingredient does not exist in shopping list");
+            }
+        }
     }
 
     @Override
