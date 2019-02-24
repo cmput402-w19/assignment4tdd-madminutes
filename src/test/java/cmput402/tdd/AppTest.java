@@ -27,6 +27,7 @@ public class AppTest {
             fail();
         }
 
+        scanner = new Scanner(new ByteArrayInputStream("John\n".getBytes()));
         // Find a person
         try {
             person = app.getPerson(scanner, false);
@@ -35,6 +36,7 @@ public class AppTest {
             fail();
         }
 
+        scanner = new Scanner(new ByteArrayInputStream("Smith\n".getBytes()));
         // Person does not exist
         try {
             person = app.getPerson(scanner, false);

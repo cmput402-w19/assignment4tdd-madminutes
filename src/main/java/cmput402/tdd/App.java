@@ -12,11 +12,26 @@ public class App {
     }
 
     public Person getPerson(Scanner input, boolean create) throws Exception {
-        return null;
+        System.out.println("Please type the name of a person");
+        String personName = input.nextLine();
+
+        Person person;
+        if (create) {
+            person = createPerson(personName);
+        } else {
+            if(getPeople().containsKey(personName)) {
+                person = getPeople().get(personName);
+            } else {
+                throw new Exception("Person does not exist.");
+            }
+        }
+        return person;
     }
 
     private Person createPerson(String name) {
-        return null;
+        Person person = new Person(name);
+        getPeople().put(name, person);
+        return person;
     }
 
     public Item createItem(Scanner input) throws Exception {
