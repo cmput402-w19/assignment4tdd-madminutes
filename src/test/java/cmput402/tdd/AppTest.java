@@ -7,8 +7,42 @@ import java.util.Scanner;
 import java.io.ByteArrayInputStream;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 public class AppTest {
+
+    @Test
+    public void testGetPerson() {
+        App app = new App();
+        Person person;
+
+        ByteArrayInputStream in = new ByteArrayInputStream("John\n".getBytes());
+        Scanner scanner = new Scanner(in);
+
+        // Create a person
+        try {
+            person = app.getPerson(scanner, true);
+            assertEquals(1, app.getPeople().size());
+        } catch (Exception e) {
+            fail();
+        }
+
+        // Find a person
+        try {
+            person = app.getPerson(scanner, false);
+            assertEquals("John", person.getName());
+        } catch (Exception e) {
+            fail();
+        }
+
+        // Person does not exist
+        try {
+            person = app.getPerson(scanner, false);
+            fail();
+        } catch (Exception e) {
+            assertEquals("Person does not exist.", e.getMessage());
+        }
+    }
 
     @Test
     public void testCreateItem() {
@@ -23,7 +57,7 @@ public class AppTest {
             assertEquals("item1", item.getName());
             assertEquals(2.0f, item.getCost(), 0.0);
         } catch (Exception e){
-            Assert.fail();
+            fail();
         }
 
         //Test2: too many cents given
@@ -31,7 +65,7 @@ public class AppTest {
         scanner = new Scanner(in); 
         try{
             item = app.createItem(scanner);
-            Assert.fail();
+            fail();
         } catch (Exception e){
             System.out.println(e.getMessage());;
             assertEquals("Items do not support partial cents.", e.getMessage());
@@ -42,7 +76,7 @@ public class AppTest {
         scanner = new Scanner(in); 
         try{
             item = app.createItem(scanner);
-            Assert.fail();
+            fail();
         } catch (Exception e){
             assertEquals("Incorrect cost format", e.getMessage());
         }
@@ -52,7 +86,7 @@ public class AppTest {
         scanner = new Scanner(in); 
         try{
             item = app.createItem(scanner);
-            Assert.fail();
+            fail();
         } catch (Exception e){
             assertEquals("Name cannot be empty.", e.getMessage());
         }
@@ -64,7 +98,7 @@ public class AppTest {
             item = app.createItem(scanner);
             assertEquals(0.0f, item.getCost(), 0.0);
         } catch (Exception e){
-            Assert.fail();
+            fail();
         }
 
         //Test6: item name > 20 characters given        
@@ -72,7 +106,7 @@ public class AppTest {
         scanner = new Scanner(in); 
         try{
             item = app.createItem(scanner);
-            Assert.fail();
+            fail();
         } catch (Exception e){
             assertEquals("Item name cannot be longer than 20 characters.", e.getMessage());
         }
@@ -91,7 +125,7 @@ public class AppTest {
             Assert.assertNotNull(shoppingList);
             assertEquals(shoppingList.getName(), "list1");
         } catch (Exception e) {
-            Assert.fail();
+            fail();
         }
 
         //Test2: empty name given
@@ -99,7 +133,7 @@ public class AppTest {
         scanner = new Scanner(in); 
         try{
             shoppingList = app.createShoppingList(scanner);
-            Assert.fail();
+            fail();
         } catch (Exception e){
             assertEquals("Name cannot be empty.", e.getMessage());
         }
@@ -109,7 +143,7 @@ public class AppTest {
         scanner = new Scanner(in); 
         try{
             shoppingList = app.createShoppingList(scanner);
-            Assert.fail();
+            fail();
         } catch (Exception e){
             assertEquals("ShoppingList name cannot be longer than 20 characters.", e.getMessage());
         }

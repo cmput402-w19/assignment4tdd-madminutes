@@ -11,6 +11,14 @@ public class App {
         return people;
     }
 
+    public Person getPerson(Scanner input, boolean create) throws Exception {
+        return null;
+    }
+
+    private Person createPerson(String name) {
+        return null;
+    }
+
     public Item createItem(Scanner input) throws Exception {
         System.out.println("Please enter the name of the item:");
         String name = input.nextLine();
