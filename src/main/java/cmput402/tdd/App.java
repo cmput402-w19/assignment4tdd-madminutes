@@ -71,10 +71,10 @@ public class App {
         String action = command.substring(0,spaceIndex);
         String param = command.substring(spaceIndex+2, command.length()-1);
 
-        if(param.length() <= 0 || param.length() > 40){
+        if(param.length() <= 0 || param.length() > 40 || !action.equals("rename")){
             throw new Exception("Error: could not rename recipe");
         }
-        else if(param.length() > 0 && param.length() < 40 && action.equals("rename")){
+        else {
             recipe.setName(param);
         }
     }
