@@ -6,9 +6,7 @@ public class App {
 
     public Item createItem(Scanner input) throws Exception{
         String name = input.nextLine();
-        System.out.println(name);
         String str_cost = input.nextLine();
-        System.out.println(str_cost);
         float cost = 0;
 
         if (name.length() == 0){
@@ -38,6 +36,9 @@ public class App {
         Item item = new Item(name, cost);
         return item;
     }
+    
+    public ShoppingList createShoppingList(Scanner input){return null;}
+
     // source: https://stackoverflow.com/questions/9553354/how-do-i-get-the-decimal-places-of-a-floating-point-number-in-javascript
     private int precision(float  a) {
         int e = 1;

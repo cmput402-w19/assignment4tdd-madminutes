@@ -76,4 +76,41 @@ public class AppTest extends TestCase{
         }
     }
 
+    @Test
+    public void testCreateShoppingList() {
+        App app = new App();
+        ShoppingList shoppingList;
+        
+        //Test1: correct input
+        ByteArrayInputStream in = new ByteArrayInputStream("list1\n".getBytes());
+        Scanner scanner = new Scanner(in); 
+        try{
+            shoppingList = app.createShoppingList(scanner);   
+            assertFalse(shoppingList == null);  
+            assertEquals(shoppingList.getName(), "list1");  
+        } catch (Exception e) {
+            fail();
+        }
+
+        //Test2: empty name given
+        in = new ByteArrayInputStream("\n 2.88.8".getBytes());
+        scanner = new Scanner(in); 
+        try{
+            shoppingList = app.createShoppingList(scanner);
+            fail();
+        } catch (Exception e){
+            assertTrue(e.getMessage().equals("Name cannot be empty."));
+        }
+
+        //Test3: list name > 20 characters given
+        in = new ByteArrayInputStream("list11111111111111111\n2\n".getBytes());
+        scanner = new Scanner(in); 
+        try{
+            shoppingList = app.createShoppingList(scanner);
+            fail();
+        } catch (Exception e){
+            assertTrue(e.getMessage().equals("ShoppingList name cannot be longer than 20 characters."));
+        }
+    }
+
 }
