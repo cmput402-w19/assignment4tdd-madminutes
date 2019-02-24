@@ -65,7 +65,12 @@ public class App {
         }
         return out.toString();
     }
+    public void editRecipe(Recipe recipe, Scanner input) throws Exception{
 
+    }
+    public void editRecipe(Recipe recipe, Item item, Scanner input) throws Exception{
+
+    }
     // source: https://stackoverflow.com/questions/9553354/how-do-i-get-the-decimal-places-of-a-floating-point-number-in-javascript
     private int precision(float  a) {
         int e = 1;
