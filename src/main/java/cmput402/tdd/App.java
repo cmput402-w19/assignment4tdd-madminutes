@@ -37,7 +37,18 @@ public class App {
         return item;
     }
     
-    public ShoppingList createShoppingList(Scanner input){return null;}
+    public ShoppingList createShoppingList(Scanner input) throws Exception{
+        String name = input.nextLine();
+
+        if (name.length() == 0){
+            throw new Exception("Name cannot be empty.");
+        }
+        if (name.length() > 20){
+            throw new Exception("ShoppingList name cannot be longer than 20 characters.");
+        }
+       ShoppingList shoppingList = new ShoppingList(name);
+        return shoppingList;
+    }
 
     // source: https://stackoverflow.com/questions/9553354/how-do-i-get-the-decimal-places-of-a-floating-point-number-in-javascript
     private int precision(float  a) {
