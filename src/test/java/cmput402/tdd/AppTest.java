@@ -225,5 +225,217 @@ public class AppTest extends TestCase{
         
     }
 
+    @Test
+    public void testEditRecipe(){
+        App app = new App();
+        Recipe recipe = new Recipe("apple pie");
 
+        Item item1 = new Item("apple",4);
+        Item item2 = new Item("sugar",2);
+
+
+        //Test 1: Add new item to recipe
+        ByteArrayInputStream in = new ByteArrayInputStream("add 1".getBytes());
+        Scanner scanner = new Scanner(in);
+        try {
+            app.editRecipe(recipe, item1, scanner);
+        }
+        catch(Exception e){
+            assertEquals("Error: item cannot be added add/removed from recipe", e.getMessage());
+        }
+        assertEquals(1, recipe.items.size());
+        assertEquals(1, recipe.items.get(item1).intValue());
+
+        //Test 2 Add an existing item to recipe again
+        in = new ByteArrayInputStream("add 3".getBytes());
+        scanner = new Scanner(in);
+        try {
+            app.editRecipe(recipe, item1, scanner);
+        }
+        catch(Exception e){
+            assertEquals("Error: item cannot be added add/removed from recipe", e.getMessage());
+        }
+        assertEquals(1, recipe.items.size());
+        assertEquals(4, recipe.items.get(item1).intValue());
+
+        //Test 3 Add 0 quantity to recipe
+        in = new ByteArrayInputStream("add 0".getBytes());
+        scanner = new Scanner(in);
+        try {
+            app.editRecipe(recipe, item2, scanner);
+        }
+        catch(Exception e){
+            assertEquals("Error: item cannot be added add/removed from recipe", e.getMessage());
+        }
+        assertEquals(1, recipe.items.size());
+        assertEquals(4, recipe.items.get(item1).intValue());
+        assertFalse(recipe.items.containsKey(item2));
+
+
+        //Test 4 Add another new item to recipe
+        in = new ByteArrayInputStream("add 3".getBytes());
+        scanner = new Scanner(in);
+        try {
+            app.editRecipe(recipe, item2, scanner);
+        }
+        catch(Exception e){
+            assertEquals("Error: item cannot be added add/removed from recipe", e.getMessage());
+        }
+        assertEquals(2, recipe.items.size());
+        assertEquals(3, recipe.items.get(item2).intValue());
+        assertEquals(4, recipe.items.get(item1).intValue());
+
+        //Test 5 Remove item from recipe completely
+        in = new ByteArrayInputStream("remove 4".getBytes());
+        scanner = new Scanner(in);
+        try {
+            app.editRecipe(recipe, item1, scanner);
+        }
+        catch(Exception e){
+            assertEquals("Error: item cannot be added add/removed from recipe", e.getMessage());
+        }
+        assertEquals(1, recipe.items.size());
+        assertEquals(3, recipe.items.get(item2).intValue());
+        assertFalse(recipe.items.containsKey(item1));
+
+        //Test 6 Remove quantity greater than current existing quantity
+        in = new ByteArrayInputStream("remove 4".getBytes());
+        scanner = new Scanner(in);
+        try {
+            app.editRecipe(recipe, item2, scanner);
+        }
+        catch(Exception e){
+            assertEquals("Error: item cannot be added add/removed from recipe", e.getMessage());
+        }
+        assertEquals(1, recipe.items.size());
+        assertEquals(3, recipe.items.get(item2).intValue());
+        assertFalse(recipe.items.containsKey(item1));
+
+        //Test 7 Remove item partially from recipe
+        in = new ByteArrayInputStream("remove 2".getBytes());
+        scanner = new Scanner(in);
+        try {
+            app.editRecipe(recipe, item2, scanner);
+        }
+        catch(Exception e){
+            assertEquals("Error: item cannot be added add/removed from recipe", e.getMessage());
+        }
+        assertEquals(1, recipe.items.size());
+        assertEquals(1, recipe.items.get(item2).intValue());
+
+        //Test 8 Remove 0 quantity from recipe
+        in = new ByteArrayInputStream("remove 0".getBytes());
+        scanner = new Scanner(in);
+        try {
+            app.editRecipe(recipe, item2, scanner);
+        }
+        catch(Exception e){
+            assertEquals("Error: item cannot be added add/removed from recipe", e.getMessage());
+        }
+        assertEquals(1, recipe.items.size());
+        assertEquals(1, recipe.items.get(item2).intValue());
+
+        //Test 9 Rename recipe to valid name
+        in = new ByteArrayInputStream("rename 'super apple pie'".getBytes());
+        scanner = new Scanner(in);
+        try {
+            app.editRecipe(recipe, scanner);
+        }
+        catch(Exception e){
+            assertEquals("Error: could not rename recipe", e.getMessage());
+        }
+        assertEquals("super apple pie", recipe.getName());
+
+        //Test 10 Rename recipe to empty string
+        in = new ByteArrayInputStream("rename ''".getBytes());
+        scanner = new Scanner(in);
+        try {
+            app.editRecipe(recipe, scanner);
+        }
+        catch(Exception e){
+            assertEquals("Error: could not rename recipe", e.getMessage());
+        }
+
+        assertEquals("super apple pie", recipe.getName());
+
+        //Test 11 Rename recipe to string > 40 char
+        in = new ByteArrayInputStream("rename 'appleappleappleappleappleappleappleapple1'".getBytes());
+        scanner = new Scanner(in);
+        try {
+            app.editRecipe(recipe, scanner);
+        }
+        catch(Exception e){
+            assertEquals("Error: could not rename recipe", e.getMessage());
+        }
+        assertEquals("super apple pie", recipe.getName());
+
+        //Test 12 Enter invalid rename command
+        in = new ByteArrayInputStream("relabel 'apple juice'".getBytes());
+        scanner = new Scanner(in);
+        try {
+            app.editRecipe(recipe, scanner);
+        }
+        catch(Exception e){
+            assertEquals("Error: could not rename recipe", e.getMessage());
+        }
+        assertEquals("super apple pie", recipe.getName());
+
+        //Test 13 Invalid command input
+        in = new ByteArrayInputStream("foo 2".getBytes());
+        scanner = new Scanner(in);
+        try {
+            app.editRecipe(recipe, item2, scanner);
+        }
+        catch(Exception e){
+            assertEquals("Error: item cannot be added add/removed from recipe", e.getMessage());
+        }
+        assertEquals(1, recipe.items.size());
+        assertEquals(1, recipe.items.get(item2).intValue());
+
+        //Test 14 Invalid remove command input
+        in = new ByteArrayInputStream("remove apple".getBytes());
+        scanner = new Scanner(in);
+        try {
+            app.editRecipe(recipe, item2, scanner);
+        }
+        catch(Exception e){
+            assertEquals("Error: item cannot be added add/removed from recipe", e.getMessage());
+        }
+        assertEquals(1, recipe.items.size());
+        assertEquals(1, recipe.items.get(item2).intValue());
+
+        //Test 15 Invalid add command input
+        in = new ByteArrayInputStream("add apple".getBytes());
+        scanner = new Scanner(in);
+        try {
+            app.editRecipe(recipe, item2, scanner);
+        }
+        catch(Exception e){
+            assertEquals("Error: item cannot be added add/removed from recipe", e.getMessage());
+        }
+        assertEquals(1, recipe.items.size());
+        assertEquals(1, recipe.items.get(item2).intValue());
+
+        //Test 16 Enter invalid rename command with < 40 char
+        in = new ByteArrayInputStream("relabel 'appleappleappleappleappleappleappleapple1'".getBytes());
+        scanner = new Scanner(in);
+        try {
+            app.editRecipe(recipe, scanner);
+        }
+        catch(Exception e){
+            assertEquals("Error: could not rename recipe", e.getMessage());
+        }
+        assertEquals("super apple pie", recipe.getName());
+
+        //Test 11 Rename recipe to string > 40 char with invalid command
+        in = new ByteArrayInputStream("relabel 'appleappleappleappleappleappleappleapple1'".getBytes());
+        scanner = new Scanner(in);
+        try {
+            app.editRecipe(recipe, scanner);
+        }
+        catch(Exception e){
+            assertEquals("Error: could not rename recipe", e.getMessage());
+        }
+        assertEquals("super apple pie", recipe.getName());
+    }
 }
