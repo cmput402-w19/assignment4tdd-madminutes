@@ -51,7 +51,12 @@ public class RecipeTest extends TestCase {
         assertEquals(1, recipe.items.get(item2).intValue());
 
         //Test 3c: Add existing item with specified quantity to existing recipe map
-        recipe.add(item2, 3);
+        try{
+            recipe.add(item2, 3);
+        }
+        catch(Exception e){
+            assertEquals("Error: item cannot be added", e.getMessage());
+        }
         assertEquals(2, recipe.items.size());
         assertEquals(4, recipe.items.get(item2).intValue());
 
@@ -60,7 +65,7 @@ public class RecipeTest extends TestCase {
             recipe.add(item3, 0);
         }
         catch(Exception e){
-            assertEquals("java.lang.RuntimeException: Error: item cannot be added", e.toString());
+            assertEquals("Error: item cannot be added", e.getMessage());
         }
         assertEquals(2, recipe.items.size());
         assertEquals(null, recipe.items.get(item3));
@@ -70,14 +75,19 @@ public class RecipeTest extends TestCase {
             recipe.add(item3, -1);
         }
         catch(Exception e){
-            assertEquals("java.lang.RuntimeException: Error: item cannot be added", e.toString());
+            assertEquals("Error: item cannot be added", e.getMessage());
         }
         assertEquals(2, recipe.items.size());
         assertEquals(null, recipe.items.get(item3));
 
 
         //Test 3e: Adding 1 ingredient using add(item, int) method
-        recipe.add(item4, 1);
+        try {
+            recipe.add(item4, 1);
+        }
+        catch(Exception e){
+            assertEquals("Error: item cannot be added", e.getMessage());
+        }
         assertEquals(3, recipe.items.size());
         assertEquals(1, recipe.items.get(item4).intValue());
 
@@ -87,7 +97,7 @@ public class RecipeTest extends TestCase {
             recipe.add(item4, -1);
         }
         catch(Exception e){
-            assertEquals("java.lang.RuntimeException: Error: item cannot be added", e.toString());
+            assertEquals("Error: item cannot be added", e.getMessage());
         }
         assertEquals(3, recipe.items.size());
         assertEquals(1, recipe.items.get(item4).intValue());
@@ -100,12 +110,21 @@ public class RecipeTest extends TestCase {
         Boolean status;
         Recipe recipe = new Recipe("Apple Pie");
 
-        recipe.add(item1, 5);
-        recipe.add(item2, 5);
-        recipe.add(item3, 5);
-
+        try {
+            recipe.add(item1, 5);
+            recipe.add(item2, 5);
+            recipe.add(item3, 5);
+        }
+        catch(Exception e){
+            assertEquals("Error: item cannot be added", e.getMessage());
+        }
         //Test 4a: Remove ingredient from recipe
-        recipe.remove(item1);
+        try {
+            recipe.remove(item1);
+        }
+        catch(Exception e){
+            assertEquals("Error: item cannot be removed from recipe", e.getMessage());
+        }
         assertEquals(2, recipe.items.size());
         assertEquals(null, recipe.items.get(item1));
 
@@ -114,7 +133,7 @@ public class RecipeTest extends TestCase {
             recipe.remove(item4);
         }
         catch(Exception e){
-            assertEquals("java.lang.RuntimeException: Error: item cannot be removed from recipe", e.toString());
+            assertEquals("Error: item cannot be removed from recipe", e.getMessage());
         }
         assertEquals(2, recipe.items.size());
         assertEquals(null, recipe.items.get(item4));
@@ -125,7 +144,7 @@ public class RecipeTest extends TestCase {
             recipe.remove(item2, 7);
         }
         catch(Exception e){
-            assertEquals("java.lang.RuntimeException: Error: item cannot be removed from recipe", e.toString());
+            assertEquals("Error: item cannot be removed from recipe", e.getMessage());
         }
         assertEquals(2, recipe.items.size());
         assertEquals(5, recipe.items.get(item2).intValue());
@@ -135,7 +154,7 @@ public class RecipeTest extends TestCase {
             recipe.remove(item2, 0);
         }
         catch(Exception e){
-            assertEquals("java.lang.RuntimeException: Error: item cannot be removed from recipe", e.toString());
+            assertEquals("Error: item cannot be removed from recipe", e.getMessage());
         }
         assertEquals(2, recipe.items.size());
         assertEquals(5, recipe.items.get(item2).intValue());
@@ -145,18 +164,28 @@ public class RecipeTest extends TestCase {
             recipe.remove(item2, -1);
         }
         catch(Exception e){
-            assertEquals("java.lang.RuntimeException: Error: item cannot be removed from recipe", e.toString());
+            assertEquals("Error: item cannot be removed from recipe", e.getMessage());
         }
         assertEquals(2, recipe.items.size());
         assertEquals(5, recipe.items.get(item2).intValue());
 
         //Test 4f: Remove partial amount of ingredient from total quantity
-        recipe.remove(item2, 3);
+        try {
+            recipe.remove(item2, 3);
+        }
+        catch(Exception e){
+            assertEquals("Error: item cannot be removed from recipe", e.getMessage());
+        }
         assertEquals(2, recipe.items.size());
         assertEquals(2, recipe.items.get(item2).intValue());
 
         //Test 4g: Remove remaining amount of ingredient
-        recipe.remove(item2, 2);
+        try {
+            recipe.remove(item2, 2);
+        }
+        catch(Exception e){
+            assertEquals("Error: item cannot be removed from recipe", e.getMessage());
+        }
         assertEquals(1, recipe.items.size());
         assertEquals(null, recipe.items.get(item2));
 
@@ -165,7 +194,7 @@ public class RecipeTest extends TestCase {
             recipe.remove(item4, 3);
         }
         catch(Exception e){
-            assertEquals("java.lang.RuntimeException: Error: item cannot be removed from recipe", e.toString());
+            assertEquals("Error: item cannot be removed from recipe", e.getMessage());
         }
         assertEquals(1, recipe.items.size());
         assertEquals(null, recipe.items.get(item4));
@@ -175,7 +204,7 @@ public class RecipeTest extends TestCase {
             recipe.remove(item3, 0);
         }
         catch(Exception e){
-            assertEquals("java.lang.RuntimeException: Error: item cannot be removed from recipe", e.toString());
+            assertEquals("Error: item cannot be removed from recipe", e.getMessage());
         }
         assertEquals(1, recipe.items.size());
         assertEquals(5, recipe.items.get(item3).intValue());
@@ -185,7 +214,7 @@ public class RecipeTest extends TestCase {
             recipe.remove(item3, 7);
         }
         catch(Exception e){
-            assertEquals("java.lang.RuntimeException: Error: item cannot be removed from recipe", e.toString());
+            assertEquals("Error: item cannot be removed from recipe", e.getMessage());
         }
         assertEquals(1, recipe.items.size());
         assertEquals(5, recipe.items.get(item3).intValue());
@@ -197,9 +226,14 @@ public class RecipeTest extends TestCase {
         Recipe recipe2 = new Recipe("");
 
         //Adding ingredients for apple pie
-        recipe.add(item1, 3);
-        recipe.add(item2, 2);
-        recipe.add(item3, 1);
+        try {
+            recipe.add(item1, 3);
+            recipe.add(item2, 2);
+            recipe.add(item3, 1);
+        }
+        catch(Exception e){
+            assertEquals("Error: item cannot be removed from recipe", e.getMessage());
+        }
 
         //Test 5a: Test empty recipe
         String out = "\n";
