@@ -1,10 +1,18 @@
 package cmput402.tdd;
 import java.util.Scanner;
+import org.apache.commons.collections4.map.LinkedMap;
 
 public class App {
 
-
+    public LinkedMap<String, Person> people = new LinkedMap<String, Person>();
+    
     public Item createItem(Scanner input) throws Exception{
+
+    public LinkedMap<String, Person> getPeople() {
+        return people;
+    }
+
+    public Item createItem(Scanner input) throws Exception {
         String name = input.nextLine();
         String str_cost = input.nextLine();
         float cost = 0;
@@ -37,7 +45,7 @@ public class App {
         return item;
     }
     
-    public ShoppingList createShoppingList(Scanner input) throws Exception{
+    public ShoppingList createShoppingList(Scanner input) throws Exception {
         String name = input.nextLine();
 
         if (name.length() == 0){
@@ -49,6 +57,8 @@ public class App {
        ShoppingList shoppingList = new ShoppingList(name);
         return shoppingList;
     }
+
+    public String displayPeople(){return null;}
 
     // source: https://stackoverflow.com/questions/9553354/how-do-i-get-the-decimal-places-of-a-floating-point-number-in-javascript
     private int precision(float  a) {

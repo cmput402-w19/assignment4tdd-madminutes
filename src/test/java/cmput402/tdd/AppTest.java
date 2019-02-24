@@ -113,4 +113,13 @@ public class AppTest extends TestCase{
         }
     }
 
+    @Test
+    public void testDisplayPeople() {
+        App app = new App();
+        String out = String.format("%d %20s %7s\n", "Id","Name","# Lists");
+        assertEquals(app.displayPeople(), out);
+        app.getPeople().
+        out += String.format("%d %20s %7d\n", "1", "John", "1");
+    }
+
 }
