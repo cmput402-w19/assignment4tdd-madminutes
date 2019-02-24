@@ -332,5 +332,16 @@ public class AppTest extends TestCase{
             assertEquals("Error: could not rename recipe", e.getMessage());
         }
         assertEquals("super apple pie", recipe.getName());
+
+        //Test 11 Rename recipe to string > 40 char with invalid command
+        in = new ByteArrayInputStream("relabel 'appleappleappleappleappleappleappleapple1'".getBytes());
+        scanner = new Scanner(in);
+        try {
+            app.editRecipe(recipe, scanner);
+        }
+        catch(Exception e){
+            assertEquals("Error: could not rename recipe", e.getMessage());
+        }
+        assertEquals("super apple pie", recipe.getName());
     }
 }

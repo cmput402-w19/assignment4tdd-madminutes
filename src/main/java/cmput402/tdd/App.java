@@ -71,7 +71,7 @@ public class App {
         String action = command.substring(0,spaceIndex);
         String param = command.substring(spaceIndex+2, command.length()-1);
 
-        if(param.length() < 0 || param.length() > 40){
+        if(param.length() <= 0 || param.length() > 40){
             throw new Exception("Error: could not rename recipe");
         }
         else if(param.length() > 0 && param.length() < 40 && action.equals("rename")){
@@ -104,7 +104,7 @@ public class App {
                 recipe.remove(item, paramInt);
             }
 
-            if(recipe.items.get(item) == paramInt && paramInt > 0){
+            if(recipe.items.get(item) == paramInt){
                 recipe.remove(item);
             }
 
