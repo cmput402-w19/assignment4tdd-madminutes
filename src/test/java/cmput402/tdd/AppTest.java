@@ -210,6 +210,81 @@ public class AppTest {
     }
 
     @Test
+    public void testCreateShoppingList() {
+        App app = new App();
+        ShoppingList shoppingList;
+        
+        //Test1: correct input
+        ByteArrayInputStream in = new ByteArrayInputStream("list1\n".getBytes());
+        Scanner scanner = new Scanner(in); 
+        try{
+            shoppingList = app.createShoppingList(scanner);
+            Assert.assertNotNull(shoppingList);
+            assertEquals(shoppingList.getName(), "list1");
+        } catch (Exception e) {
+            Assert.fail();
+        }
+
+        //Test2: empty name given
+        in = new ByteArrayInputStream("\n 2.88.8".getBytes());
+        scanner = new Scanner(in); 
+        try{
+            shoppingList = app.createShoppingList(scanner);
+            Assert.fail();
+        } catch (Exception e){
+            assertEquals("Name cannot be empty.", e.getMessage());
+        }
+
+        //Test3: list name > 20 characters given
+        in = new ByteArrayInputStream("list11111111111111111\n2\n".getBytes());
+        scanner = new Scanner(in); 
+        try{
+            shoppingList = app.createShoppingList(scanner);
+            Assert.fail();
+        } catch (Exception e){
+            assertEquals("ShoppingList name cannot be longer than 20 characters.", e.getMessage());
+        }
+    }
+
+    @Test
+    public void testCreateRecipe() {
+        App app = new App();
+        Recipe recipe;
+        
+        //Test1: correct input
+        ByteArrayInputStream in = new ByteArrayInputStream("recipe1\n".getBytes());
+        Scanner scanner = new Scanner(in); 
+        try{
+            recipe = app.createRecipe(scanner);
+            Assert.assertNotNull(recipe);
+            assertEquals(recipe.getName(), "recipe1");
+        } catch (Exception e) {
+            Assert.fail();
+        }
+
+        //Test2: empty name given
+        in = new ByteArrayInputStream("\n".getBytes());
+        scanner = new Scanner(in); 
+        try{
+            recipe = app.createRecipe(scanner);
+            fail();
+        } catch (Exception e){
+            assertEquals("Name cannot be empty.", e.getMessage());
+        }
+
+        //Test3: list name > 20 characters given
+        in = new ByteArrayInputStream("recipe11111111111111111333333333333333333333\n2\n".getBytes());
+        scanner = new Scanner(in); 
+        try{
+            shoppingList = app.createShoppingList(scanner);
+            Assert.fail();
+        } catch (Exception e){
+            assertEquals("Recipe name cannot be longer than 40 characters.", e.getMessage());
+        }
+    }
+
+
+    @Test
     public void testDisplayPeople() {
         App app = new App();
         Person person = new Person("John");
@@ -226,5 +301,4 @@ public class AppTest {
         assertEquals(app.displayPeople(), out);
         
     }
-
 }
