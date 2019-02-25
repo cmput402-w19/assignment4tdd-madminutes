@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.util.Scanner;
 import java.io.ByteArrayInputStream;
+import static org.junit.Assert.fail;
 
 import static org.junit.Assert.assertEquals;
 
@@ -210,43 +211,6 @@ public class AppTest {
     }
 
     @Test
-    public void testCreateShoppingList() {
-        App app = new App();
-        ShoppingList shoppingList;
-        
-        //Test1: correct input
-        ByteArrayInputStream in = new ByteArrayInputStream("list1\n".getBytes());
-        Scanner scanner = new Scanner(in); 
-        try{
-            shoppingList = app.createShoppingList(scanner);
-            Assert.assertNotNull(shoppingList);
-            assertEquals(shoppingList.getName(), "list1");
-        } catch (Exception e) {
-            Assert.fail();
-        }
-
-        //Test2: empty name given
-        in = new ByteArrayInputStream("\n 2.88.8".getBytes());
-        scanner = new Scanner(in); 
-        try{
-            shoppingList = app.createShoppingList(scanner);
-            Assert.fail();
-        } catch (Exception e){
-            assertEquals("Name cannot be empty.", e.getMessage());
-        }
-
-        //Test3: list name > 20 characters given
-        in = new ByteArrayInputStream("list11111111111111111\n2\n".getBytes());
-        scanner = new Scanner(in); 
-        try{
-            shoppingList = app.createShoppingList(scanner);
-            Assert.fail();
-        } catch (Exception e){
-            assertEquals("ShoppingList name cannot be longer than 20 characters.", e.getMessage());
-        }
-    }
-
-    @Test
     public void testCreateRecipe() {
         App app = new App();
         Recipe recipe;
@@ -272,11 +236,11 @@ public class AppTest {
             assertEquals("Name cannot be empty.", e.getMessage());
         }
 
-        //Test3: list name > 20 characters given
-        in = new ByteArrayInputStream("recipe11111111111111111333333333333333333333\n2\n".getBytes());
+        //Test3: list name > 40 characters given
+        in = new ByteArrayInputStream("12121212121212121212121212121212121212121\n2\n".getBytes());
         scanner = new Scanner(in); 
         try{
-            shoppingList = app.createShoppingList(scanner);
+            recipe = app.createRecipe(scanner);
             Assert.fail();
         } catch (Exception e){
             assertEquals("Recipe name cannot be longer than 40 characters.", e.getMessage());
