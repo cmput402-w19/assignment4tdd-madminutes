@@ -280,8 +280,14 @@ public class App {
     }
 
     public Recipe getRecipe(Scanner input, Person person) throws Exception{
+        System.out.println("Enter the name of the recipe you wish to edit: ");
+        String recipeName = input.nextLine();
 
-        return null;
+        LinkedMap<String, Recipe> recipeList = person.getRecipes();
+        if(!recipeList.containsKey(recipeName)) {
+            throw new Exception("Recipe does not exist.");
+        }
+        return recipeList.get(recipeName);
     }
 
     public String displayPeople() {
