@@ -158,6 +158,76 @@ public class App {
         }
 
     }
+    public void editRecipe(Scanner input, Recipe recipe) throws Exception{
+        clearConsole();
+        System.out.println("Please select an option to edit your recipe:");
+        System.out.println("command format (ignore bracket): (add 1) (remove 5) (rename \"apples\")");
+        System.out.println("*add\n*remove\n*rename\n");
+        int quantity;
+        Item item;
+        String param;
+        String command = input.nextLine();
+        /*
+        Eg:
+        command = add 5
+
+        function will split command into variables action and param
+        action = add
+        quantity = 5
+         */
+        int spaceIndex = command.indexOf(" ");
+        if(spaceIndex == -1){
+            throw new Exception("Invalid command format");
+        }
+        String action = command.substring(0, spaceIndex);
+
+        if(action.equals("add") || action.equals("remove")) {
+            param = command.substring(spaceIndex + 1, command.length());
+            try{
+                quantity = Integer.parseInt(param);
+            }
+            catch(Exception e){
+                throw new Exception("Please enter a positive whole number for quantity");
+            }
+            try{
+                item = createItem(input);
+            }
+            catch (Exception e) {
+                throw new Exception("Failed to create item for recipe");
+            }
+            if(action.equals("add")){
+                if(quantity > 0){
+                    recipe.add(item, quantity);
+                    System.out.println("Added "+param+" "+item.getName()+" to recipe successfully");
+                }
+                else{
+                    throw new Exception("Quantity must be above 0");
+                }
+
+            }
+            else if(action.equals("remove")){
+                if(quantity >= 0 && recipe.items.get(item) >= quantity){
+                    recipe.remove(item, quantity);
+                    System.out.println("Removed "+param+" "+item.getName()+" from recipe successfully");
+                }
+                else{
+                    throw new Exception("Cannot remove negative quantity or greater than existing amount from recipe");
+                }
+            }
+        }
+        else if(action.equals("rename")){
+            param = command.substring(spaceIndex+2, command.length()-1);
+            if(param.length() <= 0 || param.length() > 40){
+                throw new Exception("Recipe name cannot be blank or greater than 40 letters");
+            }
+            else {
+                recipe.setName(param);
+            }
+        }
+        else {
+            throw new Exception("Invalid command");
+        }
+    }
 
     public Recipe createRecipe(Scanner input) throws Exception {
         String name = input.nextLine();

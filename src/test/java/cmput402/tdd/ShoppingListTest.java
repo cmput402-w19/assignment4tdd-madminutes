@@ -1,6 +1,7 @@
 package cmput402.tdd;
 
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -213,18 +214,23 @@ public class ShoppingListTest {
 
         Recipe recipe3 = new Recipe("Apple Juice");
 
-        //Adding ingredients for apple pie
-        recipe1.add(item1, 3);
-        recipe1.add(item2, 2);
-        recipe1.add(item3, 1);
+        try {
+            //Adding ingredients for apple pie
+            recipe1.add(item1, 3);
+            recipe1.add(item2, 2);
+            recipe1.add(item3, 1);
 
-        //Adding ingredients for lemonade
-        recipe2.add(item4, 3);
-        recipe2.add(item5, 2);
+            //Adding ingredients for lemonade
+            recipe2.add(item4, 3);
+            recipe2.add(item5, 2);
 
-        //Adding ingredients for apple juice
-        recipe3.add(item5, 2);
-        recipe3.add(item1, 4);
+            //Adding ingredients for apple juice
+            recipe3.add(item5, 2);
+            recipe3.add(item1, 4);
+        }
+        catch(Exception e){
+            Assert.fail();
+        }
 
         //Test 5a: Add recipe to empty shopping list
         list.addToShoppingList(recipe1);
@@ -255,21 +261,26 @@ public class ShoppingListTest {
         Recipe recipe4 = new Recipe("Empty Recipe");
         Recipe recipe5 = new Recipe("Special Recipe");
 
-        //Adding ingredients for apple pie
-        recipe1.add(item1, 3);
-        recipe1.add(item2, 2);
-        recipe1.add(item3, 1);
+        try {
+            //Adding ingredients for apple pie
+            recipe1.add(item1, 3);
+            recipe1.add(item2, 2);
+            recipe1.add(item3, 1);
 
-        //Adding ingredients for lemonade
-        recipe2.add(item4, 3);
-        recipe2.add(item5, 2);
+            //Adding ingredients for lemonade
+            recipe2.add(item4, 3);
+            recipe2.add(item5, 2);
 
-        //Adding ingredients for apple juice
-        recipe3.add(item5, 2);
-        recipe3.add(item1, 4);
+            //Adding ingredients for apple juice
+            recipe3.add(item5, 2);
+            recipe3.add(item1, 4);
 
-        //Adding ingredients for special recipe
-        recipe5.add(item1, 3);
+            //Adding ingredients for special recipe
+            recipe5.add(item1, 3);
+        }
+        catch(Exception e){
+            Assert.fail();
+        }
 
         list.addToShoppingList(recipe1);
         list.addToShoppingList(recipe2);
@@ -304,14 +315,24 @@ public class ShoppingListTest {
         assertEquals(false, list.getItems().containsKey(item3));
         //Test 6e: Remove recipe with ingredients which do not exist in shopping list
         list.addToShoppingList(recipe5);
-        recipe5.add(item2, 2);
+        try {
+            recipe5.add(item2, 2);
+        }
+        catch(Exception e){
+            Assert.fail();
+        }
         list.removeFromShoppingList(recipe5);
         assertEquals(false, list.getItems().containsKey(item1));
         assertEquals(false, list.getItems().containsKey(item2));
 
         //Test 6f: Remove recipe with ingredients more than amount existing in shopping list
         list.addToShoppingList(recipe5);
-        recipe5.add(item1, 2);
+        try {
+            recipe5.add(item1, 2);
+        }
+        catch(Exception e){
+            Assert.fail();
+        }
         list.removeFromShoppingList(recipe5);
         assertEquals(true, list.getItems().containsKey(item1));
         assertEquals(3, list.getItems().get(item1).intValue());
