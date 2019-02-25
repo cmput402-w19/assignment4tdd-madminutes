@@ -1,7 +1,10 @@
 package cmput402.tdd;
 
+import org.apache.commons.collections4.map.LinkedMap;
 import org.junit.Assert;
 import org.junit.Test;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 import java.util.Scanner;
 import java.io.ByteArrayInputStream;
@@ -9,8 +12,19 @@ import static org.junit.Assert.fail;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.mockito.Mockito.*;
 
 public class AppTest {
+
+//    private Item createTestItem(String name, Float cost) {
+//        Item item = mock(Item.class); // new Item(name, cost));
+//        when(item.getName()).thenReturn(name);
+//        when(item.getCost()).thenReturn(cost);
+//        return item;
+//    }
+//
+//    private Item item1 = createTestItem("apple", 4.0f);
+//    private Item item2 = createTestItem("sugar", 2.0f);
 
     @Test
     public void testCreateItem() {
@@ -210,42 +224,42 @@ public class AppTest {
         assertEquals(1, person.getShoppingLists().get("list1").getItems().size());
     }
 
-//    @Test
-//    public void testCreateRecipe() {
-//        App app = new App();
-//        Recipe recipe;
-//
-//        //Test1: correct input
-//        ByteArrayInputStream in = new ByteArrayInputStream("recipe1\n".getBytes());
-//        Scanner scanner = new Scanner(in);
-//        try{
-//            recipe = app.createRecipe(scanner);
-//            Assert.assertNotNull(recipe);
-//            assertEquals(recipe.getName(), "recipe1");
-//        } catch (Exception e) {
-//            Assert.fail();
-//        }
-//
-//        //Test2: empty name given
-//        in = new ByteArrayInputStream("\n".getBytes());
-//        scanner = new Scanner(in);
-//        try{
-//            recipe = app.createRecipe(scanner);
-//            fail();
-//        } catch (Exception e){
-//            assertEquals("Name cannot be empty.", e.getMessage());
-//        }
-//
-//        //Test3: list name > 40 characters given
-//        in = new ByteArrayInputStream("12121212121212121212121212121212121212121\n2\n".getBytes());
-//        scanner = new Scanner(in);
-//        try{
-//            recipe = app.createRecipe(scanner);
-//            Assert.fail();
-//        } catch (Exception e){
-//            assertEquals("Recipe name cannot be longer than 40 characters.", e.getMessage());
-//        }
-//    }
+    @Test
+    public void testCreateRecipe() {
+        App app = new App();
+        Recipe recipe;
+
+        //Test1: correct input
+        ByteArrayInputStream in = new ByteArrayInputStream("recipe1\n".getBytes());
+        Scanner scanner = new Scanner(in);
+        try{
+            recipe = app.createRecipe(scanner);
+            Assert.assertNotNull(recipe);
+            assertEquals(recipe.getName(), "recipe1");
+        } catch (Exception e) {
+            Assert.fail();
+        }
+
+        //Test2: empty name given
+        in = new ByteArrayInputStream("\n".getBytes());
+        scanner = new Scanner(in);
+        try{
+            recipe = app.createRecipe(scanner);
+            fail();
+        } catch (Exception e){
+            assertEquals("Name cannot be empty.", e.getMessage());
+        }
+
+        //Test3: list name > 40 characters given
+        in = new ByteArrayInputStream("12121212121212121212121212121212121212121\n2\n".getBytes());
+        scanner = new Scanner(in);
+        try{
+            recipe = app.createRecipe(scanner);
+            Assert.fail();
+        } catch (Exception e){
+            assertEquals("Recipe name cannot be longer than 40 characters.", e.getMessage());
+        }
+    }
 
 
     @Test
@@ -281,7 +295,7 @@ public class AppTest {
             app.editRecipe(scanner, recipe);
         }
         catch(Exception e){
-            Assert.fail();
+            fail();
         }
         assertEquals(1, recipe.items.size());
         assertEquals(1, recipe.items.get(item1).intValue());
@@ -347,7 +361,7 @@ public class AppTest {
             Assert.fail();
         }
         catch(Exception e){
-            assertEquals("Could not remove item from recipe", e.getMessage());
+            assertEquals("Cannot remove negative quantity or greater than existing amount from recipe", e.getMessage());
         }
         assertEquals(1, recipe.items.size());
         assertEquals(3, recipe.items.get(item2).intValue());
@@ -399,7 +413,7 @@ public class AppTest {
             Assert.fail();
         }
         catch(Exception e){
-            assertEquals("could not rename recipe", e.getMessage());
+            assertEquals("Recipe name cannot be blank or greater than 40 letters", e.getMessage());
         }
 
         assertEquals("super apple pie", recipe.getName());
@@ -412,7 +426,7 @@ public class AppTest {
             Assert.fail();
         }
         catch(Exception e){
-            assertEquals("could not rename recipe", e.getMessage());
+            assertEquals("Recipe name cannot be blank or greater than 40 letters", e.getMessage());
         }
         assertEquals("super apple pie", recipe.getName());
 

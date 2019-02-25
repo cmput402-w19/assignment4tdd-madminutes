@@ -66,7 +66,7 @@ public class RecipeTest extends TestCase {
             recipe.add(item3, 0);
         }
         catch(Exception e){
-            assertEquals("item cannot be added", e.getMessage());
+            assertEquals("Cannot add negative quantity of items", e.getMessage());
         }
         assertEquals(2, recipe.items.size());
         assertEquals(null, recipe.items.get(item3));
@@ -76,7 +76,7 @@ public class RecipeTest extends TestCase {
             recipe.add(item3, -1);
         }
         catch(Exception e){
-            assertEquals("item cannot be added", e.getMessage());
+            assertEquals("Cannot add negative quantity of items", e.getMessage());
         }
         assertEquals(2, recipe.items.size());
         assertEquals(null, recipe.items.get(item3));
@@ -98,7 +98,7 @@ public class RecipeTest extends TestCase {
             recipe.add(item4, -1);
         }
         catch(Exception e){
-            assertEquals("item cannot be added", e.getMessage());
+            assertEquals("Cannot add negative quantity of items", e.getMessage());
         }
         assertEquals(3, recipe.items.size());
         assertEquals(1, recipe.items.get(item4).intValue());

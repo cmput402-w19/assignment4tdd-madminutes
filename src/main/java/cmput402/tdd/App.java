@@ -211,14 +211,14 @@ public class App {
                     System.out.println("Removed "+param+" "+item.getName()+" from recipe successfully");
                 }
                 else{
-                    throw new Exception("Could not remove item from recipe");
+                    throw new Exception("Cannot remove negative quantity or greater than existing amount from recipe");
                 }
             }
         }
         else if(action.equals("rename")){
             param = command.substring(spaceIndex+2, command.length()-1);
             if(param.length() <= 0 || param.length() > 40){
-                throw new Exception("could not rename recipe");
+                throw new Exception("Recipe name cannot be blank or greater than 40 letters");
             }
             else {
                 recipe.setName(param);
@@ -227,6 +227,19 @@ public class App {
         else {
             throw new Exception("Invalid command");
         }
+    }
+
+    public Recipe createRecipe(Scanner input) throws Exception {
+        String name = input.nextLine();
+
+        if (name.length() == 0){
+            throw new Exception("Name cannot be empty.");
+        }
+        if (name.length() > 40){
+            throw new Exception("Recipe name cannot be longer than 40 characters.");
+        }
+        Recipe recipe = new Recipe(name);
+        return recipe;
     }
 
     public String displayPeople() {

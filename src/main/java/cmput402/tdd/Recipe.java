@@ -28,7 +28,7 @@ public class Recipe {
             items.put(item, items.get(item)+quantity);
         }
         else{
-            throw new Exception("item cannot be added");
+            throw new Exception("Cannot add negative quantity of items");
         }
     }
     public void add(Item item){
