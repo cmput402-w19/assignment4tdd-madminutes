@@ -295,7 +295,6 @@ public class AppTest extends TestCase{
             assertEquals("Error: Could not remove item from recipe", e.getMessage());
         }
         assertEquals(1, recipe.items.size());
-        System.out.println("@@@@@@@@@@@@");
         assertEquals(3, recipe.items.get(item2).intValue());
         assertFalse(recipe.items.containsKey(item1));
 
@@ -394,7 +393,6 @@ public class AppTest extends TestCase{
         assertEquals(1, recipe.items.get(item2).intValue());
 
         //Test 14 Invalid remove command input
-        System.out.println("@@@@@@@@@");
         in = new ByteArrayInputStream("delete apple\nsugar\n2.0".getBytes());
         scanner = new Scanner(in);
         try {
@@ -441,13 +439,13 @@ public class AppTest extends TestCase{
         assertEquals("super apple pie", recipe.getName());
 
         //Test 18 Create invalid item to add
-        in = new ByteArrayInputStream("add apple\n\n2.0".getBytes());
+        in = new ByteArrayInputStream("add 2\n\n2.5".getBytes());
         scanner = new Scanner(in);
         try {
             app.editRecipe(scanner, recipe);
         }
         catch(Exception e){
-            assertEquals("Error: Failed to parse string to int", e.getMessage());
+            assertEquals("Error: Failed to create item for recipe", e.getMessage());
         }
         assertEquals(1, recipe.items.size());
         assertEquals(1, recipe.items.get(item2).intValue());
