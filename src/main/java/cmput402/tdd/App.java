@@ -195,6 +195,7 @@ public class App {
     }
     public void editRecipe(Scanner input, Recipe recipe) throws Exception{
         clearConsole();
+
         System.out.println("Please select an option to edit your recipe:");
         System.out.println("command format (ignore bracket): (add 1) (remove 5) (rename \"recipe_name\")");
         System.out.println("*add\n*remove\n*rename\n");
@@ -290,7 +291,7 @@ public class App {
         return recipeList.get(recipeName);
     }
 
-    public void viewRecipes(Person person){
+    public void displayRecipes(Person person){
         System.out.println("\n"+person.getName()+" has the following recipes:\n");
         for (Map.Entry<String, Recipe> entry : person.getRecipes().entrySet()) {
             Recipe recipeObj = entry.getValue();

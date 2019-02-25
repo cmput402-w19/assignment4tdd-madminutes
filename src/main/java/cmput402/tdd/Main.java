@@ -54,16 +54,14 @@ public class Main {
                                          person.addRecipe(newRecipe);
                                         break;
                                     case 4:
+                                        app.displayRecipes(person);
                                         Recipe recipe = app.getRecipe(scanner, person);
                                         app.editRecipe(scanner, recipe);
                                         break;
                                     case 5:
-                                        app.viewRecipes(person);
-                                        break;
-                                    case 6:
                                         exitPersonMenu = true;
                                         break;
-                                    case 7:
+                                    case 6:
                                         exitApplication = true;
                                         break;
                                     default:
