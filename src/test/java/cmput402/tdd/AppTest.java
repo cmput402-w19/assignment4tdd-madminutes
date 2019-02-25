@@ -244,7 +244,7 @@ public class AppTest {
             app.editRecipe(scanner, recipe);
         }
         catch(Exception e){
-            assertEquals("Error: Could not add item to recipe", e.getMessage());
+            assertEquals("Could not add item to recipe", e.getMessage());
         }
         assertEquals(1, recipe.items.size());
         assertEquals(1, recipe.items.get(item1).intValue());
@@ -256,7 +256,7 @@ public class AppTest {
             app.editRecipe(scanner, recipe);
         }
         catch(Exception e){
-            assertEquals("Error: Could not add item to recipe", e.getMessage());
+            assertEquals("Could not add item to recipe", e.getMessage());
         }
         assertEquals(1, recipe.items.size());
         assertEquals(4, recipe.items.get(item1).intValue());
@@ -268,7 +268,7 @@ public class AppTest {
             app.editRecipe(scanner, recipe);
         }
         catch(Exception e){
-            assertEquals("Error: Could not add item to recipe", e.getMessage());
+            assertEquals("Could not add item to recipe", e.getMessage());
         }
         assertEquals(1, recipe.items.size());
         assertEquals(4, recipe.items.get(item1).intValue());
@@ -282,7 +282,7 @@ public class AppTest {
             app.editRecipe(scanner, recipe);
         }
         catch(Exception e){
-            assertEquals("Error: Could not add item to recipe", e.getMessage());
+            assertEquals("Could not add item to recipe", e.getMessage());
         }
         assertEquals(2, recipe.items.size());
         assertEquals(3, recipe.items.get(item2).intValue());
@@ -295,20 +295,21 @@ public class AppTest {
             app.editRecipe(scanner, recipe);
         }
         catch(Exception e){
-            assertEquals("Error: Could not remove item from recipe", e.getMessage());
+            assertEquals("Could not remove item from recipe", e.getMessage());
         }
         assertEquals(1, recipe.items.size());
         assertEquals(3, recipe.items.get(item2).intValue());
         assertFalse(recipe.items.containsKey(item1));
 
         //Test 6 Remove quantity greater than current existing quantity
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@");
         in = new ByteArrayInputStream("remove 4\nsugar\n2.0".getBytes());
         scanner = new Scanner(in);
         try {
             app.editRecipe(scanner, recipe);
         }
         catch(Exception e){
-            assertEquals("Error: Could not remove item from recipe", e.getMessage());
+            assertEquals("Could not remove item from recipe", e.getMessage());
         }
         assertEquals(1, recipe.items.size());
         assertEquals(3, recipe.items.get(item2).intValue());
@@ -321,7 +322,7 @@ public class AppTest {
             app.editRecipe(scanner, recipe);
         }
         catch(Exception e){
-            assertEquals("Error: Could not remove item from recipe", e.getMessage());
+            assertEquals("Could not remove item from recipe", e.getMessage());
         }
         assertEquals(1, recipe.items.size());
         assertEquals(1, recipe.items.get(item2).intValue());
@@ -333,7 +334,7 @@ public class AppTest {
             app.editRecipe(scanner, recipe);
         }
         catch(Exception e){
-            assertEquals("Error: Could not remove item from recipe", e.getMessage());
+            assertEquals("Could not remove item from recipe", e.getMessage());
         }
         assertEquals(1, recipe.items.size());
         assertEquals(1, recipe.items.get(item2).intValue());
@@ -345,7 +346,7 @@ public class AppTest {
             app.editRecipe(scanner, recipe);
         }
         catch(Exception e){
-            assertEquals("Error: could not rename recipe", e.getMessage());
+            assertEquals("could not rename recipe", e.getMessage());
         }
         assertEquals("super apple pie", recipe.getName());
 
@@ -356,7 +357,7 @@ public class AppTest {
             app.editRecipe(scanner, recipe);
         }
         catch(Exception e){
-            assertEquals("Error: could not rename recipe", e.getMessage());
+            assertEquals("could not rename recipe", e.getMessage());
         }
 
         assertEquals("super apple pie", recipe.getName());
@@ -368,7 +369,7 @@ public class AppTest {
             app.editRecipe(scanner, recipe);
         }
         catch(Exception e){
-            assertEquals("Error: could not rename recipe", e.getMessage());
+            assertEquals("could not rename recipe", e.getMessage());
         }
         assertEquals("super apple pie", recipe.getName());
 
@@ -379,18 +380,19 @@ public class AppTest {
             app.editRecipe(scanner, recipe);
         }
         catch(Exception e){
-            assertEquals("Error: Invalid command", e.getMessage());
+            assertEquals("Invalid command", e.getMessage());
         }
         assertEquals("super apple pie", recipe.getName());
 
         //Test 13 Invalid command input
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@");
         in = new ByteArrayInputStream("foo 2\nsugar\n2.0".getBytes());
         scanner = new Scanner(in);
         try {
             app.editRecipe(scanner, recipe);
         }
         catch(Exception e){
-            assertEquals("Error: Invalid command", e.getMessage());
+            assertEquals("Invalid command", e.getMessage());
         }
         assertEquals(1, recipe.items.size());
         assertEquals(1, recipe.items.get(item2).intValue());
@@ -402,7 +404,7 @@ public class AppTest {
             app.editRecipe(scanner, recipe);
         }
         catch(Exception e){
-            assertEquals("Error: Invalid command", e.getMessage());
+            assertEquals("Invalid command", e.getMessage());
         }
         assertEquals(1, recipe.items.size());
         assertEquals(1, recipe.items.get(item2).intValue());
@@ -414,7 +416,7 @@ public class AppTest {
             app.editRecipe(scanner, recipe);
         }
         catch(Exception e){
-            assertEquals("Error: Failed to parse string to int", e.getMessage());
+            assertEquals("Please enter a positive whole number for quantity", e.getMessage());
         }
         assertEquals(1, recipe.items.size());
         assertEquals(1, recipe.items.get(item2).intValue());
@@ -426,7 +428,7 @@ public class AppTest {
             app.editRecipe(scanner, recipe);
         }
         catch(Exception e){
-            assertEquals("Error: Invalid command", e.getMessage());
+            assertEquals("Invalid command", e.getMessage());
         }
         assertEquals("super apple pie", recipe.getName());
 
@@ -437,7 +439,7 @@ public class AppTest {
             app.editRecipe(scanner, recipe);
         }
         catch(Exception e){
-            assertEquals("Error: Invalid command", e.getMessage());
+            assertEquals("Invalid command", e.getMessage());
         }
         assertEquals("super apple pie", recipe.getName());
 
@@ -448,10 +450,35 @@ public class AppTest {
             app.editRecipe(scanner, recipe);
         }
         catch(Exception e){
-            assertEquals("Error: Failed to create item for recipe", e.getMessage());
+            assertEquals("Failed to create item for recipe", e.getMessage());
+        }
+        assertEquals(1, recipe.items.size());
+        assertEquals(1, recipe.items.get(item2).intValue());
+
+        //Test 19 Create invalid item to add
+        in = new ByteArrayInputStream("\n".getBytes());
+        scanner = new Scanner(in);
+        try {
+            app.editRecipe(scanner, recipe);
+        }
+        catch(Exception e){
+            assertEquals("Invalid command format", e.getMessage());
+        }
+        assertEquals(1, recipe.items.size());
+        assertEquals(1, recipe.items.get(item2).intValue());
+
+        //Test 20 Create invalid format for add command
+        in = new ByteArrayInputStream(" add\n".getBytes());
+        scanner = new Scanner(in);
+        try {
+            app.editRecipe(scanner, recipe);
+        }
+        catch(Exception e){
+            assertEquals("Invalid command", e.getMessage());
         }
         assertEquals(1, recipe.items.size());
         assertEquals(1, recipe.items.get(item2).intValue());
     }
+
 
 }
