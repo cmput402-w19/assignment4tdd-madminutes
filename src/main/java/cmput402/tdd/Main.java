@@ -11,7 +11,7 @@ public class Main {
         Person person = null;
 
         // Loop to get a person
-        while (person == null && !exitApplication) {
+        while (!exitApplication) {
             System.out.println("Choose from these choices");
             System.out.println("-------------------------\n");
             System.out.println("1 - Select a Person");
@@ -19,11 +19,13 @@ public class Main {
             System.out.println("3 - Quit");
 
             int choice = scanner.nextInt();
+            scanner.nextLine();
 
             switch (choice) {
                 case 1:
                     try {
                         person = app.getPerson(scanner, false);
+
                         // Loop to do actions on that person
                         while (!exitPersonMenu) {
                             System.out.println("Choose from these choices");
@@ -36,7 +38,7 @@ public class Main {
                             System.out.println("6 - Quit");
 
                             int option = scanner.nextInt();
-
+                            scanner.nextLine();
                             try {
                                 switch (option) {
                                     case 1:
@@ -47,10 +49,12 @@ public class Main {
                                         app.editShoppingList(scanner, shoppingList);
                                         break;
                                     case 3:
-                                        // app.createRecipe(scanner);
+                                         Recipe newRecipe = app.createRecipe(scanner);
+                                         person.addRecipe(newRecipe);
                                         break;
                                     case 4:
-                                        // app.editRecipe(scanner);
+                                        Recipe recipe = app.getRecipe(scanner, person);
+                                        app.editRecipe(scanner, recipe);
                                         break;
                                     case 5:
                                         exitPersonMenu = true;

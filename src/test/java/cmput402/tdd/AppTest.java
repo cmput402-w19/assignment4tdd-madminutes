@@ -604,4 +604,37 @@ public class AppTest {
         assertEquals(1, recipe.items.size());
         assertEquals(1, recipe.items.get(item2).intValue());
     }
+
+    @Test
+    public void testGetRecipe() {
+        App app = new App();
+        Recipe recipe;
+
+        Person person = mock(Person.class);
+        when(person.getRecipes()).thenReturn(new LinkedMap<String, Recipe>(){{
+            put("Test recipe", new Recipe("Test recipe"));
+        }}).thenReturn(new LinkedMap<String, Recipe>());
+
+        ByteArrayInputStream inputStream = new ByteArrayInputStream("Test recipe".getBytes());
+        Scanner scanner = new Scanner(inputStream);
+
+        // Successfully get recipe
+        try {
+            recipe = app.getRecipe(scanner, person);
+            assertEquals("Test recipe", recipe.getName());
+        } catch (Exception e) {
+            fail();
+        }
+
+        inputStream = new ByteArrayInputStream("Test recipe".getBytes());
+        scanner = new Scanner(inputStream);
+
+        // Recipe that does not exist
+        try {
+            recipe = app.getRecipe(scanner, person);
+            fail();
+        } catch (Exception e) {
+            assertEquals("Recipe does not exist.", e.getMessage());
+        }
+    }
 }

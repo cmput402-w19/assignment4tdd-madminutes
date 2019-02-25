@@ -196,7 +196,7 @@ public class App {
     public void editRecipe(Scanner input, Recipe recipe) throws Exception{
         clearConsole();
         System.out.println("Please select an option to edit your recipe:");
-        System.out.println("command format (ignore bracket): (add 1) (remove 5) (rename \"apples\")");
+        System.out.println("command format (ignore bracket): (add 1) (remove 5) (rename \"recipe_name\")");
         System.out.println("*add\n*remove\n*rename\n");
         int quantity;
         Item item;
@@ -257,6 +257,7 @@ public class App {
             }
             else {
                 recipe.setName(param);
+                System.out.println("Successfully renamed recipe to "+param);
             }
         }
         else {
@@ -265,6 +266,7 @@ public class App {
     }
 
     public Recipe createRecipe(Scanner input) throws Exception {
+        System.out.println("Enter a name for the new recipe: ");
         String name = input.nextLine();
 
         if (name.length() == 0){
@@ -275,6 +277,11 @@ public class App {
         }
         Recipe recipe = new Recipe(name);
         return recipe;
+    }
+
+    public Recipe getRecipe(Scanner input, Person person) throws Exception{
+
+        return null;
     }
 
     public String displayPeople() {
