@@ -11,6 +11,7 @@ public class Main {
         Person person = null;
         int option;
 
+        clearConsole();
         // Loop to get a person
         while (!exitApplication) {
             exitPersonMenu = false;
@@ -30,6 +31,8 @@ public class Main {
                 case 1:
                     try {
                         try {
+                            clearConsole();
+                            app.displayPeople();
                             person = app.getPerson(scanner);
                         } catch (Exception e) {
                             System.out.println(e.getMessage());
@@ -37,7 +40,8 @@ public class Main {
                         }
                         // Loop to do actions on that person
                         while (!exitPersonMenu) {
-                            System.out.println("Choose from these choices");
+                            clearConsole();
+                            System.out.println("Please select from these choices");
                             System.out.println("-------------------------\n");
                             System.out.println("1 - Create a Shopping List");
                             System.out.println("2 - Edit a Shopping List");
@@ -55,10 +59,16 @@ public class Main {
                             try {
                                 switch (option) {
                                     case 1:
-                                        app.createShoppingList(scanner);
+                                        try{
+                                            ShoppingList list = app.createShoppingList(scanner);
+                                            person.getShoppingLists().put(list.getName(), list);
+                                        } catch (Exception e) {
+                                            System.out.println(e.getMessage());
+                                        }
                                         break;
                                     case 2:
                                         ShoppingList shoppingList = app.getShoppingList(scanner, person);
+                                        
                                         app.editShoppingList(scanner, shoppingList);
                                         break;
                                     case 3:
@@ -71,9 +81,11 @@ public class Main {
                                         exitPersonMenu = true;
                                         break;
                                     case 6:
+                                        exitPersonMenu = true;
                                         exitApplication = true;
                                         break;
                                     default:
+                                        clearConsole();
                                         System.out.println("Please input a valid option.");
                                         break;
                                 }
@@ -87,8 +99,11 @@ public class Main {
                     break;
                 case 2:
                     try {
+                        clearConsole();
                         app.createPerson(scanner);
+                        clearConsole();
                     } catch (Exception e) {
+                        clearConsole();
                         System.out.println(e.getMessage());
                     }
                     break;
@@ -96,9 +111,27 @@ public class Main {
                     exitApplication = true;
                     break;
                 default:
+                    clearConsole();
                     System.out.println("Please input a valid option.");
                     break;
             }
+        }
+    }
+
+    public final static void clearConsole(){
+        try {
+            final String os = System.getProperty("os.name");
+
+            if (os.contains("Windows")) {
+                //Runtime.getRuntime().exec("cls");
+            }
+            else {
+                System.out.println("trying to clear");
+                System.out.print("\033[H\033[2J");
+            }
+        }
+        catch (final Exception e) {
+            //  Handle any exceptions.
         }
     }
 }
