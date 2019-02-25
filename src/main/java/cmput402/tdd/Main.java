@@ -7,11 +7,11 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         App app = new App();
-        boolean quit = false;
+        boolean exitPersonMenu = false, exitApplication = false;
         Person person = null;
 
         // Loop to get a person
-        while (person == null && !quit) {
+        while (person == null && !exitApplication) {
             System.out.println("Choose from these choices");
             System.out.println("-------------------------\n");
             System.out.println("1 - Select a Person");
@@ -25,14 +25,15 @@ public class Main {
                     try {
                         person = app.getPerson(scanner, false);
                         // Loop to do actions on that person
-                        while (!quit) {
+                        while (!exitPersonMenu) {
                             System.out.println("Choose from these choices");
                             System.out.println("-------------------------\n");
                             System.out.println("1 - Create a Shopping List");
                             System.out.println("2 - Edit a Shopping List");
                             System.out.println("3 - Create a Recipe");
                             System.out.println("4 - Edit a Recipe");
-                            System.out.println("5 - Quit");
+                            System.out.println("5 - Go back to select a person");
+                            System.out.println("6 - Quit");
 
                             int option = scanner.nextInt();
 
@@ -52,7 +53,10 @@ public class Main {
                                         // app.editRecipe(scanner);
                                         break;
                                     case 5:
-                                        quit = true;
+                                        exitPersonMenu = true;
+                                        break;
+                                    case 6:
+                                        exitApplication = true;
                                         break;
                                     default:
                                         System.out.println("Please input a valid option.");
@@ -73,7 +77,7 @@ public class Main {
                     }
                     break;
                 case 3:
-                    quit = true;
+                    exitApplication = true;
                     break;
                 default:
                     System.out.println("Please input a valid option.");
