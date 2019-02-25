@@ -1,5 +1,6 @@
 package cmput402.tdd;
 
+import org.apache.commons.collections4.map.LinkedMap;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -8,6 +9,8 @@ import java.io.ByteArrayInputStream;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class AppTest {
 
@@ -43,6 +46,36 @@ public class AppTest {
             fail();
         } catch (Exception e) {
             assertEquals("Person does not exist.", e.getMessage());
+        }
+    }
+
+    @Test
+    public void testGetShoppingList() {
+        App app = new App();
+        ShoppingList shoppingList;
+
+        Person person = mock(Person.class);
+        when(person.getShoppingLists()).thenReturn(new LinkedMap<String, ShoppingList>(){{
+            put("Monday Shopping List", new ShoppingList("Monday Shopping List"));
+        }});
+
+        ByteArrayInputStream inputStream = new ByteArrayInputStream("Monday Shopping List".getBytes());
+        Scanner scanner = new Scanner(inputStream);
+
+        // Successfully get Shopping List
+        try {
+            shoppingList = app.getShoppingList(scanner, person);
+            assertEquals("Monday Shopping List", shoppingList.getName());
+        } catch (Exception e) {
+            fail();
+        }
+
+        // Shopping List does not exist
+        try {
+            shoppingList = app.getShoppingList(scanner, person);
+            fail();
+        } catch (Exception e) {
+            assertEquals("Shopping List does not exist.", e.getMessage());
         }
     }
 

@@ -34,6 +34,10 @@ public class App {
         return person;
     }
 
+    public ShoppingList getShoppingList(Scanner input, Person person) throws Exception {
+        return null;
+    }
+
     public Item createItem(Scanner input) throws Exception {
         System.out.println("Please enter the name of the item:");
         String name = input.nextLine();
