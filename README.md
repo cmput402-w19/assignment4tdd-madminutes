@@ -2,5 +2,10 @@
 [![codecov.io](http://codecov.io/github/cmput402-w19/assignment4tdd-madminutes/coverage.svg?branch=master)](http://codecov.io/github/cmput402-w19/assignment4tdd-madminutes?branch=master)
 CMPUT 402 Group 1 TDD: MadMinutes
 
+Compile jar with:
+
+mvn clean package assembly:single
+
 Run with (when in root directory): 
-    java -jar target/mad-minutes-1.0-SNAPSHOT-jar-with-dependencies.jar
+
+java -jar target/mad-minutes-1.0-SNAPSHOT-jar-with-dependencies.jar
