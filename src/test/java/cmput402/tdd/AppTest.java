@@ -3,11 +3,16 @@ package cmput402.tdd;
 import org.apache.commons.collections4.map.LinkedMap;
 import org.junit.Assert;
 import org.junit.Test;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 import java.util.Scanner;
 import java.io.ByteArrayInputStream;
+import static org.junit.Assert.fail;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.mockito.Mockito.*;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -104,7 +109,6 @@ public class AppTest {
             item = app.createItem(scanner);
             fail();
         } catch (Exception e){
-            System.out.println(e.getMessage());;
             assertEquals("Items do not support partial cents.", e.getMessage());
         }
 
@@ -281,6 +285,44 @@ public class AppTest {
     }
 
     @Test
+    public void testCreateRecipe() {
+        App app = new App();
+        Recipe recipe;
+
+        //Test1: correct input
+        ByteArrayInputStream in = new ByteArrayInputStream("recipe1\n".getBytes());
+        Scanner scanner = new Scanner(in);
+        try{
+            recipe = app.createRecipe(scanner);
+            Assert.assertNotNull(recipe);
+            assertEquals(recipe.getName(), "recipe1");
+        } catch (Exception e) {
+            Assert.fail();
+        }
+
+        //Test2: empty name given
+        in = new ByteArrayInputStream("\n".getBytes());
+        scanner = new Scanner(in);
+        try{
+            recipe = app.createRecipe(scanner);
+            fail();
+        } catch (Exception e){
+            assertEquals("Name cannot be empty.", e.getMessage());
+        }
+
+        //Test3: list name > 40 characters given
+        in = new ByteArrayInputStream("12121212121212121212121212121212121212121\n2\n".getBytes());
+        scanner = new Scanner(in);
+        try{
+            recipe = app.createRecipe(scanner);
+            Assert.fail();
+        } catch (Exception e){
+            assertEquals("Recipe name cannot be longer than 40 characters.", e.getMessage());
+        }
+    }
+
+
+    @Test
     public void testDisplayPeople() {
         App app = new App();
         Person person = new Person("John");
@@ -298,4 +340,268 @@ public class AppTest {
         
     }
 
+    @Test
+    public void testEditRecipe(){
+        App app = new App();
+        Recipe recipe = new Recipe("apple pie");
+
+        Item item1 = new Item("apple", 4.0f);
+        Item item2 = new Item("sugar", 2.0f);
+
+        //Test 1: Add new item to recipe
+        ByteArrayInputStream in = new ByteArrayInputStream("add 1\napple\n4.0".getBytes());
+        Scanner scanner = new Scanner(in);
+        try {
+            app.editRecipe(scanner, recipe);
+        }
+        catch(Exception e){
+            fail();
+        }
+        assertEquals(1, recipe.items.size());
+        assertEquals(1, recipe.items.get(item1).intValue());
+
+        //Test 2 Add an existing item to recipe again
+        in = new ByteArrayInputStream("add 3\napple\n4.0".getBytes());
+        scanner = new Scanner(in);
+        try {
+            app.editRecipe(scanner, recipe);
+        }
+        catch(Exception e){
+            Assert.fail();
+        }
+        assertEquals(1, recipe.items.size());
+        assertEquals(4, recipe.items.get(item1).intValue());
+
+        //Test 3 Add 0 quantity to recipe
+        in = new ByteArrayInputStream("add 0\nsugar\n2.0".getBytes());
+        scanner = new Scanner(in);
+        try {
+            app.editRecipe(scanner, recipe);
+            Assert.fail();
+        }
+        catch(Exception e){
+            assertEquals("Quantity must be above 0", e.getMessage());
+        }
+        assertEquals(1, recipe.items.size());
+        assertEquals(4, recipe.items.get(item1).intValue());
+        assertFalse(recipe.items.containsKey(item2));
+
+
+        //Test 4 Add another new item to recipe
+        in = new ByteArrayInputStream("add 3\nsugar\n2.0".getBytes());
+        scanner = new Scanner(in);
+        try {
+            app.editRecipe(scanner, recipe);
+        }
+        catch(Exception e){
+            Assert.fail();
+        }
+        assertEquals(2, recipe.items.size());
+        assertEquals(3, recipe.items.get(item2).intValue());
+        assertEquals(4, recipe.items.get(item1).intValue());
+
+        //Test 5 Remove item from recipe completely
+        in = new ByteArrayInputStream("remove 4\napple\n4.0".getBytes());
+        scanner = new Scanner(in);
+        try {
+            app.editRecipe(scanner, recipe);
+        }
+        catch(Exception e){
+            Assert.fail();
+        }
+        assertEquals(1, recipe.items.size());
+        assertEquals(3, recipe.items.get(item2).intValue());
+        assertFalse(recipe.items.containsKey(item1));
+
+        //Test 6 Remove quantity greater than current existing quantity
+        in = new ByteArrayInputStream("remove 4\nsugar\n2.0".getBytes());
+        scanner = new Scanner(in);
+        try {
+            app.editRecipe(scanner, recipe);
+            Assert.fail();
+        }
+        catch(Exception e){
+            assertEquals("Cannot remove negative quantity or greater than existing amount from recipe", e.getMessage());
+        }
+        assertEquals(1, recipe.items.size());
+        assertEquals(3, recipe.items.get(item2).intValue());
+        assertFalse(recipe.items.containsKey(item1));
+
+        //Test 7 Remove item partially from recipe
+        in = new ByteArrayInputStream("remove 2\nsugar\n2.0".getBytes());
+        scanner = new Scanner(in);
+        try {
+            app.editRecipe(scanner, recipe);
+        }
+        catch(Exception e){
+            Assert.fail();
+        }
+
+        assertEquals(1, recipe.items.size());
+        assertEquals(1, recipe.items.get(item2).intValue());
+
+        //Test 8 Remove 0 quantity from recipe
+        in = new ByteArrayInputStream("remove 0\nsugar\n2.0".getBytes());
+        scanner = new Scanner(in);
+        try {
+            app.editRecipe(scanner, recipe);
+            Assert.fail();
+        }
+        catch(Exception e){
+            System.out.println(e);
+            assertEquals("item cannot be removed from recipe", e.getMessage());
+        }
+        assertEquals(1, recipe.items.size());
+        assertEquals(1, recipe.items.get(item2).intValue());
+
+        //Test 9 Rename recipe to valid name
+        in = new ByteArrayInputStream("rename 'super apple pie'".getBytes());
+        scanner = new Scanner(in);
+        try {
+            app.editRecipe(scanner, recipe);
+        }
+        catch(Exception e){
+            Assert.fail();
+        }
+        assertEquals("super apple pie", recipe.getName());
+
+        //Test 10 Rename recipe to empty string
+        in = new ByteArrayInputStream("rename ''".getBytes());
+        scanner = new Scanner(in);
+        try {
+            app.editRecipe(scanner, recipe);
+            Assert.fail();
+        }
+        catch(Exception e){
+            assertEquals("Recipe name cannot be blank or greater than 40 letters", e.getMessage());
+        }
+
+        assertEquals("super apple pie", recipe.getName());
+
+        //Test 11 Rename recipe to string > 40 char
+        in = new ByteArrayInputStream("rename 'appleappleappleappleappleappleappleapple1'".getBytes());
+        scanner = new Scanner(in);
+        try {
+            app.editRecipe(scanner, recipe);
+            Assert.fail();
+        }
+        catch(Exception e){
+            assertEquals("Recipe name cannot be blank or greater than 40 letters", e.getMessage());
+        }
+        assertEquals("super apple pie", recipe.getName());
+
+        //Test 12 Enter invalid rename command
+        in = new ByteArrayInputStream("relabel 'apple juice'".getBytes());
+        scanner = new Scanner(in);
+        try {
+            app.editRecipe(scanner, recipe);
+            Assert.fail();
+        }
+        catch(Exception e){
+            assertEquals("Invalid command", e.getMessage());
+        }
+        assertEquals("super apple pie", recipe.getName());
+
+        //Test 13 Invalid command input
+        in = new ByteArrayInputStream("foo 2\nsugar\n2.0".getBytes());
+        scanner = new Scanner(in);
+        try {
+            app.editRecipe(scanner, recipe);
+            Assert.fail();
+        }
+        catch(Exception e){
+            assertEquals("Invalid command", e.getMessage());
+        }
+        assertEquals(1, recipe.items.size());
+        assertEquals(1, recipe.items.get(item2).intValue());
+
+        //Test 14 Invalid remove command input
+        in = new ByteArrayInputStream("delete apple\nsugar\n2.0".getBytes());
+        scanner = new Scanner(in);
+        try {
+            app.editRecipe(scanner, recipe);
+            Assert.fail();
+        }
+        catch(Exception e){
+            assertEquals("Invalid command", e.getMessage());
+        }
+        assertEquals(1, recipe.items.size());
+        assertEquals(1, recipe.items.get(item2).intValue());
+
+        //Test 15 Invalid add command input
+        in = new ByteArrayInputStream("add apple\nsugar\n2.0".getBytes());
+        scanner = new Scanner(in);
+        try {
+            app.editRecipe(scanner, recipe);
+            Assert.fail();
+        }
+        catch(Exception e){
+            assertEquals("Please enter a positive whole number for quantity", e.getMessage());
+        }
+        assertEquals(1, recipe.items.size());
+        assertEquals(1, recipe.items.get(item2).intValue());
+
+        //Test 16 Enter invalid rename command with < 40 char
+        in = new ByteArrayInputStream("relabel 'appleappleappleappleappleappleappleapple1'".getBytes());
+        scanner = new Scanner(in);
+        try {
+            app.editRecipe(scanner, recipe);
+            Assert.fail();
+        }
+        catch(Exception e){
+            assertEquals("Invalid command", e.getMessage());
+        }
+        assertEquals("super apple pie", recipe.getName());
+
+        //Test 17 Rename recipe to string > 40 char with invalid command
+        in = new ByteArrayInputStream("relabel 'appleappleappleappleappleappleappleapple1'".getBytes());
+        scanner = new Scanner(in);
+        try {
+            app.editRecipe(scanner, recipe);
+            Assert.fail();
+        }
+        catch(Exception e){
+            assertEquals("Invalid command", e.getMessage());
+        }
+        assertEquals("super apple pie", recipe.getName());
+
+        //Test 18 Create invalid item to add
+        in = new ByteArrayInputStream("add 2\n\n2.5".getBytes());
+        scanner = new Scanner(in);
+        try {
+            app.editRecipe(scanner, recipe);
+            Assert.fail();
+        }
+        catch(Exception e){
+            assertEquals("Failed to create item for recipe", e.getMessage());
+        }
+        assertEquals(1, recipe.items.size());
+        assertEquals(1, recipe.items.get(item2).intValue());
+
+        //Test 19 Test user input empty string
+        in = new ByteArrayInputStream("\n".getBytes());
+        scanner = new Scanner(in);
+        try {
+            app.editRecipe(scanner, recipe);
+            Assert.fail();
+        }
+        catch(Exception e){
+            assertEquals("Invalid command format", e.getMessage());
+        }
+        assertEquals(1, recipe.items.size());
+        assertEquals(1, recipe.items.get(item2).intValue());
+
+        //Test 20 Create invalid format for add command
+        in = new ByteArrayInputStream(" add\n".getBytes());
+        scanner = new Scanner(in);
+        try {
+            app.editRecipe(scanner, recipe);
+            Assert.fail();
+        }
+        catch(Exception e){
+            assertEquals("Invalid command", e.getMessage());
+        }
+        assertEquals(1, recipe.items.size());
+        assertEquals(1, recipe.items.get(item2).intValue());
+    }
 }
