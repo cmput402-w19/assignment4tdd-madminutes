@@ -57,7 +57,7 @@ public class AppTest {
         Person person = mock(Person.class);
         when(person.getShoppingLists()).thenReturn(new LinkedMap<String, ShoppingList>(){{
             put("Monday Shopping List", new ShoppingList("Monday Shopping List"));
-        }});
+        }}).thenReturn(new LinkedMap<String, ShoppingList>());
 
         ByteArrayInputStream inputStream = new ByteArrayInputStream("Monday Shopping List".getBytes());
         Scanner scanner = new Scanner(inputStream);
@@ -70,6 +70,8 @@ public class AppTest {
             fail();
         }
 
+        inputStream = new ByteArrayInputStream("Monday Shopping List".getBytes());
+        scanner = new Scanner(inputStream);
         // Shopping List does not exist
         try {
             shoppingList = app.getShoppingList(scanner, person);

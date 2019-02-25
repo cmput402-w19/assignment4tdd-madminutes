@@ -35,7 +35,15 @@ public class App {
     }
 
     public ShoppingList getShoppingList(Scanner input, Person person) throws Exception {
-        return null;
+        System.out.println("Please type the name of the shopping list");
+        String shoppingListName = input.nextLine();
+
+        LinkedMap<String, ShoppingList> shoppingLists = person.getShoppingLists();
+
+        if(!shoppingLists.containsKey(shoppingListName)) {
+            throw new Exception("Shopping List does not exist.");
+        }
+        return shoppingLists.get(shoppingListName);
     }
 
     public Item createItem(Scanner input) throws Exception {
