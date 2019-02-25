@@ -158,6 +158,9 @@ public class App {
         }
 
     }
+    public void editRecipe(Scanner input, Recipe recipe) throws Exception{
+
+    }
 
     public String displayPeople() {
         StringBuilder out = new StringBuilder(String.format("%-3s|%-20s|%-7s\n", "Id","Name","# Lists")); 
