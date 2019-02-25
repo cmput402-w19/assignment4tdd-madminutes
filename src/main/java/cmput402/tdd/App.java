@@ -159,6 +159,19 @@ public class App {
 
     }
 
+    public Recipe createRecipe(Scanner input) throws Exception {
+        String name = input.nextLine();
+
+        if (name.length() == 0){
+            throw new Exception("Name cannot be empty.");
+        }
+        if (name.length() > 40){
+            throw new Exception("Recipe name cannot be longer than 40 characters.");
+        }
+        Recipe recipe = new Recipe(name);
+        return recipe;
+    }
+
     public String displayPeople() {
         StringBuilder out = new StringBuilder(String.format("%-3s|%-20s|%-7s\n", "Id","Name","# Lists")); 
         int i = 0;
