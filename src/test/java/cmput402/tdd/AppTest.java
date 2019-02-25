@@ -439,5 +439,17 @@ public class AppTest extends TestCase{
             assertEquals("Error: Invalid command", e.getMessage());
         }
         assertEquals("super apple pie", recipe.getName());
+
+        //Test 18 Create invalid item to add
+        in = new ByteArrayInputStream("add apple\n\n2.0".getBytes());
+        scanner = new Scanner(in);
+        try {
+            app.editRecipe(scanner, recipe);
+        }
+        catch(Exception e){
+            assertEquals("Error: Failed to parse string to int", e.getMessage());
+        }
+        assertEquals(1, recipe.items.size());
+        assertEquals(1, recipe.items.get(item2).intValue());
     }
 }
