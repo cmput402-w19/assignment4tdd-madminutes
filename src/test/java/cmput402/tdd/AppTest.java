@@ -148,6 +148,13 @@ public class AppTest extends TestCase{
         app.editShoppingList(scanner, person.getShoppingLists().get("list1"));
         assertTrue(person.getShoppingLists().get("list1").getItems().size() == 1);
 
+        // Test5: remove invalid option
+        in = new ByteArrayInputStream("2\ncat\n3\n".getBytes());
+        scanner = new Scanner(in); 
+
+        app.editShoppingList(scanner, person.getShoppingLists().get("list1"));
+        assertTrue(person.getShoppingLists().get("list1").getItems().size() == 1);
+        
         // Test5: remove by item
         person.getShoppingLists().get("list1").add("item2", 2.0f, 4);
         in = new ByteArrayInputStream("2\n1\nitem2\n2.0\n3\n".getBytes());
@@ -185,8 +192,15 @@ public class AppTest extends TestCase{
         app.editShoppingList(scanner, person.getShoppingLists().get("list1"));
         assertTrue(person.getShoppingLists().get("list1").getItems().size() == 1);
 
-        // Test9: remove by index not in list
+        // Test10: remove by index not in list
         in = new ByteArrayInputStream("2\n2\n8\n3\n".getBytes());
+        scanner = new Scanner(in); 
+
+        app.editShoppingList(scanner, person.getShoppingLists().get("list1"));
+        assertTrue(person.getShoppingLists().get("list1").getItems().size() == 1);
+        
+        // Test11: invalid selection
+        in = new ByteArrayInputStream("cat\n3\n".getBytes());
         scanner = new Scanner(in); 
 
         app.editShoppingList(scanner, person.getShoppingLists().get("list1"));

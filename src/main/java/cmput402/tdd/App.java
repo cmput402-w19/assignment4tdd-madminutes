@@ -58,7 +58,106 @@ public class App {
         return shoppingList;
     }
 
-    public void editShoppingList(Scanner input, ShoppingList shoppingList){}
+    public void editShoppingList(Scanner input, ShoppingList shoppingList){
+        String response;
+        String errorMsg = "";
+        Item item = null;
+        int quantity;
+        int selection = 10;
+        int index = 0;
+        clearConsole();
+        while(true) {
+            clearConsole();
+            System.out.println(shoppingList.toString());
+            System.out.println(errorMsg);
+            System.out.println("Please select an option to edit your shopping list:");
+            System.out.println("1. Add\n2. Remove\n3. Return\n\n");
+            response = input.nextLine();
+            try{
+                selection = Integer.parseInt(response);
+                errorMsg = "";
+            } catch (Exception e) {
+                errorMsg = "Invalid Selection made.";
+            }
+            if (!errorMsg.equals("")){
+                continue;
+            }
+
+            switch (selection){
+                case 1:
+                    try{
+                        item = createItem(input);
+                    } catch (Exception e) {
+                        errorMsg = e.getMessage();
+                        continue;
+                    }
+                    try {
+                        System.out.println("How many of this item would you like to add?:");
+                        response = input.nextLine();
+                        quantity = Integer.parseInt(response);
+                        shoppingList.add(item, quantity);
+                    } catch (Exception e){
+                        errorMsg = "Invalid quantity selected.";
+                        continue;
+                    }
+                    errorMsg = "Item added.";
+                    break;
+                case 2:
+                    int option = -1;
+                    try{
+                        System.out.println("Select an option to remove by:\n1. Name & Cost\n2. Position");
+                        response = input.nextLine();
+                        option = Integer.parseInt(response);
+                        errorMsg = "";
+                    } catch (Exception e) {
+                        errorMsg = "Invalid option selected.";
+                    }
+                    if (!errorMsg.equals("")){
+                        break;
+                    }
+                    switch (option){
+                        case 1:
+                            try {
+                                item = createItem(input);
+                            } catch (Exception e) {
+                                errorMsg = e.getMessage();
+                            }
+                            if (!errorMsg.equals("")){
+                                break;
+                            }
+                            if (!shoppingList.remove(item)){
+                                errorMsg = "Item not found in shopping list.";
+                            }
+                            errorMsg = "Item removed.";
+                        case 2:
+                            System.out.println("Which Item would you like to remove?:");
+                            response = input.nextLine();
+                            try {
+                                index = Integer.parseInt(response);
+                            } catch (Exception e) {
+                                errorMsg = "Invalid position selection";
+                            }
+                            if (!errorMsg.equals("")){
+                                break;
+                            }
+                            if (!shoppingList.remove(index)){
+                                errorMsg = "Item not found in shopping list.";
+                            }
+                            errorMsg = "Item removed.";
+                            break;
+                        default:
+                            break;
+                    }
+                case 3:
+                    clearConsole();
+                    return;
+                default:
+                    errorMsg = "Invalid Selection made.";
+                    break;
+            }
+        }
+
+    }
 
     public String displayPeople() {
         StringBuilder out = new StringBuilder(String.format("%-3s|%-20s|%-7s\n", "Id","Name","# Lists")); 
@@ -77,5 +176,21 @@ public class App {
             e *= 10; 
             p++; }
         return p;
-      }
+    }
+
+    public final static void clearConsole(){
+        try {
+            final String os = System.getProperty("os.name");
+
+            if (os.contains("Windows")) {
+                Runtime.getRuntime().exec("cls");
+            }
+            else {
+                Runtime.getRuntime().exec("clear");
+            }
+        }
+        catch (final Exception e) {
+            //  Handle any exceptions.
+        }
+    }
 }
