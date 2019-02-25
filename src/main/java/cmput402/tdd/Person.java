@@ -7,9 +7,9 @@ public class Person {
 
     private String name;
 
-    private LinkedMap<String, ShoppingList> shoppingLists = new LinkedMap<>();
+    private LinkedMap<String, ShoppingList> shoppingLists = new LinkedMap<String, ShoppingList>();
 
-    private LinkedMap<String, Recipe> recipes = new LinkedMap<>();
+    private LinkedMap<String, Recipe> recipes = new LinkedMap<String, Recipe>();
 
     public Person(String name) {
         this.name = name;

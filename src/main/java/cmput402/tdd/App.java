@@ -5,33 +5,34 @@ import java.util.Map;
 
 public class App {
 
-    public LinkedMap<String, Person> people = new LinkedMap<String, Person>();
+    private LinkedMap<String, Person> people = new LinkedMap<String, Person>();
 
     public LinkedMap<String, Person> getPeople() {
         return people;
     }
 
-    public Person getPerson(Scanner input, boolean create) throws Exception {
-        System.out.println("Please type the name of a person");
+    public Person getPerson(Scanner input) throws Exception {
+        System.out.println("Please type the name of a person:");
         String personName = input.nextLine();
-
-        Person person;
-        if (create) {
-            person = createPerson(personName);
+        
+        Person person = null;
+        if(getPeople().containsKey(personName)) {
+            person = getPeople().get(personName);
         } else {
-            if(getPeople().containsKey(personName)) {
-                person = getPeople().get(personName);
-            } else {
-                throw new Exception("Person does not exist.");
-            }
+            throw new Exception("Person does not exist!");
         }
         return person;
     }
 
-    private Person createPerson(String name) {
+    public void createPerson(Scanner input) throws Exception {
+        System.out.println("Please enter the name of the Person to create:");
+        String name = input.nextLine();
         Person person = new Person(name);
-        getPeople().put(name, person);
-        return person;
+        if(people.containsKey(name)){
+            throw new Exception("Person already exists!");
+        } else {
+            people.put(name, person);
+        }
     }
 
     public ShoppingList getShoppingList(Scanner input, Person person) throws Exception {

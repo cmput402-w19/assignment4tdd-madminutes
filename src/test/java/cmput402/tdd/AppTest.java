@@ -3,12 +3,9 @@ package cmput402.tdd;
 import org.apache.commons.collections4.map.LinkedMap;
 import org.junit.Assert;
 import org.junit.Test;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 
 import java.util.Scanner;
 import java.io.ByteArrayInputStream;
-import static org.junit.Assert.fail;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -28,17 +25,18 @@ public class AppTest {
         Scanner scanner = new Scanner(in);
 
         // Create a person
-        try {
-            person = app.getPerson(scanner, true);
-            assertEquals(1, app.getPeople().size());
-        } catch (Exception e) {
-            fail();
-        }
+        //try {
+        //    app.createPerson(scanner);
+        //    assertEquals(1, app.getPeople().size());
+        //} catch (Exception e) {
+        //    fail();
+        //}
 
         scanner = new Scanner(new ByteArrayInputStream("John\n".getBytes()));
         // Find a person
+        app.getPeople().put("John", new Person("John"));
         try {
-            person = app.getPerson(scanner, false);
+            person = app.getPerson(scanner);
             assertEquals("John", person.getName());
         } catch (Exception e) {
             fail();
@@ -47,10 +45,10 @@ public class AppTest {
         scanner = new Scanner(new ByteArrayInputStream("Smith\n".getBytes()));
         // Person does not exist
         try {
-            person = app.getPerson(scanner, false);
+            person = app.getPerson(scanner);
             fail();
         } catch (Exception e) {
-            assertEquals("Person does not exist.", e.getMessage());
+            assertEquals("Person does not exist!", e.getMessage());
         }
     }
 

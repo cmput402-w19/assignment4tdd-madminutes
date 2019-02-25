@@ -9,21 +9,32 @@ public class Main {
         App app = new App();
         boolean exitPersonMenu = false, exitApplication = false;
         Person person = null;
+        int option;
 
         // Loop to get a person
-        while (person == null && !exitApplication) {
+        while (!exitApplication) {
+            exitPersonMenu = false;
             System.out.println("Choose from these choices");
             System.out.println("-------------------------\n");
             System.out.println("1 - Select a Person");
             System.out.println("2 - Create a Person");
             System.out.println("3 - Quit");
 
-            int choice = scanner.nextInt();
+            try{
+                option = Integer.parseInt(scanner.nextLine());
+            } catch (Exception e) {
+                option = -1;
+            }
 
-            switch (choice) {
+            switch (option) {
                 case 1:
                     try {
-                        person = app.getPerson(scanner, false);
+                        try {
+                            person = app.getPerson(scanner);
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage());
+                            exitPersonMenu = true;
+                        }
                         // Loop to do actions on that person
                         while (!exitPersonMenu) {
                             System.out.println("Choose from these choices");
@@ -35,7 +46,11 @@ public class Main {
                             System.out.println("5 - Go back to select a person");
                             System.out.println("6 - Quit");
 
-                            int option = scanner.nextInt();
+                            try{
+                                option = Integer.parseInt(scanner.nextLine());
+                            } catch (Exception e) {
+                                option = -1;
+                            }
 
                             try {
                                 switch (option) {
@@ -60,6 +75,7 @@ public class Main {
                                         break;
                                     default:
                                         System.out.println("Please input a valid option.");
+                                        break;
                                 }
                             } catch (Exception e) {
                                 System.out.println(e.getMessage());
@@ -71,7 +87,7 @@ public class Main {
                     break;
                 case 2:
                     try {
-                        person = app.getPerson(scanner, true);
+                        app.createPerson(scanner);
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
@@ -81,6 +97,7 @@ public class Main {
                     break;
                 default:
                     System.out.println("Please input a valid option.");
+                    break;
             }
         }
     }
