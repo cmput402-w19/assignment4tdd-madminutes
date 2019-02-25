@@ -163,7 +163,7 @@ public class App {
         System.out.println("Please select an option to edit your recipe:");
         System.out.println("command format (ignore bracket): (add 1) (remove 5) (rename \"apples\")");
         System.out.println("*add\n*remove\n*rename\n");
-        Integer quantity;
+        int quantity;
         Item item;
         String param;
         String command = input.nextLine();
@@ -175,7 +175,7 @@ public class App {
         action = add
         quantity = 5
          */
-        Integer spaceIndex = command.indexOf(" ");
+        int spaceIndex = command.indexOf(" ");
         if(spaceIndex == -1){
             throw new Exception("Invalid command format");
         }
