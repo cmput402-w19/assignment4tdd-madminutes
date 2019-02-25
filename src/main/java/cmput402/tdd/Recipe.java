@@ -20,7 +20,7 @@ public class Recipe {
         this.name = name;
     }
 
-    public void add(Item item, Integer quantity) throws RuntimeException{
+    public void add(Item item, Integer quantity) throws Exception{
         if(items.get(item) == null && quantity > 0){
             items.put(item, quantity);
         }
@@ -28,14 +28,14 @@ public class Recipe {
             items.put(item, items.get(item)+quantity);
         }
         else{
-            throw new RuntimeException("Error: item cannot be added");
+            throw new Exception("item cannot be added");
         }
     }
     public void add(Item item){
         items.put(item, 1);
     }
 
-    public void remove(Item item, Integer quantity) throws RuntimeException{
+    public void remove(Item item, Integer quantity) throws Exception{
         if(items.get(item) != null && items.get(item)> quantity && quantity > 1){
             items.put(item, items.get(item)-quantity);
         }
@@ -43,16 +43,16 @@ public class Recipe {
             items.remove(item);
         }
         else{
-            throw new RuntimeException("Error: item cannot be removed from recipe");
+            throw new Exception("item cannot be removed from recipe");
         }
     }
 
-    public void remove(Item item) throws RuntimeException{
+    public void remove(Item item) throws Exception{
         if(items.get(item) != null){
             items.remove(item);
         }
         else{
-            throw new RuntimeException("Error: item cannot be removed from recipe");
+            throw new Exception("item cannot be removed from recipe");
         }
     }
 

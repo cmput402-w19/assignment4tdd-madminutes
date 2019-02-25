@@ -206,13 +206,9 @@ public class App {
 
             }
             else if(action.equals("remove")){
-                if(recipe.items.get(item) > quantity  && quantity > 0){
+                if(quantity >= 0 && recipe.items.get(item) >= quantity){
                     recipe.remove(item, quantity);
                     System.out.println("Removed "+param+" "+item.getName()+" from recipe successfully");
-                }
-
-                else if(recipe.items.get(item) == quantity) {
-                    recipe.remove(item);
                 }
                 else{
                     throw new Exception("Could not remove item from recipe");
@@ -231,19 +227,6 @@ public class App {
         else {
             throw new Exception("Invalid command");
         }
-    }
-
-    public Recipe createRecipe(Scanner input) throws Exception {
-        String name = input.nextLine();
-
-        if (name.length() == 0){
-            throw new Exception("Name cannot be empty.");
-        }
-        if (name.length() > 40){
-            throw new Exception("Recipe name cannot be longer than 40 characters.");
-        }
-        Recipe recipe = new Recipe(name);
-        return recipe;
     }
 
     public String displayPeople() {
