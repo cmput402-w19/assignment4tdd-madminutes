@@ -173,7 +173,7 @@ public class App {
 
         function will split command into variables action and param
         action = add
-        param = 5
+        quantity = 5
          */
         Integer spaceIndex = command.indexOf(" ");
         if(spaceIndex == -1){
@@ -201,17 +201,17 @@ public class App {
                     System.out.println("Added "+param+" "+item.getName()+" to recipe successfully");
                 }
                 else{
-                    throw new Exception("Could not add item to recipe");
+                    throw new Exception("Quantity must be above 0");
                 }
 
             }
             else if(action.equals("remove")){
-                if(recipe.items.get(item) > quantity && quantity > 0){
+                if(recipe.items.get(item) > quantity  && quantity > 0){
                     recipe.remove(item, quantity);
                     System.out.println("Removed "+param+" "+item.getName()+" from recipe successfully");
                 }
 
-                if(recipe.items.get(item) == quantity) {
+                else if(recipe.items.get(item) == quantity) {
                     recipe.remove(item);
                 }
                 else{
@@ -221,7 +221,7 @@ public class App {
         }
         else if(action.equals("rename")){
             param = command.substring(spaceIndex+2, command.length()-1);
-            if(param.length() <= 0 || param.length() > 40 || !action.equals("rename")){
+            if(param.length() <= 0 || param.length() > 40){
                 throw new Exception("could not rename recipe");
             }
             else {
