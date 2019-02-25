@@ -168,56 +168,74 @@ public class App {
         return out.toString();
     }
 
-    public void editRecipe(Recipe recipe, Scanner input) throws Exception{
-        String command = input.nextLine();
-        Integer spaceIndex = command.indexOf(" ");
-        String action = command.substring(0,spaceIndex);
-        String param = command.substring(spaceIndex+2, command.length()-1);
-
-        if(param.length() <= 0 || param.length() > 40 || !action.equals("rename")){
-            throw new Exception("Error: could not rename recipe");
-        }
-        else {
-            recipe.setName(param);
-        }
-    }
-
-    public void editRecipe(Recipe recipe, Item item, Scanner input) throws Exception{
+    public void editRecipe(Scanner input, Recipe recipe) throws Exception{
+        clearConsole();
+        System.out.println("Please select an option to edit your recipe:");
+        System.out.println("command format (ignore bracket): (add 1) (remove 5) (rename \"apples\")");
+        System.out.println("*add\n*remove\n*rename\n");
         Integer paramInt;
+        Item item;
+        String param;
         String command = input.nextLine();
+        /*
+        Eg:
+        command = add 5
+
+        function will split command into variables action and param
+        action = add
+        param = 5
+         */
         Integer spaceIndex = command.indexOf(" ");
-        String action = command.substring(0,spaceIndex);
-        String param = command.substring(spaceIndex+1, command.length());
-        try{
-            paramInt = Integer.parseInt(param);
-        }
-        catch(Exception e){
-            throw new Exception("Error: item cannot be added add/removed from recipe");
-        }
-        if(action.equals("add")){
-            if(paramInt > 0){
-                recipe.add(item, paramInt);
+        String action = command.substring(0, spaceIndex);
+        if(action.equals("add") || action.equals("remove")) {
+            param = command.substring(spaceIndex + 1, command.length());
+            try{
+                paramInt = Integer.parseInt(param);
             }
-            else{
-                throw new Exception("Error: item cannot be added add/removed from recipe");
+            catch(Exception e){
+                throw new Exception("Error: Failed to parse string to int");
             }
+            try{
+                item = createItem(input);
+            }
+            catch (Exception e) {
+                throw new Exception("Error: Failed to create item for recipe");
+            }
+            if(action.equals("add")){
+                if(paramInt > 0){
+                    recipe.add(item, paramInt);
+                    System.out.println("Added "+param+" "+item.getName()+" to recipe successfully");
+                }
+                else{
+                    throw new Exception("Error: Could not add item to recipe");
+                }
 
+            }
+            else if(action.equals("remove")){
+                if(recipe.items.get(item) > paramInt && paramInt > 0){
+                    recipe.remove(item, paramInt);
+                    System.out.println("Removed "+param+" "+item.getName()+" from recipe successfully");
+                }
+
+                if(recipe.items.get(item) == paramInt) {
+                    recipe.remove(item);
+                }
+                else{
+                    throw new Exception("Error: Could not remove item from recipe");
+                }
+            }
         }
-        else if(action.equals("remove")){
-            if(recipe.items.get(item) > paramInt && paramInt > 0){
-                recipe.remove(item, paramInt);
+        else if(action.equals("rename")){
+            param = command.substring(spaceIndex+2, command.length()-1);
+            if(param.length() <= 0 || param.length() > 40 || !action.equals("rename")){
+                throw new Exception("Error: could not rename recipe");
             }
-
-            if(recipe.items.get(item) == paramInt){
-                recipe.remove(item);
-            }
-
-            else{
-                throw new Exception("Error: item cannot be added add/removed from recipe");
+            else {
+                recipe.setName(param);
             }
         }
         else {
-            throw new Exception("Error: item cannot be added add/removed from recipe");
+            throw new Exception("Error: Invalid command");
         }
     }
     // source: https://stackoverflow.com/questions/9553354/how-do-i-get-the-decimal-places-of-a-floating-point-number-in-javascript
