@@ -198,6 +198,7 @@ public class App {
         }
 
     }
+
     public void editRecipe(Scanner input, Recipe recipe, Person person) throws Exception{
         Main.clearConsole();
         System.out.println("Please select an option to edit your recipe:");
@@ -290,7 +291,7 @@ public class App {
     }
 
     public Recipe getRecipe(Scanner input, Person person) throws Exception{
-        System.out.println("Enter the name of the recipe you wish to edit: ");
+        System.out.print("Enter the name of the recipe you wish to edit:\n>");
         String recipeName = input.nextLine();
 
         LinkedMap<String, Recipe> recipeList = person.getRecipes();
