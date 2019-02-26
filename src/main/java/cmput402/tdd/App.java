@@ -302,7 +302,14 @@ public class App {
     }
 
     public String displayShoppingLists(Person person){
-        return null;
+        String out = person.getName()+" has the following shopping lists:\n";
+        System.out.print(out);
+        for (Map.Entry<String, ShoppingList> entry : person.getShoppingLists().entrySet()) {
+            String ShoppingListObj = entry.getKey()+"\n";
+            out += ShoppingListObj;
+            System.out.println(ShoppingListObj);
+        }
+        return out;
     }
 
     public String displayPeople() {
