@@ -167,6 +167,7 @@ public class App {
                                 errorMsg = "Item not found in shopping list.";
                             }
                             errorMsg = "Item removed.";
+                            break;
                         case 2:
                             System.out.print("Which Item would you like to remove?:\n>");
                             response = input.nextLine();
