@@ -79,7 +79,7 @@ public class Main {
                                     case 4:
                                         app.displayRecipes(person);
                                         Recipe recipe = app.getRecipe(scanner, person);
-                                        app.editRecipe(scanner, recipe);
+                                        app.editRecipe(scanner, recipe, person);
                                         break;
                                     case 5:
                                         exitPersonMenu = true;
