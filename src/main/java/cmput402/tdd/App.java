@@ -265,6 +265,7 @@ public class App {
             else {
                 person.getRecipes().remove(recipe.getName());
                 recipe.setName(param);
+                Main.clearConsole();
                 person.getRecipes().put(param, recipe);
                 System.out.println("Successfully renamed recipe to "+param);
             }
