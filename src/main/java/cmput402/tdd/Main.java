@@ -48,8 +48,7 @@ public class Main {
                             System.out.println("2 - Edit a Shopping List");
                             System.out.println("3 - Create a Recipe");
                             System.out.println("4 - Edit a Recipe");
-                            System.out.println("5 - Go back to select a person");
-                            System.out.print("6 - Quit\n\n> ");
+                            System.out.print("5 - Return\n\n> ");
 
                             try{
                                 option = Integer.parseInt(scanner.nextLine());
@@ -64,7 +63,7 @@ public class Main {
                                         app.displayShoppingLists(person);
                                         ShoppingList list = app.createShoppingList(scanner);
                                         if (person.getShoppingLists().containsKey(list.getName())){
-                                            throw new Exception(list.getName()+" already exists");
+                                            throw new Exception(list.getName()+" already exists!");
                                         }
                                         person.getShoppingLists().put(list.getName(), list);
                                         clearConsole();
@@ -77,20 +76,26 @@ public class Main {
                                         app.editShoppingList(scanner, shoppingList);
                                         break;
                                     case 3:
-                                         Recipe newRecipe = app.createRecipe(scanner);
-                                         person.addRecipe(newRecipe);
+                                        clearConsole();
+                                        app.displayRecipes(person);
+                                        Recipe newRecipe = app.createRecipe(scanner);
+
+                                        if (person.getRecipes().containsKey(newRecipe.getName())){
+                                            throw new Exception("Recipe already exists");
+                                        }
+                                        person.addRecipe(newRecipe);
+                                        clearConsole();
+                                        System.out.println(newRecipe.getName()+" was Added!");
                                         break;
                                     case 4:
+                                        clearConsole();
                                         app.displayRecipes(person);
                                         Recipe recipe = app.getRecipe(scanner, person);
                                         app.editRecipe(scanner, recipe);
                                         break;
                                     case 5:
                                         exitPersonMenu = true;
-                                        break;
-                                    case 6:
-                                        exitPersonMenu = true;
-                                        exitApplication = true;
+                                        clearConsole();
                                         break;
                                     default:
                                         clearConsole();
