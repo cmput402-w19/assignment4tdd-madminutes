@@ -10,7 +10,7 @@ public class ShoppingList {
 
     private String owner = "";
 
-    private LinkedMap<Item, Integer> items = new LinkedMap<>();
+    private LinkedMap<Item, Integer> items = new LinkedMap<Item, Integer>();
 
     public ShoppingList(String name) {
         this.name = name;

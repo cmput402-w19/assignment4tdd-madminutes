@@ -4,4 +4,4 @@ coverage:
   precision: 2
 
 ignore:
-  - "src/main/java/Main.java"
+  - "/src/main/java/cmput402/tdd/Main.java"

@@ -5,33 +5,34 @@ import java.util.Map;
 
 public class App {
 
-    public LinkedMap<String, Person> people = new LinkedMap<String, Person>();
+    private LinkedMap<String, Person> people = new LinkedMap<String, Person>();
 
     public LinkedMap<String, Person> getPeople() {
         return people;
     }
 
-    public Person getPerson(Scanner input, boolean create) throws Exception {
-        System.out.println("Please type the name of a person");
+    public Person getPerson(Scanner input) throws Exception {
+        System.out.println("Please type the name of a person:");
         String personName = input.nextLine();
-
-        Person person;
-        if (create) {
-            person = createPerson(personName);
+        
+        Person person = null;
+        if(getPeople().containsKey(personName)) {
+            person = getPeople().get(personName);
         } else {
-            if(getPeople().containsKey(personName)) {
-                person = getPeople().get(personName);
-            } else {
-                throw new Exception("Person does not exist.");
-            }
+            throw new Exception("Person does not exist!");
         }
         return person;
     }
 
-    private Person createPerson(String name) {
+    public void createPerson(Scanner input) throws Exception {
+        System.out.println("Please enter the name of the Person to create:");
+        String name = input.nextLine();
         Person person = new Person(name);
-        getPeople().put(name, person);
-        return person;
+        if(people.containsKey(name)){
+            throw new Exception("Person already exists!");
+        } else {
+            people.put(name, person);
+        }
     }
 
     public ShoppingList getShoppingList(Scanner input, Person person) throws Exception {
@@ -81,6 +82,7 @@ public class App {
     }
     
     public ShoppingList createShoppingList(Scanner input) throws Exception {
+        System.out.println("Please enter the name of the shopping list:");
         String name = input.nextLine();
 
         if (name.length() == 0){
@@ -100,13 +102,13 @@ public class App {
         int quantity;
         int selection = 10;
         int index = 0;
-        clearConsole();
+        Main.clearConsole();
         while(true) {
-            clearConsole();
+            Main.clearConsole();
             System.out.println(shoppingList.toString());
             System.out.println(errorMsg);
             System.out.println("Please select an option to edit your shopping list:");
-            System.out.println("1. Add\n2. Remove\n3. Return\n\n");
+            System.out.println("1 - Add\n2 - Remove\n3 - Return\n\n");
             response = input.nextLine();
             try{
                 selection = Integer.parseInt(response);
@@ -184,7 +186,7 @@ public class App {
                             break;
                     }
                 case 3:
-                    clearConsole();
+                    Main.clearConsole();
                     return;
                 default:
                     errorMsg = "Invalid Selection made.";
@@ -194,8 +196,7 @@ public class App {
 
     }
     public void editRecipe(Scanner input, Recipe recipe) throws Exception{
-        clearConsole();
-
+        Main.clearConsole();
         System.out.println("Please select an option to edit your recipe:");
         System.out.println("command format (ignore bracket): (add 1) (remove 5) (rename \"recipe_name\")");
         System.out.println("*add\n*remove\n*rename\n");
@@ -330,21 +331,5 @@ public class App {
             e *= 10; 
             p++; }
         return p;
-    }
-
-    public final static void clearConsole(){
-        try {
-            final String os = System.getProperty("os.name");
-
-            if (os.contains("Windows")) {
-                Runtime.getRuntime().exec("cls");
-            }
-            else {
-                Runtime.getRuntime().exec("clear");
-            }
-        }
-        catch (final Exception e) {
-            //  Handle any exceptions.
-        }
     }
 }

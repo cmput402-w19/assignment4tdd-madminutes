@@ -9,26 +9,39 @@ public class Main {
         App app = new App();
         boolean exitPersonMenu = false, exitApplication = false;
         Person person = null;
+        int option;
 
+        clearConsole();
         // Loop to get a person
         while (!exitApplication) {
+            exitPersonMenu = false;
             System.out.println("Choose from these choices");
             System.out.println("-------------------------\n");
             System.out.println("1 - Select a Person");
             System.out.println("2 - Create a Person");
             System.out.println("3 - Quit");
 
-            int choice = scanner.nextInt();
-            scanner.nextLine();
+            try{
+                option = Integer.parseInt(scanner.nextLine());
+            } catch (Exception e) {
+                option = -1;
+            }
 
-            switch (choice) {
+            switch (option) {
                 case 1:
                     try {
-                        person = app.getPerson(scanner, false);
-
+                        try {
+                            clearConsole();
+                            app.displayPeople();
+                            person = app.getPerson(scanner);
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage());
+                            exitPersonMenu = true;
+                        }
                         // Loop to do actions on that person
                         while (!exitPersonMenu) {
-                            System.out.println("Choose from these choices");
+                            clearConsole();
+                            System.out.println("Please select from these choices");
                             System.out.println("-------------------------\n");
                             System.out.println("1 - Create a Shopping List");
                             System.out.println("2 - Edit a Shopping List");
@@ -37,16 +50,26 @@ public class Main {
                             System.out.println("5 - Go back to select a person");
                             System.out.println("6 - Quit");
 
-                            int option = scanner.nextInt();
-                            scanner.nextLine();
+                            try{
+                                option = Integer.parseInt(scanner.nextLine());
+                            } catch (Exception e) {
+                                option = -1;
+                            }
+
                             try {
                                 switch (option) {
                                     case 1:
-                                        app.createShoppingList(scanner);
+                                        try{
+                                            ShoppingList list = app.createShoppingList(scanner);
+                                            person.getShoppingLists().put(list.getName(), list);
+                                        } catch (Exception e) {
+                                            System.out.println(e.getMessage());
+                                        }
                                         break;
                                     case 2:
                                         app.displayShoppingLists(person);
                                         ShoppingList shoppingList = app.getShoppingList(scanner, person);
+                                        
                                         app.editShoppingList(scanner, shoppingList);
                                         break;
                                     case 3:
@@ -62,10 +85,13 @@ public class Main {
                                         exitPersonMenu = true;
                                         break;
                                     case 6:
+                                        exitPersonMenu = true;
                                         exitApplication = true;
                                         break;
                                     default:
+                                        clearConsole();
                                         System.out.println("Please input a valid option.");
+                                        break;
                                 }
                             } catch (Exception e) {
                                 System.out.println(e.getMessage());
@@ -77,8 +103,11 @@ public class Main {
                     break;
                 case 2:
                     try {
-                        person = app.getPerson(scanner, true);
+                        clearConsole();
+                        app.createPerson(scanner);
+                        clearConsole();
                     } catch (Exception e) {
+                        clearConsole();
                         System.out.println(e.getMessage());
                     }
                     break;
@@ -86,8 +115,27 @@ public class Main {
                     exitApplication = true;
                     break;
                 default:
+                    clearConsole();
                     System.out.println("Please input a valid option.");
+                    break;
             }
+        }
+    }
+
+    public final static void clearConsole(){
+        try {
+            final String os = System.getProperty("os.name");
+
+            if (os.contains("Windows")) {
+                //Runtime.getRuntime().exec("cls");
+            }
+            else {
+                System.out.println("trying to clear");
+                System.out.print("\033[H\033[2J");
+            }
+        }
+        catch (final Exception e) {
+            //  Handle any exceptions.
         }
     }
 }
