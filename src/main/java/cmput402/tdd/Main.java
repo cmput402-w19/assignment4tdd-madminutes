@@ -19,7 +19,7 @@ public class Main {
             System.out.println("-------------------------\n");
             System.out.println("1 - Select a Person");
             System.out.println("2 - Create a Person");
-            System.out.println("3 - Quit");
+            System.out.print("3 - Quit\n\n> ");
 
             try{
                 option = Integer.parseInt(scanner.nextLine());
@@ -35,12 +35,13 @@ public class Main {
                             app.displayPeople();
                             person = app.getPerson(scanner);
                         } catch (Exception e) {
+                            clearConsole();
                             System.out.println(e.getMessage());
                             exitPersonMenu = true;
                         }
+                        clearConsole();
                         // Loop to do actions on that person
                         while (!exitPersonMenu) {
-                            clearConsole();
                             System.out.println("Please select from these choices");
                             System.out.println("-------------------------\n");
                             System.out.println("1 - Create a Shopping List");
@@ -48,7 +49,7 @@ public class Main {
                             System.out.println("3 - Create a Recipe");
                             System.out.println("4 - Edit a Recipe");
                             System.out.println("5 - Go back to select a person");
-                            System.out.println("6 - Quit");
+                            System.out.print("6 - Quit\n\n> ");
 
                             try{
                                 option = Integer.parseInt(scanner.nextLine());
@@ -59,17 +60,20 @@ public class Main {
                             try {
                                 switch (option) {
                                     case 1:
-                                        try{
-                                            ShoppingList list = app.createShoppingList(scanner);
-                                            person.getShoppingLists().put(list.getName(), list);
-                                        } catch (Exception e) {
-                                            System.out.println(e.getMessage());
+                                        clearConsole();
+                                        app.displayShoppingLists(person);
+                                        ShoppingList list = app.createShoppingList(scanner);
+                                        if (person.getShoppingLists().containsKey(list.getName())){
+                                            throw new Exception(list.getName()+" already exists");
                                         }
+                                        person.getShoppingLists().put(list.getName(), list);
+                                        clearConsole();
+                                        System.out.println(list.getName()+" was Added!");
                                         break;
                                     case 2:
+                                        clearConsole();
                                         app.displayShoppingLists(person);
                                         ShoppingList shoppingList = app.getShoppingList(scanner, person);
-                                        
                                         app.editShoppingList(scanner, shoppingList);
                                         break;
                                     case 3:
@@ -94,6 +98,7 @@ public class Main {
                                         break;
                                 }
                             } catch (Exception e) {
+                                clearConsole();
                                 System.out.println(e.getMessage());
                             }
                         }
@@ -104,8 +109,10 @@ public class Main {
                 case 2:
                     try {
                         clearConsole();
+                        app.displayPeople();
                         app.createPerson(scanner);
                         clearConsole();
+                        System.out.println("New person added successfully!");
                     } catch (Exception e) {
                         clearConsole();
                         System.out.println(e.getMessage());
@@ -130,7 +137,6 @@ public class Main {
                 //Runtime.getRuntime().exec("cls");
             }
             else {
-                System.out.println("trying to clear");
                 System.out.print("\033[H\033[2J");
             }
         }

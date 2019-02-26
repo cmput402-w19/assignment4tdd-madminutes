@@ -144,6 +144,7 @@ public class ShoppingList {
             quantity = entry.getValue();
             out.append(String.format("%dx %s $%.2f\n", quantity, name, cost));
         }
+        out.append(String.format("\nTotal cost: $%.2f", getTotalCost()));
         return out.toString();
     }
 }

@@ -176,11 +176,11 @@ public class ShoppingListTest {
         ShoppingList list = new ShoppingList("list1");
 
         // Test1: empty map
-        assertEquals("Grocery List:\n", list.toString());
+        assertEquals("Grocery List:\n\nTotal cost: $0.00", list.toString());
 
         // Test2: non-empty map
         list.add(item1, 4);
-        String out = "Grocery List:\n4x item1 $1.00\n";
+        String out = "Grocery List:\n4x item1 $1.00\n\nTotal cost: $4.00";
         assertEquals(list.toString(), out);
 
     }

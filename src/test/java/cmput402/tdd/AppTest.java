@@ -41,7 +41,7 @@ public class AppTest {
             app.createPerson(scanner);
             fail();
         } catch (Exception e) {
-            assertEquals(e.getMessage(), "Person already exists!");
+            assertEquals(e.getMessage(), "John already exists!");
         }
     }
     @Test
@@ -348,12 +348,14 @@ public class AppTest {
         person.addShoppingList(list);
 
         // Test1: empty list of people
-        String out = String.format("%-3s|%-20s|%-7s\n", "Id", "Name", "# Lists");
+        String out = "People:\n";
         assertEquals(app.displayPeople(), out);
 
         // test2: non-empty list of people
         app.getPeople().put(person.getName(), person);
-        out += String.format("%-3d|%-20s|%-7d\n", 0, "John", 1);
+        out += "John\n";
+        System.out.println(out);
+        System.out.println(app.displayPeople());
         assertEquals(app.displayPeople(), out);
 
     }

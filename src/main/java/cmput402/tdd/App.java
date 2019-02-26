@@ -12,7 +12,7 @@ public class App {
     }
 
     public Person getPerson(Scanner input) throws Exception {
-        System.out.println("Please type the name of a person:");
+        System.out.print("Please type the name of a person:\n>");
         String personName = input.nextLine();
         
         Person person = null;
@@ -29,14 +29,14 @@ public class App {
         String name = input.nextLine();
         Person person = new Person(name);
         if(people.containsKey(name)){
-            throw new Exception("Person already exists!");
+            throw new Exception(name+" already exists!");
         } else {
             people.put(name, person);
         }
     }
 
     public ShoppingList getShoppingList(Scanner input, Person person) throws Exception {
-        System.out.println("Please type the name of the shopping list");
+        System.out.print("Please type the name of the shopping list:\n>");
         String shoppingListName = input.nextLine();
 
         LinkedMap<String, ShoppingList> shoppingLists = person.getShoppingLists();
@@ -48,9 +48,9 @@ public class App {
     }
 
     public Item createItem(Scanner input) throws Exception {
-        System.out.println("Please enter the name of the item:");
+        System.out.print("Please enter the name of the item:\n>");
         String name = input.nextLine();
-        System.out.println("Please enter the cost of the item (dollars.cents):");
+        System.out.print("Please enter the cost of the item (dollars.cents):\n>");
         String str_cost = input.nextLine();
         float cost = 0;
 
@@ -82,7 +82,7 @@ public class App {
     }
     
     public ShoppingList createShoppingList(Scanner input) throws Exception {
-        System.out.println("Please enter the name of the shopping list:");
+        System.out.print("Please enter the name of the shopping list:\n>");
         String name = input.nextLine();
 
         if (name.length() == 0){
@@ -108,7 +108,7 @@ public class App {
             System.out.println(shoppingList.toString());
             System.out.println(errorMsg);
             System.out.println("Please select an option to edit your shopping list:");
-            System.out.println("1 - Add\n2 - Remove\n3 - Return\n\n");
+            System.out.print("1 - Add\n2 - Remove\n3 - Return\n\n>");
             response = input.nextLine();
             try{
                 selection = Integer.parseInt(response);
@@ -129,7 +129,7 @@ public class App {
                         continue;
                     }
                     try {
-                        System.out.println("How many of this item would you like to add?:");
+                        System.out.print("How many of this item would you like to add?:\n>");
                         response = input.nextLine();
                         quantity = Integer.parseInt(response);
                         shoppingList.add(item, quantity);
@@ -141,8 +141,9 @@ public class App {
                     break;
                 case 2:
                     int option = -1;
+                    errorMsg = "";
                     try{
-                        System.out.println("Select an option to remove by:\n1. Name & Cost\n2. Position");
+                        System.out.print("Select an option to remove by:\n1. Name & Cost\n2. Position\n\n>");
                         response = input.nextLine();
                         option = Integer.parseInt(response);
                         errorMsg = "";
@@ -167,7 +168,7 @@ public class App {
                             }
                             errorMsg = "Item removed.";
                         case 2:
-                            System.out.println("Which Item would you like to remove?:");
+                            System.out.print("Which Item would you like to remove?:\n>");
                             response = input.nextLine();
                             try {
                                 index = Integer.parseInt(response);
@@ -313,12 +314,12 @@ public class App {
     }
 
     public String displayPeople() {
-        StringBuilder out = new StringBuilder(String.format("%-3s|%-20s|%-7s\n", "Id","Name","# Lists")); 
-        int i = 0;
+        String out = "People:\n"; 
         for (Map.Entry<String, Person> entry : people.entrySet()) {
-            out.append(String.format("%-3d|%-20s|%-7d\n", i, entry.getKey(), entry.getValue().getShoppingLists().size()));
+            out += entry.getKey()+"\n";
         }
-        return out.toString();
+        System.out.println(out);
+        return out;
     }
 
     // source: https://stackoverflow.com/questions/9553354/how-do-i-get-the-decimal-places-of-a-floating-point-number-in-javascript
