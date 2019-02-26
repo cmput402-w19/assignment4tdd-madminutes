@@ -291,13 +291,10 @@ public class App {
         return recipeList.get(recipeName);
     }
 
-    public void displayRecipes(Person person){
-        System.out.println("\n"+person.getName()+" has the following recipes:\n");
-        for (Map.Entry<String, Recipe> entry : person.getRecipes().entrySet()) {
-            Recipe recipeObj = entry.getValue();
-            System.out.println(recipeObj.toString() + "\n");
-        }
+    public String displayRecipes(Person person){
+        return null;
     }
+
 
     public String displayPeople() {
         StringBuilder out = new StringBuilder(String.format("%-3s|%-20s|%-7s\n", "Id","Name","# Lists")); 

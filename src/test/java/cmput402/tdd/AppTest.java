@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
+import java.util.Map;
 import java.util.Scanner;
 import java.io.ByteArrayInputStream;
 import static org.junit.Assert.fail;
@@ -60,7 +61,7 @@ public class AppTest {
         ShoppingList shoppingList;
 
         Person person = mock(Person.class);
-        when(person.getShoppingLists()).thenReturn(new LinkedMap<String, ShoppingList>(){{
+        when(person.getShoppingLists()).thenReturn(new LinkedMap<String, ShoppingList>() {{
             put("Monday Shopping List", new ShoppingList("Monday Shopping List"));
         }}).thenReturn(new LinkedMap<String, ShoppingList>());
 
@@ -90,65 +91,65 @@ public class AppTest {
     public void testCreateItem() {
         App app = new App();
         Item item;
-        
+
         //Test1: correct input
         ByteArrayInputStream in = new ByteArrayInputStream("item1\n2.00\n".getBytes());
-        Scanner scanner = new Scanner(in); 
-        try{
+        Scanner scanner = new Scanner(in);
+        try {
             item = app.createItem(scanner);
             assertEquals("item1", item.getName());
             assertEquals(2.0f, item.getCost(), 0.0);
-        } catch (Exception e){
+        } catch (Exception e) {
             fail();
         }
 
         //Test2: too many cents given
         in = new ByteArrayInputStream("item1\n2.888\n".getBytes());
-        scanner = new Scanner(in); 
-        try{
+        scanner = new Scanner(in);
+        try {
             item = app.createItem(scanner);
             fail();
-        } catch (Exception e){
+        } catch (Exception e) {
             assertEquals("Items do not support partial cents.", e.getMessage());
         }
 
         //Test3: bad format cost
         in = new ByteArrayInputStream("item1\n2.88.8\n".getBytes());
-        scanner = new Scanner(in); 
-        try{
+        scanner = new Scanner(in);
+        try {
             item = app.createItem(scanner);
             fail();
-        } catch (Exception e){
+        } catch (Exception e) {
             assertEquals("Incorrect cost format", e.getMessage());
         }
 
         //Test4: empty name given
         in = new ByteArrayInputStream("\n 2.88.8".getBytes());
-        scanner = new Scanner(in); 
-        try{
+        scanner = new Scanner(in);
+        try {
             item = app.createItem(scanner);
             fail();
-        } catch (Exception e){
+        } catch (Exception e) {
             assertEquals("Name cannot be empty.", e.getMessage());
         }
 
         //Test5: empty cost given
         in = new ByteArrayInputStream("item1\n\n".getBytes());
-        scanner = new Scanner(in); 
-        try{
+        scanner = new Scanner(in);
+        try {
             item = app.createItem(scanner);
             assertEquals(0.0f, item.getCost(), 0.0);
-        } catch (Exception e){
+        } catch (Exception e) {
             fail();
         }
 
         //Test6: item name > 20 characters given        
         in = new ByteArrayInputStream("item11111111111111111\n2\n".getBytes());
-        scanner = new Scanner(in); 
-        try{
+        scanner = new Scanner(in);
+        try {
             item = app.createItem(scanner);
             fail();
-        } catch (Exception e){
+        } catch (Exception e) {
             assertEquals("Item name cannot be longer than 20 characters.", e.getMessage());
         }
     }
@@ -157,11 +158,11 @@ public class AppTest {
     public void testCreateShoppingList() {
         App app = new App();
         ShoppingList shoppingList;
-        
+
         //Test1: correct input
         ByteArrayInputStream in = new ByteArrayInputStream("list1\n".getBytes());
-        Scanner scanner = new Scanner(in); 
-        try{
+        Scanner scanner = new Scanner(in);
+        try {
             shoppingList = app.createShoppingList(scanner);
             Assert.assertNotNull(shoppingList);
             assertEquals(shoppingList.getName(), "list1");
@@ -171,85 +172,85 @@ public class AppTest {
 
         //Test2: empty name given
         in = new ByteArrayInputStream("\n 2.88.8".getBytes());
-        scanner = new Scanner(in); 
-        try{
+        scanner = new Scanner(in);
+        try {
             shoppingList = app.createShoppingList(scanner);
             fail();
-        } catch (Exception e){
+        } catch (Exception e) {
             assertEquals("Name cannot be empty.", e.getMessage());
         }
 
         //Test3: list name > 20 characters given
         in = new ByteArrayInputStream("list11111111111111111\n2\n".getBytes());
-        scanner = new Scanner(in); 
-        try{
+        scanner = new Scanner(in);
+        try {
             shoppingList = app.createShoppingList(scanner);
             fail();
-        } catch (Exception e){
+        } catch (Exception e) {
             assertEquals("ShoppingList name cannot be longer than 20 characters.", e.getMessage());
         }
     }
 
     @Test
-    public void testEditShoppingList(){
+    public void testEditShoppingList() {
         App app = new App();
         ShoppingList shoppingList = new ShoppingList("list1");
         Person person = new Person("person1");
         person.addShoppingList(shoppingList);
-        
+
         //Test1: correct input
         ByteArrayInputStream in = new ByteArrayInputStream("1\nitem1\n2.00\n4\n3\n".getBytes());
-        Scanner scanner = new Scanner(in); 
+        Scanner scanner = new Scanner(in);
 
         app.editShoppingList(scanner, person.getShoppingLists().get("list1"));
         assertEquals(1, person.getShoppingLists().get("list1").getItems().size());
 
         // Test2: invalid choice
         in = new ByteArrayInputStream("4\n3\n".getBytes());
-        scanner = new Scanner(in); 
+        scanner = new Scanner(in);
 
         app.editShoppingList(scanner, person.getShoppingLists().get("list1"));
         assertEquals(1, person.getShoppingLists().get("list1").getItems().size());
 
         // Test3: invalid cost
         in = new ByteArrayInputStream("1\nitem2\nlpq.00\n5\n3\n".getBytes());
-        scanner = new Scanner(in); 
+        scanner = new Scanner(in);
 
         app.editShoppingList(scanner, person.getShoppingLists().get("list1"));
         assertEquals(1, person.getShoppingLists().get("list1").getItems().size());
 
         // Test4: invalid quantity
         in = new ByteArrayInputStream("1\nitem2\n3.00\nlots\n3\n".getBytes());
-        scanner = new Scanner(in); 
+        scanner = new Scanner(in);
 
         app.editShoppingList(scanner, person.getShoppingLists().get("list1"));
         assertEquals(1, person.getShoppingLists().get("list1").getItems().size());
 
         // Test5: remove invalid option
         in = new ByteArrayInputStream("2\ncat\n3\n".getBytes());
-        scanner = new Scanner(in); 
+        scanner = new Scanner(in);
 
         app.editShoppingList(scanner, person.getShoppingLists().get("list1"));
         assertEquals(1, person.getShoppingLists().get("list1").getItems().size());
-        
+
         // Test5: remove by item
         person.getShoppingLists().get("list1").add("item2", 2.0f, 4);
         in = new ByteArrayInputStream("2\n1\nitem2\n2.0\n3\n".getBytes());
-        scanner = new Scanner(in); 
+        scanner = new Scanner(in);
 
         app.editShoppingList(scanner, person.getShoppingLists().get("list1"));
         assertEquals(1, person.getShoppingLists().get("list1").getItems().size());
 
         // Test6: remove by item not in list
         in = new ByteArrayInputStream("2\n1\nitem3\n2.0\n3\n".getBytes());
-        scanner = new Scanner(in); 
+        scanner = new Scanner(in);
 
         app.editShoppingList(scanner, person.getShoppingLists().get("list1"));
         assertEquals(1, person.getShoppingLists().get("list1").getItems().size());
 
         // Test7: remove by invalid item
         in = new ByteArrayInputStream("2\n1\nitem3\ncat\n3\n".getBytes());
-        scanner = new Scanner(in); 
+        scanner = new Scanner(in);
 
         app.editShoppingList(scanner, person.getShoppingLists().get("list1"));
         assertEquals(1, person.getShoppingLists().get("list1").getItems().size());
@@ -257,28 +258,28 @@ public class AppTest {
         // Test8: remove by index
         person.getShoppingLists().get("list1").add("item2", 2.0f, 4);
         in = new ByteArrayInputStream("2\n2\n0\n3\n".getBytes());
-        scanner = new Scanner(in); 
+        scanner = new Scanner(in);
 
         app.editShoppingList(scanner, person.getShoppingLists().get("list1"));
         assertEquals(1, person.getShoppingLists().get("list1").getItems().size());
-    
+
         // Test9: remove by invalid index
         in = new ByteArrayInputStream("2\n2\ncat\n3\n".getBytes());
-        scanner = new Scanner(in); 
+        scanner = new Scanner(in);
 
         app.editShoppingList(scanner, person.getShoppingLists().get("list1"));
         assertEquals(1, person.getShoppingLists().get("list1").getItems().size());
 
         // Test10: remove by index not in list
         in = new ByteArrayInputStream("2\n2\n8\n3\n".getBytes());
-        scanner = new Scanner(in); 
+        scanner = new Scanner(in);
 
         app.editShoppingList(scanner, person.getShoppingLists().get("list1"));
         assertEquals(1, person.getShoppingLists().get("list1").getItems().size());
-        
+
         // Test11: invalid selection
         in = new ByteArrayInputStream("cat\n3\n".getBytes());
-        scanner = new Scanner(in); 
+        scanner = new Scanner(in);
 
         app.editShoppingList(scanner, person.getShoppingLists().get("list1"));
         assertEquals(1, person.getShoppingLists().get("list1").getItems().size());
@@ -292,7 +293,7 @@ public class AppTest {
         //Test1: correct input
         ByteArrayInputStream in = new ByteArrayInputStream("recipe1\n".getBytes());
         Scanner scanner = new Scanner(in);
-        try{
+        try {
             recipe = app.createRecipe(scanner);
             Assert.assertNotNull(recipe);
             assertEquals(recipe.getName(), "recipe1");
@@ -303,20 +304,20 @@ public class AppTest {
         //Test2: empty name given
         in = new ByteArrayInputStream("\n".getBytes());
         scanner = new Scanner(in);
-        try{
+        try {
             recipe = app.createRecipe(scanner);
             fail();
-        } catch (Exception e){
+        } catch (Exception e) {
             assertEquals("Name cannot be empty.", e.getMessage());
         }
 
         //Test3: list name > 40 characters given
         in = new ByteArrayInputStream("12121212121212121212121212121212121212121\n2\n".getBytes());
         scanner = new Scanner(in);
-        try{
+        try {
             recipe = app.createRecipe(scanner);
             Assert.fail();
-        } catch (Exception e){
+        } catch (Exception e) {
             assertEquals("Recipe name cannot be longer than 40 characters.", e.getMessage());
         }
     }
@@ -328,20 +329,20 @@ public class AppTest {
         Person person = new Person("John");
         ShoppingList list = new ShoppingList("list1");
         person.addShoppingList(list);
-        
+
         // Test1: empty list of people
-        String out = String.format("%-3s|%-20s|%-7s\n", "Id","Name","# Lists");
+        String out = String.format("%-3s|%-20s|%-7s\n", "Id", "Name", "# Lists");
         assertEquals(app.displayPeople(), out);
 
         // test2: non-empty list of people
         app.getPeople().put(person.getName(), person);
         out += String.format("%-3d|%-20s|%-7d\n", 0, "John", 1);
         assertEquals(app.displayPeople(), out);
-        
+
     }
 
     @Test
-    public void testEditRecipe(){
+    public void testEditRecipe() {
         App app = new App();
         Recipe recipe = new Recipe("apple pie");
 
@@ -353,8 +354,7 @@ public class AppTest {
         Scanner scanner = new Scanner(in);
         try {
             app.editRecipe(scanner, recipe);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             fail();
         }
         assertEquals(1, recipe.items.size());
@@ -365,8 +365,7 @@ public class AppTest {
         scanner = new Scanner(in);
         try {
             app.editRecipe(scanner, recipe);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             Assert.fail();
         }
         assertEquals(1, recipe.items.size());
@@ -378,8 +377,7 @@ public class AppTest {
         try {
             app.editRecipe(scanner, recipe);
             Assert.fail();
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             assertEquals("Quantity must be above 0", e.getMessage());
         }
         assertEquals(1, recipe.items.size());
@@ -392,8 +390,7 @@ public class AppTest {
         scanner = new Scanner(in);
         try {
             app.editRecipe(scanner, recipe);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             Assert.fail();
         }
         assertEquals(2, recipe.items.size());
@@ -405,8 +402,7 @@ public class AppTest {
         scanner = new Scanner(in);
         try {
             app.editRecipe(scanner, recipe);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             Assert.fail();
         }
         assertEquals(1, recipe.items.size());
@@ -419,8 +415,7 @@ public class AppTest {
         try {
             app.editRecipe(scanner, recipe);
             Assert.fail();
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             assertEquals("Cannot remove negative quantity or greater than existing amount from recipe", e.getMessage());
         }
         assertEquals(1, recipe.items.size());
@@ -432,8 +427,7 @@ public class AppTest {
         scanner = new Scanner(in);
         try {
             app.editRecipe(scanner, recipe);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             Assert.fail();
         }
 
@@ -446,8 +440,7 @@ public class AppTest {
         try {
             app.editRecipe(scanner, recipe);
             Assert.fail();
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e);
             assertEquals("item cannot be removed from recipe", e.getMessage());
         }
@@ -459,8 +452,7 @@ public class AppTest {
         scanner = new Scanner(in);
         try {
             app.editRecipe(scanner, recipe);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             Assert.fail();
         }
         assertEquals("super apple pie", recipe.getName());
@@ -471,8 +463,7 @@ public class AppTest {
         try {
             app.editRecipe(scanner, recipe);
             Assert.fail();
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             assertEquals("Recipe name cannot be blank or greater than 40 letters", e.getMessage());
         }
 
@@ -484,8 +475,7 @@ public class AppTest {
         try {
             app.editRecipe(scanner, recipe);
             Assert.fail();
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             assertEquals("Recipe name cannot be blank or greater than 40 letters", e.getMessage());
         }
         assertEquals("super apple pie", recipe.getName());
@@ -496,8 +486,7 @@ public class AppTest {
         try {
             app.editRecipe(scanner, recipe);
             Assert.fail();
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             assertEquals("Invalid command", e.getMessage());
         }
         assertEquals("super apple pie", recipe.getName());
@@ -508,8 +497,7 @@ public class AppTest {
         try {
             app.editRecipe(scanner, recipe);
             Assert.fail();
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             assertEquals("Invalid command", e.getMessage());
         }
         assertEquals(1, recipe.items.size());
@@ -521,8 +509,7 @@ public class AppTest {
         try {
             app.editRecipe(scanner, recipe);
             Assert.fail();
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             assertEquals("Invalid command", e.getMessage());
         }
         assertEquals(1, recipe.items.size());
@@ -534,8 +521,7 @@ public class AppTest {
         try {
             app.editRecipe(scanner, recipe);
             Assert.fail();
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             assertEquals("Please enter a positive whole number for quantity", e.getMessage());
         }
         assertEquals(1, recipe.items.size());
@@ -547,8 +533,7 @@ public class AppTest {
         try {
             app.editRecipe(scanner, recipe);
             Assert.fail();
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             assertEquals("Invalid command", e.getMessage());
         }
         assertEquals("super apple pie", recipe.getName());
@@ -559,8 +544,7 @@ public class AppTest {
         try {
             app.editRecipe(scanner, recipe);
             Assert.fail();
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             assertEquals("Invalid command", e.getMessage());
         }
         assertEquals("super apple pie", recipe.getName());
@@ -571,8 +555,7 @@ public class AppTest {
         try {
             app.editRecipe(scanner, recipe);
             Assert.fail();
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             assertEquals("Failed to create item for recipe", e.getMessage());
         }
         assertEquals(1, recipe.items.size());
@@ -584,8 +567,7 @@ public class AppTest {
         try {
             app.editRecipe(scanner, recipe);
             Assert.fail();
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             assertEquals("Invalid command format", e.getMessage());
         }
         assertEquals(1, recipe.items.size());
@@ -597,8 +579,7 @@ public class AppTest {
         try {
             app.editRecipe(scanner, recipe);
             Assert.fail();
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             assertEquals("Invalid command", e.getMessage());
         }
         assertEquals(1, recipe.items.size());
@@ -611,7 +592,7 @@ public class AppTest {
         Recipe recipe;
 
         Person person = mock(Person.class);
-        when(person.getRecipes()).thenReturn(new LinkedMap<String, Recipe>(){{
+        when(person.getRecipes()).thenReturn(new LinkedMap<String, Recipe>() {{
             put("Test recipe", new Recipe("Test recipe"));
         }}).thenReturn(new LinkedMap<String, Recipe>());
 
@@ -637,4 +618,22 @@ public class AppTest {
             assertEquals("Recipe does not exist.", e.getMessage());
         }
     }
+
+
+    @Test
+    public void testDisplayRecipe() {
+        App app = new App();
+        Person person = new Person("John");
+        Recipe recipe1 = new Recipe("recipe1");
+        Recipe recipe2 = new Recipe("recipe2");
+
+        // Test1: empty list of ShoppingLists
+        assertEquals("John has the following recipes:\n",app.displayRecipes(person));
+
+        // test2: non-empty list of people
+        person.addRecipe(recipe1);
+        person.addRecipe(recipe2);
+        assertEquals("John has the following recipes:\nrecipe1\nrecipe2\n", app.displayRecipes(person));
+    }
+
 }

@@ -46,6 +46,7 @@ public class Main {
                                         app.createShoppingList(scanner);
                                         break;
                                     case 2:
+                                        app.displayShoppingLists(person);
                                         ShoppingList shoppingList = app.getShoppingList(scanner, person);
                                         app.editShoppingList(scanner, shoppingList);
                                         break;
