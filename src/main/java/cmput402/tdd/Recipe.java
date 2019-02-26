@@ -62,7 +62,8 @@ public class Recipe {
         for (Map.Entry<Item, Integer> entry : items.entrySet()) {
             Item ingredient = entry.getKey();
             Integer quantity = entry.getValue();
-            out.append("  - "+ingredient.getName() + " x" + quantity.toString() + "\n");
+            out.append("  - "+ingredient.getName() + " x" + quantity.toString());
+            out.append(String.format(" $%.2f\n",ingredient.getCost()));
         }
         return out.toString();
     }

@@ -239,7 +239,7 @@ public class RecipeTest extends TestCase {
         assertEquals(out, recipe2.toString());
 
         //Test 5b: Test valid recipe toString output
-        out = "Apple Pie\n  - apple x3\n";
+        out = "Apple Pie\n  - apple x3 $1.00\n";
         assertEquals(out, recipe.toString());
     }
 
