@@ -17,20 +17,39 @@ import static org.mockito.Mockito.when;
 public class AppTest {
 
     @Test
-    public void testGetPerson() {
+    public void testCreatePerson() {
         App app = new App();
         Person person;
 
         ByteArrayInputStream in = new ByteArrayInputStream("John\n".getBytes());
         Scanner scanner = new Scanner(in);
 
-        // Create a person
-        //try {
-        //    app.createPerson(scanner);
-        //    assertEquals(1, app.getPeople().size());
-        //} catch (Exception e) {
-        //    fail();
-        //}
+        //Create a person
+        try {
+            app.createPerson(scanner);
+            assertEquals(app.getPeople().size(), 1);
+        } catch (Exception e) {
+            fail();
+        }
+
+        in = new ByteArrayInputStream("John\n".getBytes());
+        scanner = new Scanner(in);
+
+        //Person already exists
+        try {
+            app.createPerson(scanner);
+            fail();
+        } catch (Exception e) {
+            assertEquals(e.getMessage(), "Person already exists!");
+        }
+    }
+    @Test
+    public void testGetPerson() {
+        App app = new App();
+        Person person;
+
+        ByteArrayInputStream in = new ByteArrayInputStream("John\n".getBytes());
+        Scanner scanner = new Scanner(in);
 
         scanner = new Scanner(new ByteArrayInputStream("John\n".getBytes()));
         // Find a person
