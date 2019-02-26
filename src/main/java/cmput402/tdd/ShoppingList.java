@@ -10,7 +10,7 @@ public class ShoppingList {
 
     private String owner = "";
 
-    private LinkedMap<Item, Integer> items = new LinkedMap<>();
+    private LinkedMap<Item, Integer> items = new LinkedMap<Item, Integer>();
 
     public ShoppingList(String name) {
         this.name = name;
@@ -144,6 +144,7 @@ public class ShoppingList {
             quantity = entry.getValue();
             out.append(String.format("%dx %s $%.2f\n", quantity, name, cost));
         }
+        out.append(String.format("\nTotal cost: $%.2f", getTotalCost()));
         return out.toString();
     }
 }

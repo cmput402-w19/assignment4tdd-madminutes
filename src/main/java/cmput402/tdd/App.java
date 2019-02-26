@@ -5,16 +5,52 @@ import java.util.Map;
 
 public class App {
 
-    public LinkedMap<String, Person> people = new LinkedMap<String, Person>();
+    private LinkedMap<String, Person> people = new LinkedMap<String, Person>();
 
     public LinkedMap<String, Person> getPeople() {
         return people;
     }
 
-    public Item createItem(Scanner input) throws Exception {
-        System.out.println("Please enter the name of the item:");
+    public Person getPerson(Scanner input) throws Exception {
+        System.out.print("Please type the name of a person:\n>");
+        String personName = input.nextLine();
+        
+        Person person = null;
+        if(getPeople().containsKey(personName)) {
+            person = getPeople().get(personName);
+        } else {
+            throw new Exception("Person does not exist!");
+        }
+        return person;
+    }
+
+    public void createPerson(Scanner input) throws Exception {
+        System.out.print("Please enter the name of the Person to create:\n>");
         String name = input.nextLine();
-        System.out.println("Please enter the cost of the item (dollars.cents):");
+        Person person = new Person(name);
+        if(people.containsKey(name)){
+            throw new Exception(name+" already exists!");
+        } else {
+            people.put(name, person);
+        }
+    }
+
+    public ShoppingList getShoppingList(Scanner input, Person person) throws Exception {
+        System.out.print("Please type the name of the shopping list:\n>");
+        String shoppingListName = input.nextLine();
+
+        LinkedMap<String, ShoppingList> shoppingLists = person.getShoppingLists();
+
+        if(!shoppingLists.containsKey(shoppingListName)) {
+            throw new Exception("Shopping List does not exist.");
+        }
+        return shoppingLists.get(shoppingListName);
+    }
+
+    public Item createItem(Scanner input) throws Exception {
+        System.out.print("Please enter the name of the item:\n>");
+        String name = input.nextLine();
+        System.out.print("Please enter the cost of the item (dollars.cents):\n>");
         String str_cost = input.nextLine();
         float cost = 0;
 
@@ -46,6 +82,7 @@ public class App {
     }
     
     public ShoppingList createShoppingList(Scanner input) throws Exception {
+        System.out.print("Please enter the name of the shopping list:\n>");
         String name = input.nextLine();
 
         if (name.length() == 0){
@@ -54,7 +91,7 @@ public class App {
         if (name.length() > 20){
             throw new Exception("ShoppingList name cannot be longer than 20 characters.");
         }
-       ShoppingList shoppingList = new ShoppingList(name);
+        ShoppingList shoppingList = new ShoppingList(name);
         return shoppingList;
     }
 
@@ -65,13 +102,13 @@ public class App {
         int quantity;
         int selection = 10;
         int index = 0;
-        clearConsole();
+        Main.clearConsole();
         while(true) {
-            clearConsole();
+            Main.clearConsole();
             System.out.println(shoppingList.toString());
             System.out.println(errorMsg);
             System.out.println("Please select an option to edit your shopping list:");
-            System.out.println("1. Add\n2. Remove\n3. Return\n\n");
+            System.out.print("1 - Add\n2 - Remove\n3 - Return\n\n>");
             response = input.nextLine();
             try{
                 selection = Integer.parseInt(response);
@@ -92,7 +129,7 @@ public class App {
                         continue;
                     }
                     try {
-                        System.out.println("How many of this item would you like to add?:");
+                        System.out.print("How many of this item would you like to add?:\n>");
                         response = input.nextLine();
                         quantity = Integer.parseInt(response);
                         shoppingList.add(item, quantity);
@@ -104,8 +141,9 @@ public class App {
                     break;
                 case 2:
                     int option = -1;
+                    errorMsg = "";
                     try{
-                        System.out.println("Select an option to remove by:\n1. Name & Cost\n2. Position");
+                        System.out.print("Select an option to remove by:\n1. Name & Cost\n2. Position\n\n>");
                         response = input.nextLine();
                         option = Integer.parseInt(response);
                         errorMsg = "";
@@ -129,8 +167,9 @@ public class App {
                                 errorMsg = "Item not found in shopping list.";
                             }
                             errorMsg = "Item removed.";
+                            break;
                         case 2:
-                            System.out.println("Which Item would you like to remove?:");
+                            System.out.print("Which Item would you like to remove?:\n>");
                             response = input.nextLine();
                             try {
                                 index = Integer.parseInt(response);
@@ -149,7 +188,7 @@ public class App {
                             break;
                     }
                 case 3:
-                    clearConsole();
+                    Main.clearConsole();
                     return;
                 default:
                     errorMsg = "Invalid Selection made.";
@@ -158,11 +197,12 @@ public class App {
         }
 
     }
+
     public void editRecipe(Scanner input, Recipe recipe) throws Exception{
-        clearConsole();
+        Main.clearConsole();
         System.out.println("Please select an option to edit your recipe:");
-        System.out.println("command format (ignore bracket): (add 1) (remove 5) (rename \"apples\")");
-        System.out.println("*add\n*remove\n*rename\n");
+        System.out.println("command format (ignore bracket):\n- (add 1)\n- (remove 5)\n- (rename \"recipe_name\")");
+        System.out.print("\n>");
         int quantity;
         Item item;
         String param;
@@ -187,18 +227,19 @@ public class App {
                 quantity = Integer.parseInt(param);
             }
             catch(Exception e){
-                throw new Exception("Please enter a positive whole number for quantity");
+                throw new Exception("Invalid quantity!");
             }
             try{
                 item = createItem(input);
             }
             catch (Exception e) {
-                throw new Exception("Failed to create item for recipe");
+                throw new Exception("Failed to create item for recipe!");
             }
             if(action.equals("add")){
                 if(quantity > 0){
                     recipe.add(item, quantity);
-                    System.out.println("Added "+param+" "+item.getName()+" to recipe successfully");
+                    Main.clearConsole();
+                    System.out.println("Added "+param+" "+item.getName()+" to recipe successfully!");
                 }
                 else{
                     throw new Exception("Quantity must be above 0");
@@ -208,7 +249,8 @@ public class App {
             else if(action.equals("remove")){
                 if(quantity >= 0 && recipe.items.get(item) >= quantity){
                     recipe.remove(item, quantity);
-                    System.out.println("Removed "+param+" "+item.getName()+" from recipe successfully");
+                    Main.clearConsole();
+                    System.out.println("Removed "+param+" "+item.getName()+" from recipe successfully!");
                 }
                 else{
                     throw new Exception("Cannot remove negative quantity or greater than existing amount from recipe");
@@ -222,6 +264,8 @@ public class App {
             }
             else {
                 recipe.setName(param);
+                Main.clearConsole();
+                System.out.println("Successfully renamed recipe to "+param);
             }
         }
         else {
@@ -230,6 +274,7 @@ public class App {
     }
 
     public Recipe createRecipe(Scanner input) throws Exception {
+        System.out.print("Enter a name for the new recipe:\n>");
         String name = input.nextLine();
 
         if (name.length() == 0){
@@ -242,13 +287,44 @@ public class App {
         return recipe;
     }
 
-    public String displayPeople() {
-        StringBuilder out = new StringBuilder(String.format("%-3s|%-20s|%-7s\n", "Id","Name","# Lists")); 
-        int i = 0;
-        for (Map.Entry<String, Person> entry : people.entrySet()) {
-            out.append(String.format("%-3d|%-20s|%-7d\n", i, entry.getKey(), entry.getValue().getShoppingLists().size()));
+    public Recipe getRecipe(Scanner input, Person person) throws Exception{
+        System.out.println("Enter the name of the recipe you wish to edit: ");
+        String recipeName = input.nextLine();
+
+        LinkedMap<String, Recipe> recipeList = person.getRecipes();
+        if(!recipeList.containsKey(recipeName)) {
+            throw new Exception("Recipe does not exist.");
         }
-        return out.toString();
+        return recipeList.get(recipeName);
+    }
+
+    public String displayRecipes(Person person){
+        String out = person.getName()+" has the following recipes:\n";
+        for (Map.Entry<String, Recipe> entry : person.getRecipes().entrySet()) {
+            String recipeObj = entry.getValue().toString();
+            out += recipeObj;
+        }
+        System.out.println(out);
+        return out;
+    }
+
+    public String displayShoppingLists(Person person){
+        String out = person.getName()+" has the following shopping lists:\n";
+        for (Map.Entry<String, ShoppingList> entry : person.getShoppingLists().entrySet()) {
+            String ShoppingListObj = entry.getKey()+"\n";
+            out += ShoppingListObj;
+        }
+        System.out.println(out);
+        return out;
+    }
+
+    public String displayPeople() {
+        String out = "People:\n"; 
+        for (Map.Entry<String, Person> entry : people.entrySet()) {
+            out += entry.getKey()+"\n";
+        }
+        System.out.println(out);
+        return out;
     }
 
     // source: https://stackoverflow.com/questions/9553354/how-do-i-get-the-decimal-places-of-a-floating-point-number-in-javascript
@@ -259,21 +335,5 @@ public class App {
             e *= 10; 
             p++; }
         return p;
-    }
-
-    public final static void clearConsole(){
-        try {
-            final String os = System.getProperty("os.name");
-
-            if (os.contains("Windows")) {
-                Runtime.getRuntime().exec("cls");
-            }
-            else {
-                Runtime.getRuntime().exec("clear");
-            }
-        }
-        catch (final Exception e) {
-            //  Handle any exceptions.
-        }
     }
 }

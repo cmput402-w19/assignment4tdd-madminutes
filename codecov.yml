@@ -2,3 +2,6 @@ coverage:
   range: 90..100
   round: down
   precision: 2
+
+ignore:
+  - "/src/main/java/cmput402/tdd/Main.java"
