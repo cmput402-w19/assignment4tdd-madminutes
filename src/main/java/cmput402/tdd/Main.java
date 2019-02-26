@@ -34,9 +34,8 @@ public class Main {
                             System.out.println("2 - Edit a Shopping List");
                             System.out.println("3 - Create a Recipe");
                             System.out.println("4 - Edit a Recipe");
-                            System.out.println("5 - View all recipes owned");
-                            System.out.println("6 - Go back to select a person");
-                            System.out.println("7 - Quit");
+                            System.out.println("5 - Go back to select a person");
+                            System.out.println("6 - Quit");
 
                             int option = scanner.nextInt();
                             scanner.nextLine();

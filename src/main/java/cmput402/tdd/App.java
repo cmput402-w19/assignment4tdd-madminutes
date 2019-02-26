@@ -89,7 +89,7 @@ public class App {
         if (name.length() > 20){
             throw new Exception("ShoppingList name cannot be longer than 20 characters.");
         }
-       ShoppingList shoppingList = new ShoppingList(name);
+        ShoppingList shoppingList = new ShoppingList(name);
         return shoppingList;
     }
 
@@ -298,6 +298,7 @@ public class App {
             String recipeObj = entry.getValue().toString();
             out += recipeObj;
         }
+        System.out.println(out);
         return out;
     }
 
@@ -307,8 +308,8 @@ public class App {
         for (Map.Entry<String, ShoppingList> entry : person.getShoppingLists().entrySet()) {
             String ShoppingListObj = entry.getKey()+"\n";
             out += ShoppingListObj;
-            System.out.println(ShoppingListObj);
         }
+        System.out.println(out);
         return out;
     }
 
