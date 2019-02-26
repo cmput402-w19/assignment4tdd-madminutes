@@ -187,6 +187,7 @@ public class App {
                         default:
                             break;
                     }
+                    break;
                 case 3:
                     Main.clearConsole();
                     return;
