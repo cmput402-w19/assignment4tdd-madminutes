@@ -541,7 +541,7 @@ public class AppTest {
             app.editRecipe(scanner, recipe);
             Assert.fail();
         } catch (Exception e) {
-            assertEquals("Please enter a positive whole number for quantity", e.getMessage());
+            assertEquals("Invalid quantity!", e.getMessage());
         }
         assertEquals(1, recipe.items.size());
         assertEquals(1, recipe.items.get(item2).intValue());
@@ -575,7 +575,7 @@ public class AppTest {
             app.editRecipe(scanner, recipe);
             Assert.fail();
         } catch (Exception e) {
-            assertEquals("Failed to create item for recipe", e.getMessage());
+            assertEquals("Failed to create item for recipe!", e.getMessage());
         }
         assertEquals(1, recipe.items.size());
         assertEquals(1, recipe.items.get(item2).intValue());

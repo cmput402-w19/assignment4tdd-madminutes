@@ -229,8 +229,6 @@ public class RecipeTest extends TestCase {
         //Adding ingredients for apple pie
         try {
             recipe.add(item1, 3);
-            recipe.add(item2, 2);
-            recipe.add(item3, 1);
         }
         catch(Exception e){
             Assert.fail();
@@ -241,7 +239,7 @@ public class RecipeTest extends TestCase {
         assertEquals(out, recipe2.toString());
 
         //Test 5b: Test valid recipe toString output
-        out = "Apple Pie\napple - x3\nbread - x2\nbutter - x1\n";
+        out = "Apple Pie\n  - apple x3\n";
         assertEquals(out, recipe.toString());
     }
 

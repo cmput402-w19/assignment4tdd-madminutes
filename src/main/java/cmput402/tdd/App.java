@@ -25,7 +25,7 @@ public class App {
     }
 
     public void createPerson(Scanner input) throws Exception {
-        System.out.println("Please enter the name of the Person to create:");
+        System.out.print("Please enter the name of the Person to create:\n>");
         String name = input.nextLine();
         Person person = new Person(name);
         if(people.containsKey(name)){
@@ -196,11 +196,12 @@ public class App {
         }
 
     }
+
     public void editRecipe(Scanner input, Recipe recipe) throws Exception{
         Main.clearConsole();
         System.out.println("Please select an option to edit your recipe:");
-        System.out.println("command format (ignore bracket): (add 1) (remove 5) (rename \"recipe_name\")");
-        System.out.println("*add\n*remove\n*rename\n");
+        System.out.println("command format (ignore bracket):\n- (add 1)\n- (remove 5)\n- (rename \"recipe_name\")");
+        System.out.print("\n>");
         int quantity;
         Item item;
         String param;
@@ -225,18 +226,19 @@ public class App {
                 quantity = Integer.parseInt(param);
             }
             catch(Exception e){
-                throw new Exception("Please enter a positive whole number for quantity");
+                throw new Exception("Invalid quantity!");
             }
             try{
                 item = createItem(input);
             }
             catch (Exception e) {
-                throw new Exception("Failed to create item for recipe");
+                throw new Exception("Failed to create item for recipe!");
             }
             if(action.equals("add")){
                 if(quantity > 0){
                     recipe.add(item, quantity);
-                    System.out.println("Added "+param+" "+item.getName()+" to recipe successfully");
+                    Main.clearConsole();
+                    System.out.println("Added "+param+" "+item.getName()+" to recipe successfully!");
                 }
                 else{
                     throw new Exception("Quantity must be above 0");
@@ -246,7 +248,8 @@ public class App {
             else if(action.equals("remove")){
                 if(quantity >= 0 && recipe.items.get(item) >= quantity){
                     recipe.remove(item, quantity);
-                    System.out.println("Removed "+param+" "+item.getName()+" from recipe successfully");
+                    Main.clearConsole();
+                    System.out.println("Removed "+param+" "+item.getName()+" from recipe successfully!");
                 }
                 else{
                     throw new Exception("Cannot remove negative quantity or greater than existing amount from recipe");
@@ -260,6 +263,7 @@ public class App {
             }
             else {
                 recipe.setName(param);
+                Main.clearConsole();
                 System.out.println("Successfully renamed recipe to "+param);
             }
         }
@@ -269,7 +273,7 @@ public class App {
     }
 
     public Recipe createRecipe(Scanner input) throws Exception {
-        System.out.println("Enter a name for the new recipe: ");
+        System.out.print("Enter a name for the new recipe:\n>");
         String name = input.nextLine();
 
         if (name.length() == 0){
