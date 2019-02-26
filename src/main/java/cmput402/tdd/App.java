@@ -294,7 +294,6 @@ public class App {
 
     public String displayRecipes(Person person){
         String out = person.getName()+" has the following recipes:\n";
-        System.out.print(out);
         for (Map.Entry<String, Recipe> entry : person.getRecipes().entrySet()) {
             String recipeObj = entry.getValue().toString();
             out += recipeObj;
@@ -305,7 +304,6 @@ public class App {
 
     public String displayShoppingLists(Person person){
         String out = person.getName()+" has the following shopping lists:\n";
-        System.out.print(out);
         for (Map.Entry<String, ShoppingList> entry : person.getShoppingLists().entrySet()) {
             String ShoppingListObj = entry.getKey()+"\n";
             out += ShoppingListObj;
