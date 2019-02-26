@@ -466,50 +466,6 @@ public class AppTest {
         assertEquals(1, recipe.items.size());
         assertEquals(1, recipe.items.get(item2).intValue());
 
-        //Test 9 Rename recipe to valid name
-        in = new ByteArrayInputStream("rename 'super apple pie'".getBytes());
-        scanner = new Scanner(in);
-        try {
-            app.editRecipe(scanner, recipe);
-        } catch (Exception e) {
-            Assert.fail();
-        }
-        assertEquals("super apple pie", recipe.getName());
-
-        //Test 10 Rename recipe to empty string
-        in = new ByteArrayInputStream("rename ''".getBytes());
-        scanner = new Scanner(in);
-        try {
-            app.editRecipe(scanner, recipe);
-            Assert.fail();
-        } catch (Exception e) {
-            assertEquals("Recipe name cannot be blank or greater than 40 letters", e.getMessage());
-        }
-
-        assertEquals("super apple pie", recipe.getName());
-
-        //Test 11 Rename recipe to string > 40 char
-        in = new ByteArrayInputStream("rename 'appleappleappleappleappleappleappleapple1'".getBytes());
-        scanner = new Scanner(in);
-        try {
-            app.editRecipe(scanner, recipe);
-            Assert.fail();
-        } catch (Exception e) {
-            assertEquals("Recipe name cannot be blank or greater than 40 letters", e.getMessage());
-        }
-        assertEquals("super apple pie", recipe.getName());
-
-        //Test 12 Enter invalid rename command
-        in = new ByteArrayInputStream("relabel 'apple juice'".getBytes());
-        scanner = new Scanner(in);
-        try {
-            app.editRecipe(scanner, recipe);
-            Assert.fail();
-        } catch (Exception e) {
-            assertEquals("Invalid command", e.getMessage());
-        }
-        assertEquals("super apple pie", recipe.getName());
-
         //Test 13 Invalid command input
         in = new ByteArrayInputStream("foo 2\nsugar\n2.0".getBytes());
         scanner = new Scanner(in);
@@ -545,28 +501,6 @@ public class AppTest {
         }
         assertEquals(1, recipe.items.size());
         assertEquals(1, recipe.items.get(item2).intValue());
-
-        //Test 16 Enter invalid rename command with < 40 char
-        in = new ByteArrayInputStream("relabel 'appleappleappleappleappleappleappleapple1'".getBytes());
-        scanner = new Scanner(in);
-        try {
-            app.editRecipe(scanner, recipe);
-            Assert.fail();
-        } catch (Exception e) {
-            assertEquals("Invalid command", e.getMessage());
-        }
-        assertEquals("super apple pie", recipe.getName());
-
-        //Test 17 Rename recipe to string > 40 char with invalid command
-        in = new ByteArrayInputStream("relabel 'appleappleappleappleappleappleappleapple1'".getBytes());
-        scanner = new Scanner(in);
-        try {
-            app.editRecipe(scanner, recipe);
-            Assert.fail();
-        } catch (Exception e) {
-            assertEquals("Invalid command", e.getMessage());
-        }
-        assertEquals("super apple pie", recipe.getName());
 
         //Test 18 Create invalid item to add
         in = new ByteArrayInputStream("add 2\n\n2.5".getBytes());

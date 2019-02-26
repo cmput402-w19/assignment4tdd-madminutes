@@ -201,7 +201,7 @@ public class App {
     public void editRecipe(Scanner input, Recipe recipe) throws Exception{
         Main.clearConsole();
         System.out.println("Please select an option to edit your recipe:");
-        System.out.println("command format (ignore bracket):\n- (add 1)\n- (remove 5)\n- (rename \"recipe_name\")");
+        System.out.println("command format (ignore bracket):\n- (add 1)\n- (remove 5)");
         System.out.print("\n>");
         int quantity;
         Item item;
@@ -255,17 +255,6 @@ public class App {
                 else{
                     throw new Exception("Cannot remove negative quantity or greater than existing amount from recipe");
                 }
-            }
-        }
-        else if(action.equals("rename")){
-            param = command.substring(spaceIndex+2, command.length()-1);
-            if(param.length() <= 0 || param.length() > 40){
-                throw new Exception("Recipe name cannot be blank or greater than 40 letters");
-            }
-            else {
-                recipe.setName(param);
-                Main.clearConsole();
-                System.out.println("Successfully renamed recipe to "+param);
             }
         }
         else {
