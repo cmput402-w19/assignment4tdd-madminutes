@@ -292,7 +292,13 @@ public class App {
     }
 
     public String displayRecipes(Person person){
-        return null;
+        String out = person.getName()+" has the following recipes:\n";
+        System.out.print(out);
+        for (Map.Entry<String, Recipe> entry : person.getRecipes().entrySet()) {
+            String recipeObj = entry.getValue().toString();
+            out += recipeObj;
+        }
+        return out;
     }
 
 
