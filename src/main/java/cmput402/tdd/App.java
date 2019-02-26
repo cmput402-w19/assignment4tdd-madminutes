@@ -198,8 +198,7 @@ public class App {
         }
 
     }
-
-    public void editRecipe(Scanner input, Recipe recipe) throws Exception{
+    public void editRecipe(Scanner input, Recipe recipe, Person person) throws Exception{
         Main.clearConsole();
         System.out.println("Please select an option to edit your recipe:");
         System.out.println("command format (ignore bracket):\n- (add 1)\n- (remove 5)\n- (rename \"recipe_name\")");
@@ -264,8 +263,10 @@ public class App {
                 throw new Exception("Recipe name cannot be blank or greater than 40 letters");
             }
             else {
+                person.getRecipes().remove(recipe.getName());
                 recipe.setName(param);
                 Main.clearConsole();
+                person.getRecipes().put(param, recipe);
                 System.out.println("Successfully renamed recipe to "+param);
             }
         }

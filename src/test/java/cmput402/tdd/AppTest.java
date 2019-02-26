@@ -364,6 +364,7 @@ public class AppTest {
     public void testEditRecipe() {
         App app = new App();
         Recipe recipe = new Recipe("apple pie");
+        Person person= new Person("john");
 
         Item item1 = new Item("apple", 4.0f);
         Item item2 = new Item("sugar", 2.0f);
@@ -372,7 +373,7 @@ public class AppTest {
         ByteArrayInputStream in = new ByteArrayInputStream("add 1\napple\n4.0".getBytes());
         Scanner scanner = new Scanner(in);
         try {
-            app.editRecipe(scanner, recipe);
+            app.editRecipe(scanner, recipe, person);
         } catch (Exception e) {
             fail();
         }
@@ -383,7 +384,7 @@ public class AppTest {
         in = new ByteArrayInputStream("add 3\napple\n4.0".getBytes());
         scanner = new Scanner(in);
         try {
-            app.editRecipe(scanner, recipe);
+            app.editRecipe(scanner, recipe, person);
         } catch (Exception e) {
             Assert.fail();
         }
@@ -394,7 +395,7 @@ public class AppTest {
         in = new ByteArrayInputStream("add 0\nsugar\n2.0".getBytes());
         scanner = new Scanner(in);
         try {
-            app.editRecipe(scanner, recipe);
+            app.editRecipe(scanner, recipe, person);
             Assert.fail();
         } catch (Exception e) {
             assertEquals("Quantity must be above 0", e.getMessage());
@@ -408,7 +409,7 @@ public class AppTest {
         in = new ByteArrayInputStream("add 3\nsugar\n2.0".getBytes());
         scanner = new Scanner(in);
         try {
-            app.editRecipe(scanner, recipe);
+            app.editRecipe(scanner, recipe, person);
         } catch (Exception e) {
             Assert.fail();
         }
@@ -420,7 +421,7 @@ public class AppTest {
         in = new ByteArrayInputStream("remove 4\napple\n4.0".getBytes());
         scanner = new Scanner(in);
         try {
-            app.editRecipe(scanner, recipe);
+            app.editRecipe(scanner, recipe, person);
         } catch (Exception e) {
             Assert.fail();
         }
@@ -432,7 +433,7 @@ public class AppTest {
         in = new ByteArrayInputStream("remove 4\nsugar\n2.0".getBytes());
         scanner = new Scanner(in);
         try {
-            app.editRecipe(scanner, recipe);
+            app.editRecipe(scanner, recipe, person);
             Assert.fail();
         } catch (Exception e) {
             assertEquals("Cannot remove negative quantity or greater than existing amount from recipe", e.getMessage());
@@ -445,7 +446,7 @@ public class AppTest {
         in = new ByteArrayInputStream("remove 2\nsugar\n2.0".getBytes());
         scanner = new Scanner(in);
         try {
-            app.editRecipe(scanner, recipe);
+            app.editRecipe(scanner, recipe, person);
         } catch (Exception e) {
             Assert.fail();
         }
@@ -457,7 +458,7 @@ public class AppTest {
         in = new ByteArrayInputStream("remove 0\nsugar\n2.0".getBytes());
         scanner = new Scanner(in);
         try {
-            app.editRecipe(scanner, recipe);
+            app.editRecipe(scanner, recipe, person);
             Assert.fail();
         } catch (Exception e) {
             System.out.println(e);
@@ -470,7 +471,7 @@ public class AppTest {
         in = new ByteArrayInputStream("rename 'super apple pie'".getBytes());
         scanner = new Scanner(in);
         try {
-            app.editRecipe(scanner, recipe);
+            app.editRecipe(scanner, recipe, person);
         } catch (Exception e) {
             Assert.fail();
         }
@@ -480,7 +481,7 @@ public class AppTest {
         in = new ByteArrayInputStream("rename ''".getBytes());
         scanner = new Scanner(in);
         try {
-            app.editRecipe(scanner, recipe);
+            app.editRecipe(scanner, recipe, person);
             Assert.fail();
         } catch (Exception e) {
             assertEquals("Recipe name cannot be blank or greater than 40 letters", e.getMessage());
@@ -492,7 +493,7 @@ public class AppTest {
         in = new ByteArrayInputStream("rename 'appleappleappleappleappleappleappleapple1'".getBytes());
         scanner = new Scanner(in);
         try {
-            app.editRecipe(scanner, recipe);
+            app.editRecipe(scanner, recipe, person);
             Assert.fail();
         } catch (Exception e) {
             assertEquals("Recipe name cannot be blank or greater than 40 letters", e.getMessage());
@@ -503,7 +504,7 @@ public class AppTest {
         in = new ByteArrayInputStream("relabel 'apple juice'".getBytes());
         scanner = new Scanner(in);
         try {
-            app.editRecipe(scanner, recipe);
+            app.editRecipe(scanner, recipe, person);
             Assert.fail();
         } catch (Exception e) {
             assertEquals("Invalid command", e.getMessage());
@@ -514,7 +515,7 @@ public class AppTest {
         in = new ByteArrayInputStream("foo 2\nsugar\n2.0".getBytes());
         scanner = new Scanner(in);
         try {
-            app.editRecipe(scanner, recipe);
+            app.editRecipe(scanner, recipe, person);
             Assert.fail();
         } catch (Exception e) {
             assertEquals("Invalid command", e.getMessage());
@@ -526,7 +527,7 @@ public class AppTest {
         in = new ByteArrayInputStream("delete apple\nsugar\n2.0".getBytes());
         scanner = new Scanner(in);
         try {
-            app.editRecipe(scanner, recipe);
+            app.editRecipe(scanner, recipe, person);
             Assert.fail();
         } catch (Exception e) {
             assertEquals("Invalid command", e.getMessage());
@@ -538,7 +539,7 @@ public class AppTest {
         in = new ByteArrayInputStream("add apple\nsugar\n2.0".getBytes());
         scanner = new Scanner(in);
         try {
-            app.editRecipe(scanner, recipe);
+            app.editRecipe(scanner, recipe, person);
             Assert.fail();
         } catch (Exception e) {
             assertEquals("Invalid quantity!", e.getMessage());
@@ -550,7 +551,7 @@ public class AppTest {
         in = new ByteArrayInputStream("relabel 'appleappleappleappleappleappleappleapple1'".getBytes());
         scanner = new Scanner(in);
         try {
-            app.editRecipe(scanner, recipe);
+            app.editRecipe(scanner, recipe, person);
             Assert.fail();
         } catch (Exception e) {
             assertEquals("Invalid command", e.getMessage());
@@ -561,7 +562,7 @@ public class AppTest {
         in = new ByteArrayInputStream("relabel 'appleappleappleappleappleappleappleapple1'".getBytes());
         scanner = new Scanner(in);
         try {
-            app.editRecipe(scanner, recipe);
+            app.editRecipe(scanner, recipe, person);
             Assert.fail();
         } catch (Exception e) {
             assertEquals("Invalid command", e.getMessage());
@@ -572,7 +573,7 @@ public class AppTest {
         in = new ByteArrayInputStream("add 2\n\n2.5".getBytes());
         scanner = new Scanner(in);
         try {
-            app.editRecipe(scanner, recipe);
+            app.editRecipe(scanner, recipe, person);
             Assert.fail();
         } catch (Exception e) {
             assertEquals("Failed to create item for recipe!", e.getMessage());
@@ -584,7 +585,7 @@ public class AppTest {
         in = new ByteArrayInputStream("\n".getBytes());
         scanner = new Scanner(in);
         try {
-            app.editRecipe(scanner, recipe);
+            app.editRecipe(scanner, recipe, person);
             Assert.fail();
         } catch (Exception e) {
             assertEquals("Invalid command format", e.getMessage());
@@ -596,7 +597,7 @@ public class AppTest {
         in = new ByteArrayInputStream(" add\n".getBytes());
         scanner = new Scanner(in);
         try {
-            app.editRecipe(scanner, recipe);
+            app.editRecipe(scanner, recipe, person);
             Assert.fail();
         } catch (Exception e) {
             assertEquals("Invalid command", e.getMessage());

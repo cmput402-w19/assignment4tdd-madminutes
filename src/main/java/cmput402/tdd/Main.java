@@ -91,7 +91,7 @@ public class Main {
                                         clearConsole();
                                         app.displayRecipes(person);
                                         Recipe recipe = app.getRecipe(scanner, person);
-                                        app.editRecipe(scanner, recipe);
+                                        app.editRecipe(scanner, recipe, person);
                                         break;
                                     case 5:
                                         exitPersonMenu = true;
