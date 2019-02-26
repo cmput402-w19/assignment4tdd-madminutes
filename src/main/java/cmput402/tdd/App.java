@@ -301,6 +301,9 @@ public class App {
         return out;
     }
 
+    public String displayShoppingLists(Person person){
+        return null;
+    }
 
     public String displayPeople() {
         StringBuilder out = new StringBuilder(String.format("%-3s|%-20s|%-7s\n", "Id","Name","# Lists")); 

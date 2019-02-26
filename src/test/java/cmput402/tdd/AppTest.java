@@ -636,4 +636,19 @@ public class AppTest {
         assertEquals("John has the following recipes:\nrecipe1\nrecipe2\n", app.displayRecipes(person));
     }
 
+    @Test
+    public void testDisplayShoppingList() {
+        App app = new App();
+        Person person = new Person("John");
+        ShoppingList list1 = new ShoppingList("list1");
+        ShoppingList list2 = new ShoppingList("list2");
+
+        // Test1: empty list of ShoppingLists
+        assertEquals("John has the following shopping lists:\n",app.displayShoppingLists(person));
+
+        // test2: non-empty list of people
+        person.addShoppingList(list1);
+        person.addShoppingList(list2);
+        assertEquals("John has the following shopping lists:\nlist1\nlist2\n", app.displayShoppingLists(person));
+    }
 }
